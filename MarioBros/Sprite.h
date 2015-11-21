@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef _SPRITE_H_
+#define _SPRITE_H_
 #include <d3dx9.h>
 #include <d3d9.h>
 class Graphic;
@@ -20,3 +20,5 @@ public:
 	void Draw(int x,int y, float xScaleRatio, float yScaleRatio,RECT rSrc,float deep);
 	void Draw(int x,int y, float xScaleRatio, float yScaleRatio,char numImage,char imageIndex,float deep);
 };
+
+#endif

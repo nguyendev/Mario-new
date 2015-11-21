@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _INPUT_H_
+#define _INPUT_H_
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -34,3 +35,5 @@ public:
 	bool KeyUp(int key);
 	bool KeyPress(int key);
 };
+
+#endif

@@ -5,6 +5,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{1e920b9a-2fda-4f98-a5d9-5125db43a31b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -26,6 +29,12 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -45,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Global.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>

@@ -91,6 +91,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -100,6 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Input.h" />
