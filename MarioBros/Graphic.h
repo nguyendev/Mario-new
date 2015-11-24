@@ -2,7 +2,7 @@
 
 #include <d3dx9.h>
 #include <d3d9.h>
-#include <Windows.h>
+#include <windows.h>
 
 class Graphic
 {
@@ -22,6 +22,6 @@ public:
 	~Graphic();
 
 	LPDIRECT3DSURFACE9 CreateSurface(char* filePath);
-	void DrawTextAdvanced(LPCWSTR text,int x,int y,int width,int height,D3DXCOLOR color,LPD3DXFONT font);
+	void DrawTextAdvanced(LPCWSTR text, int x, int y, int width, int height, D3DXCOLOR color, LPD3DXFONT font);
 	float DegToRad(float Deg);
 };

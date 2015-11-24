@@ -91,8 +91,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="background.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -102,8 +105,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="background.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Pipe.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Input.h" />

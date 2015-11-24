@@ -4,13 +4,11 @@
 #include <d3dx9.h>
 #include <list>
 #include <fstream>
-#include "Input.h"
-#include "Sprite.h"
-#include "Animation.h"
 using namespace std;
 
 class Sprite;
 class Animation;
+class Input;
 class Game;
 class BaseObject
 {

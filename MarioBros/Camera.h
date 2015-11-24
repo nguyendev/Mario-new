@@ -1,7 +1,6 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 #include <d3dx9.h>
-#include "BaseObject.h"
 
 class BaseObject;
 class Camera
