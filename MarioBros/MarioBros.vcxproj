@@ -95,6 +95,7 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Mario.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Graphic.h" />

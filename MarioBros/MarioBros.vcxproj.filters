@@ -43,6 +43,7 @@
     <ClCompile Include="background.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Mario.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -77,6 +78,9 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="background.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
