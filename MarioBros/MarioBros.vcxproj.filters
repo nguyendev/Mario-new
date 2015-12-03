@@ -43,6 +43,17 @@
     <ClCompile Include="background.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="brick.cpp" />
+    <ClCompile Include="Castle.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="dsutil.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -77,6 +88,24 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="background.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="brick.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Castle.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="dxutil.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="dsutil.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>

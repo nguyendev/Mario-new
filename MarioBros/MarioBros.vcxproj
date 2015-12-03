@@ -91,9 +91,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="background.cpp" />
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="brick.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Castle.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="dsutil.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Graphic.cpp" />
@@ -105,9 +110,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="background.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="brick.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Castle.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="dsutil.h" />
+    <ClInclude Include="dxutil.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Global.h" />

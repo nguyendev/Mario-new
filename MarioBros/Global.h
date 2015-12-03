@@ -2,13 +2,15 @@
 #ifndef _GLOBAL_
 #define _GLOBAL_
 
-#define PI			3.141592654
-#define TILE_SIZE	40
-#define ZOOM		2.5
-#define G			2000
-#define WIDTH		800
-#define HEIGHT		600
-
+#define PI				3.141592654
+#define TILE_SIZE		40
+#define ZOOM			2.5
+#define G				2000
+#define WIDTH			800
+#define HEIGHT			600
+#define YMENU_MAX		405
+#define YMENU_MIN		360
+#define YMENU			40
 enum _SPRITE
 {
 	S_SCENE,
@@ -55,20 +57,10 @@ enum ENEMY_STATE
 	ES_FALL,				//Khi Goomba hoặc Koopa bị rơi (chuẩn bị chết)
 	ES_DIED
 };
-enum GAME_STATE
+enum MENU_STATE
 {
-	GS_MENU,
-	GS_PLAYING,
-	GS_LOAD,
-	GS_SAVE,
-	GS_WIN,
-	GS_GAMEOVER,
-	GS_NEXT_STAGE,
-	GS_SUB_STAGE,
-	GS_REPLAY,
-	GS_RETURN_STAGE,
-	GS_ABOUT,
-	GS_CONFIRM
+	MS_MENU,
+	MS_PLAYING,
 };
 enum MARIO_STATE
 {
