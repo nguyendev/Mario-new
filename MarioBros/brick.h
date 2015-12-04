@@ -1,18 +1,18 @@
-#ifndef _BRICK_H_
-#define _BRICK_H_
-#include "BaseObject.h"
-#include "Sprite.h"
+#pragma once
+
 #include "Animation.h"
+#include "Sprite.h"
+#include "BaseObject.h"
 #include <list>
-#include "Global.h"
-#include "Camera.h"
+using namespace std;
+
 class Brick :public BaseObject
 {
-public:
-	Brick();
-	Brick(float x, float y, float _width, float _height, int ID, Sprite* sprite);
-	virtual void Render();
-	void ResetWhenReload(Sprite* sprite);
-};
 
-#endif _BRICK_H_
+
+public:
+
+	Brick();
+	Brick(float _x, float _y, float width, float height, bool _isBright, int _ID, Sprite* _sprite);
+	void Render();
+};
