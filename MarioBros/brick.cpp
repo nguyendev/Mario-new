@@ -11,8 +11,5 @@ Brick::Brick(float _x, float _y, float width, float height, bool _isBright, int 
 
 void Brick::Render()
 {
-	
 		_sprite->Draw(_x, _y, ZOOM, ZOOM, _ani->GetRect(0), 0.5);
-
-	
 }
