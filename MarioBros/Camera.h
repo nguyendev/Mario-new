@@ -18,6 +18,6 @@ public:
 	Camera(float x, float y, float width, float height);
 	void ResetRect();
 	~Camera();
-	void Update();
+	void Update(BaseObject* _obj);
 };
 #endif

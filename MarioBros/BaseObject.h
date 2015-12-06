@@ -37,7 +37,7 @@ public:
 	virtual void ResetWhenReload(Sprite* sprite){};
 	virtual void SetVar(char* Name, int val){};
 	virtual int	 GetVar(char* Name){ return -1; };
-	virtual void Update(list<BaseObject*>* staObjs, list<BaseObject*>*dynObjs, Input* input, float TPF){};
+	virtual void Update(BaseObject* _staticObjs[], BaseObject* _dynamicObjs[], Input* input, float TPF){};
 	virtual void Render(){};
 	virtual void Save(fstream *fs){};
 	virtual void Load(fstream *fs){};

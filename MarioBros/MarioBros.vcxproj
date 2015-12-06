@@ -92,7 +92,6 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="background.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -104,6 +103,7 @@
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Mountain.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TimeManager.cpp" />
@@ -113,7 +113,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Audio.h" />
-    <ClInclude Include="background.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
@@ -127,6 +126,7 @@
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Mario.h" />
     <ClInclude Include="Mountain.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TimeManager.h" />

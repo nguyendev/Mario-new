@@ -8,8 +8,6 @@ using namespace std;
 
 class Brick :public BaseObject
 {
-
-
 public:
 
 	Brick();

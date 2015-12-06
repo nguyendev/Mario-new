@@ -19,7 +19,7 @@ void Camera::ResetRect()
 	_rect.top = _y;
 	_rect.bottom = _y + _height;
 }
-void Camera::Update()
+void Camera::Update(BaseObject *_obj)
 {
 	if (_obj->_x>_x + _width / 3)			//Nếu đối tượng đi quá 1/3 màn hình ...
 		_x = _obj->_x - _width / 3;			//... thì Camera dịch chuyển theo
