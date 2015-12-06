@@ -16,9 +16,8 @@ public:
 	Sprite();
 	Sprite(Graphic* g, char* path);
 	void Draw(int x, int y, float xScaleRatio, float yScaleRatio, D3DXVECTOR2 vRotatteCenter, float angle, D3DCOLOR color, RECT rSrc, float deep);
-	void Draw(int x, int y, float xScaleRatio, float yScaleRatio, float deep);
 	void Draw(int x, int y, int vpx, int vpy, float xScaleRatio, float yScaleRatio, RECT rSrc, float deep);
-	void Draw(int x, int y, float xScaleRatio, float yScaleRatio, char numImage, char imageIndex, float deep);
+	
 };
 
 #endif

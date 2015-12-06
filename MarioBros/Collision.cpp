@@ -1,53 +1,121 @@
 #include "Collision.h"
+#include <limits>
+#include <algorithm>
+using namespace std;
 
-
-Collision::Collision()
+float Collision::SweptAABB(BaseObject* b1, BaseObject* b2, float& normalx, float &normaly)
 {
-}
+	float xInvEntry, yInvEntry;
+	float xInvExit, yInvExit;
 
+	//tim khoang cach giua hai vat the o canh gan va canh xa
 
-Collision::~Collision()
-{
-}
-bool Collision::IsCollision(RECT rect, RECT rect2)
-{
-	bool c1 = (rect.left >= rect2.left)
-		&& (rect.right <= rect2.right)
-		&& (rect.top >= rect2.top)
-		&& (rect.bottom <= rect2.bottom);
-
-	float dh = (fabs((float)(rect2.top - rect.bottom)) > fabs((float)(rect2.bottom - rect.top))) ? fabs((float)(rect2.top - rect.bottom)) : fabs((float)(rect2.bottom - rect.top));
-	float dw = (fabs((float)(rect2.left - rect.right)) > fabs((float)rect2.right - rect.left)) ? fabs((float)(rect2.left - rect.right)) : fabs((float)(rect2.right - rect.left));
-
-	return ((dw <= ((rect2.right - rect2.left) + (rect.right - rect.left))) &&
-		(dh <= ((rect2.bottom - rect2.top) + (rect.bottom - rect.top))) || c1);
-}
-EDirect Collision::GetCollisionDir(RECT _rect1, RECT _rect2)
-{
-
-	if (IsCollision(_rect1, _rect2))
+	if (b1->_vx > 0.0f)
 	{
-		float top = abs(_rect1.top - _rect2.bottom);
-		float botom =abs(_rect1.bottom - _rect2.top);
-		float left = abs(_rect1.left - _rect2.right);
-		float right = abs(_rect1.right - _rect2.left);
-		float rs = min(min(right, left), min(top,botom));
-		if (rs == top)
-		{
-			return Top;
-		}
-		if (rs == botom)
-		{
-			return Bottom;
-		}
-		if (rs == left)
-		{
-			return Left;
-		}
-		if (rs == right)
-		{
-			return Right;
-		}
+		xInvEntry = b2->_x - (b1->_x + b1->_width);
+		xInvExit = (b2->_x + b2->_width) - b1->_x;
 	}
-	return None;
+	else
+	{
+		xInvEntry = (b2->_x + b2->_width) - b1->_x;
+		xInvExit = b2->_x - (b1->_x + b1->_width);
+	}
+
+	if (b1->_vy > 0.0f)
+	{
+		yInvEntry = b2->_y - (b1->_y + b1->_height);
+		yInvExit = (b2->_y + b2->_height) - b1->_y;
+	}
+	else
+	{
+		yInvEntry = (b2->_y + b2->_height) - b1->_y;
+		yInvExit = b2->_y - (b1->_y + b1->_height);
+	}
+
+
+	float xEntry, yEntry;
+	float xExit, yExit;
+
+	if (b1->_vx == 0.0f)
+	{
+		xEntry = -std::numeric_limits<float>::infinity();
+		xExit = std::numeric_limits<float>::infinity();
+	}
+	else
+	{
+		xEntry = xInvEntry / b1->_vx;
+		xExit = xInvExit / b1->_vx;
+	}
+
+	if (b1->_vy == 0.0f)
+	{
+		yEntry = -std::numeric_limits<float>::infinity();
+		yExit = std::numeric_limits<float>::infinity();
+	}
+	else
+	{
+		yEntry = yInvEntry / b1->_vx;
+		yExit = yInvExit / b1->_vy;
+	}
+
+	//find the earliest / last times of collision
+	float entryTime =max(xEntry, yEntry);
+	float exitTime = min(xExit, yExit);
+
+	//if there was no collision
+	if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f || xEntry > 1.0f || yEntry > 1.0f)
+	{
+		normalx = 0.0f;
+		normaly = 0.0f;
+		return 1.0f;
+	}
+	else// if there was a collision
+	{
+		//calculate normal of collided surface
+		if (xEntry > yEntry)
+		{
+			if (xInvEntry < 0.0f)
+			{
+				normalx = 1.0f;
+				normaly = 0.0f;
+			}
+			else
+			{
+				normalx = -1.0f;
+				normaly = 0.0f;
+			}
+		}
+		else
+		{
+			if (yInvEntry < 0.0f)
+			{
+				normalx = 0.0f;
+				normaly = 1.0f;
+			}
+			else
+			{
+				normalx = 0.0f;
+				normaly = -1.0f;
+			}
+		}
+		//return the time of collision
+		return entryTime;
+	}
 }
+BaseObject* Collision::GetSweptBroadphaseBox(BaseObject *b)
+{
+	BaseObject* broadphasebox;
+	broadphasebox->_x = b->_vx > 0 ? b->_x : b->_x + b->_vx;
+	broadphasebox->_y = b->_vy > 0 ? b->_y : b->_y + b->_vy;
+	broadphasebox->_width = b->_vx > 0 ? b->_vx + b->_width : b->_width - b->_vx;
+	broadphasebox->_height = b->_vy > 0 ? b->_vy + b->_height : b->_height - b->_vy;
+	return broadphasebox;
+
+}
+
+bool AABBCheck(BaseObject* b1, BaseObject * b2)
+{
+	return !(b1->_x + b1->_height<b2->_x || b1->_x>b2->_x + b2->_width || b1->_y + b1->_height<b2->_y || b1->_y>b2->_y + b2->_height); 
+}
+
+

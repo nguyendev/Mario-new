@@ -15,8 +15,7 @@ private:
 	bool isChangingDirectionToLeft;
 	bool isChangingDirectionToRight;
 public:
-	float	vx;
-	float	vy;
+
 	float	ax;
 	float	ay;
 	bool isRight;
@@ -24,7 +23,7 @@ public:
 	bool isJumping;
 	Camera* camera;
 	Mario();
-	Mario(float x, float y, float width, float height, Sprite* sprite);
+	Mario(float x, float y, float width, float height,float vx, float vy, Sprite* sprite);
 	virtual void Render();
 	virtual void Update(BaseObject* _staticObjs[], BaseObject* _dynamicObjs[], Input* input, float TPF);
 	void UpdateAnimation(float TPF);

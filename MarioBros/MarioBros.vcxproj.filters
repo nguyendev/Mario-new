@@ -107,9 +107,6 @@
     <ClInclude Include="Audio.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Cloud.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Mountain.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
@@ -130,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloud.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

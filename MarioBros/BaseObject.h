@@ -3,6 +3,7 @@
 
 #include <d3dx9.h>
 #include <list>
+#include "Global.h"
 #include <fstream>
 using namespace std;
 
@@ -18,19 +19,20 @@ public:
 	float _y;		//postion y
 	float _width;	// width screen
 	float _height;	//	height screen
+	float _vx;
+	float _vy;
 
 	int _ID;
 	char _direction;
-
+	Box b1;
 	RECT _rect;
 	Game* _game;
 
 	//Information render
 	Sprite* _sprite;
 	Animation* _ani;
-
 	BaseObject();
-	BaseObject(float x, float y, float width, float height);
+	BaseObject(float x, float y, float width, float height, float vx, float vy);
 	~BaseObject();
 
 	virtual void ResetRect();

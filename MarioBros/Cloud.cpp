@@ -8,7 +8,7 @@ Cloud::Cloud() :BaseObject()
 }
 
 
-Cloud::Cloud(float _x, float _y, float width, float height, int ID, Sprite* sprite) : BaseObject(_x, _y, width, height)
+Cloud::Cloud(float _x, float _y, float width, float height,float vx, float vy, int ID, Sprite* sprite) : BaseObject(_x, _y, width, height, vx, vy)
 {
 	_sprite = sprite;
 	_ID = ID;

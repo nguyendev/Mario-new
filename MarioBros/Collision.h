@@ -1,19 +1,16 @@
 ﻿#pragma once
 #include <d3dx9.h>
-enum EDirect
-{
-	Left,
-	Right,
-	Top,
-	Bottom,
-	None
-};
+#include "Global.h"
+#include "BaseObject.h"
+
 class Collision
 {
 public:
-	Collision();
-	~Collision();
-	bool IsCollision(RECT , RECT); //nhận diện va chạm giữa 2 vật
-	EDirect GetCollisionDir(RECT, RECT); //xác định hướng của va chạm để xử lý
+	float SweptAABB(BaseObject* b1, BaseObject* b2, float& normalx, float &normaly);
+	BaseObject* GetSweptBroadphaseBox(BaseObject *);
+	bool AABBCheck(BaseObject* b1, BaseObject * b2);
+	Collision(){};
+	~Collision(){};
+	
 };
 

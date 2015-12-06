@@ -5,7 +5,7 @@ class Cloud: public BaseObject
 {
 public:
 	Cloud();
-	Cloud(float _x, float _y, float width, float height, int ID, Sprite* sprite);
+	Cloud(float _x, float _y, float width, float height,float vx, float vp, int ID, Sprite* sprite);
 	void Render();
 	~Cloud();
 };

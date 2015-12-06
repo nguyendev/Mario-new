@@ -10,7 +10,7 @@ class Castle:public BaseObject
 {
 public:
 	Castle();
-	Castle(float _x, float _y,float width,float height,int _ID,Sprite* _sprite);
+	Castle(float _x, float _y,float width,float height,float vx, float vy, int _ID,Sprite* _sprite);
 	void Render();
 	void ResetRect();
 	

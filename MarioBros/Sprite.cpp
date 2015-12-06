@@ -33,15 +33,6 @@ void Sprite::Draw(int x, int y, float xScaleRatio, float yScaleRatio, D3DXVECTOR
 	spriteHandler->Draw(image, &rSrc, NULL, &D3DXVECTOR3(0, 0, deep), color);
 
 }
-void Sprite::Draw(int x, int y, float xScaleRatio, float yScaleRatio, float deep)
-{
-
-	D3DXMATRIX mTransform;
-	D3DXMatrixTransformation2D(&mTransform, NULL, 0, &D3DXVECTOR2(xScaleRatio, yScaleRatio), &D3DXVECTOR2(0, 0), 0, &D3DXVECTOR2((float)x, (float)y));
-	spriteHandler->SetTransform(&mTransform);
-	spriteHandler->Draw(image, NULL, NULL, &D3DXVECTOR3(0, 0, deep), D3DCOLOR_XRGB(255, 255, 255));
-
-}
 void Sprite::Draw(int x, int y,int vpx,int vpy, float xScaleRatio, float yScaleRatio, RECT rSrc, float deep)
 {
 	D3DXVECTOR3 position((float)x, (float)y, 0);
@@ -65,18 +56,11 @@ void Sprite::Draw(int x, int y,int vpx,int vpy, float xScaleRatio, float yScaleR
 	/*D3DXMATRIX mTransform;
 	D3DXMatrixTransformation2D(&mTransform, NULL, 0, &D3DXVECTOR2(xScaleRatio, yScaleRatio), &D3DXVECTOR2(0, 0), 0, &D3DXVECTOR2((float)x, (float)y));
 	spriteHandler->SetTransform(&mTransform);*/
-	spriteHandler->Draw(image, &rSrc, &center, &p, D3DCOLOR_XRGB(255, 255, 255));
-}
-void Sprite::Draw(int x, int y, float xScaleRatio, float yScaleRatio, char numImage, char frameIndex, float deep)
-{
-	RECT rectSource;
-	rectSource.left = width / numImage*frameIndex;
-	rectSource.top = 0;
-	rectSource.right = rectSource.left + width / numImage;
-	rectSource.bottom = height;
+	//D3DXMATRIX mt1;
+	//D3DXMatrixScaling(&mt1, xScaleRatio, yScaleRatio, 1);
+	//spriteHandler->SetTransform(&mt1);
 
-	D3DXMATRIX mTransform;
-	D3DXMatrixTransformation2D(&mTransform, NULL, 0, &D3DXVECTOR2(xScaleRatio, yScaleRatio), &D3DXVECTOR2(0, 0), 0, &D3DXVECTOR2((float)x, (float)y));
-	spriteHandler->SetTransform(&mTransform);
-	spriteHandler->Draw(image, &rectSource, NULL, &D3DXVECTOR3(0, 0, deep), D3DCOLOR_XRGB(255, 255, 255));
+
+	//spriteHandler->Draw(image, &rSrc,NULL, &position, D3DCOLOR_XRGB(255, 255, 255));
+	spriteHandler->Draw(image, &rSrc, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 }

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MarioBros", "MarioBros\Mari
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapConvert", "MapConvert\MapConvert.vcxproj", "{60A6FCEC-ED6D-435C-9338-A777AF20309D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample04", "sample04\sample04.vcxproj", "{C007529A-BB85-457C-ADAD-6D6834AFE16A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{60A6FCEC-ED6D-435C-9338-A777AF20309D}.Debug|Win32.Build.0 = Debug|Win32
 		{60A6FCEC-ED6D-435C-9338-A777AF20309D}.Release|Win32.ActiveCfg = Release|Win32
 		{60A6FCEC-ED6D-435C-9338-A777AF20309D}.Release|Win32.Build.0 = Release|Win32
+		{C007529A-BB85-457C-ADAD-6D6834AFE16A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C007529A-BB85-457C-ADAD-6D6834AFE16A}.Debug|Win32.Build.0 = Debug|Win32
+		{C007529A-BB85-457C-ADAD-6D6834AFE16A}.Release|Win32.ActiveCfg = Release|Win32
+		{C007529A-BB85-457C-ADAD-6D6834AFE16A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
