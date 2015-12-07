@@ -16,6 +16,7 @@ protected:
 public: 
 	int _Width;								// Sprite width
 	int _Height;
+	void setIndex(int _Count);
 	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow);
 	void Next();
 	void Reset();

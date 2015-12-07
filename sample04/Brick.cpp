@@ -19,6 +19,6 @@ void Brick::Update()
 }
 void Brick::Render()
 {
-	
-	_sprite->Render(_x, _y, 0, 600);
+	_sprite->setIndex(3);
+	_sprite->Render(_x, _y, _cameraX, _cameraY);
 }

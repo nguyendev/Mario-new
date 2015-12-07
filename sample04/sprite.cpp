@@ -67,7 +67,7 @@ void CSprite::Render(int X, int Y, int vpx, int vpy)
 
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
-	mt._22 = -1.0f;
+	mt._22 = 1.0f;
 	mt._41 = -vpx;
 	mt._42 = vpy;
 	D3DXVECTOR4 vp_pos;
@@ -88,6 +88,10 @@ void CSprite::Render(int X, int Y, int vpx, int vpy)
 		D3DCOLOR_XRGB(255,255,255)
 	);
 
+}
+void CSprite::setIndex(int index)
+{
+	_Index = index;
 }
 
 void CSprite::Next() 

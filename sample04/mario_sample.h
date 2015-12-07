@@ -8,6 +8,7 @@
 #include "BaseObject.h"
 #include "Collision.h"
 
+
 class CMarioSample: public CGame
 {
 public: 
@@ -17,7 +18,8 @@ public:
 	LPD3DXSPRITE _SpriteHandler;
 	CSprite * _sprites[20];
 	Collision* _col;
-
+	BaseObject* _staticObjs[1000];
+	int _countI = 0;
 
 	int mario_x;			// position of kitty
 	int mario_y;		
@@ -33,7 +35,7 @@ public:
 
 	CSprite * mario_right;
 	CSprite * mario_left;	
-
+	CSprite * sprites[20];
 	CSprite * ground_middle;		
 	CSprite * brick;
 	CSprite * mountain;

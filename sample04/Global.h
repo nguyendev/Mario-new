@@ -1,4 +1,5 @@
-﻿#pragma once
+#pragma once
+#include <Windows.h>
 #ifndef _GLOBAL_
 #define _GLOBAL_
 
@@ -12,17 +13,8 @@
 #define YMENU_MIN		360
 #define YMENU			40
 #define PIXEL 4
-struct Box
-{
-	//position of top-left corner
-	float x, y;
+#define MARIO_VOID    "MARIO VOID"
 
-	//dimensions
-	float w, h;
-
-	//velocity
-	float vx, vy;
-};
 enum _SPRITE
 {
 	S_CLOUD,

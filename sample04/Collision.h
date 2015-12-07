@@ -1,5 +1,4 @@
 #include "BaseObject.h"
-#include "Global.h"
 class Collision
 {
 public:

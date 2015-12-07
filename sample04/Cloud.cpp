@@ -16,5 +16,5 @@ Cloud::Cloud(float _x, float _y, float _cameraX, float _cameraY, int ID, CSprite
 
 void Cloud::Render()
 {
-	_sprite->Render(_x, _y, 0, 600);
+	_sprite->Render(_x, _y, _cameraX, _cameraY);
 }

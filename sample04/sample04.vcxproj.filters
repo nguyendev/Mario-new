@@ -74,13 +74,13 @@
     <ClInclude Include="Brick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\nguye\Documents\GitHub\Mario-new\MarioBros\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Cloud.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

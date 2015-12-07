@@ -6,10 +6,11 @@
 #include "Cloud.h"
 #include <string>
 #include <string.h>
-
+#include "Global.h"
 #define MARIO_IMAGE_RIGHT "mario_right.png"
 #define MARIO_IMAGE_LEFT "mario_left.png"
 #define GROUND_MIDDLE "ground_middle.png"
+#define BRICK_IMAGE "Image\\imgBrick.png"
 #define BRICK "brick.png"
 
 #define MARIO_SPEED 1.4f
@@ -44,8 +45,97 @@ typedef struct SRC {
 };
 void CMarioSample::LoadMap()
 {
-	
+	FILE * pFile;
+	FILE * sFile;
+
+	int m = 0;
+	int i = 0, j = 0;
+
+	pFile = fopen("MAP1.ptl", "r");
+	long a[200][1000];
+
+	char ch;
+	string s = "";
+	if (pFile == NULL)
+	{
+		MessageBox(_hWnd, "File khong ton tai", MARIO_VOID, MB_OK);
+		return;
+	}
+	bool kt = true;
+	while (EOF != (ch = getc(pFile)))
+	{
+		if (ch != ' ' && ch != '\n')
+		{
+			s = s + ch;
+		}
+		if (' ' == ch && s != "")
+		{
+			a[i][j] = atoi(s.c_str());
+			j++;
+			s = "";
+			kt = true;
+		}
+		if ('\n' == ch)
+		{
+			if (s != ""){
+				a[i][j] = atoi(s.c_str());
+				j++;
+
+			}
+			m = j;
+			j = 0;
+			i++;
+			s = "";
+			kt = true;
+		}
+	}
+	int n = i;
+	i = 0;
+	for (int k = 0; k < n; k++)
+	{
+		for (int l = 0; l < m; l++)
+		{
+			if (a[k][l] == 0)
+				continue;
+			else
+			{
+				SRC t;
+				t.srcX = l + 1;
+				t.srcY = k + 1;
+				t.id = a[k][l];
+				switch (a[k][l])
+				{
+				//case 28: case 29:
+				//	_staticObjs[i] = new Mountain(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_MOUNTAIN]);
+				//	i++;
+				//	break;
+				//case 25: case 26: case 27:
+				//	_staticObjs[i] = new Cloud(PIXEL * (t.srcX), PIXEL * (t.srcY), 40, 40, vx, vy, t.id, _sprites[S_CLOUD]);
+				//	i++;
+				//case 11: case 12: case 13:
+				//	_staticObjs[i] = new Grass(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_GRASS]);
+				//	i++;
+				//	break;
+				//case 22:
+				//	_staticObjs[i] = new Ground(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_BASIC]);
+				//	i++;
+				//	break;
+				//	/*case 23:
+				//	_staticObjs[i] = new Castle(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_CLOUD]);
+				//	i++;
+				//	break;*/
+				default:
+					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY),0,0, t.id, mario_right);
+					i++;
+					break;
+				}
+			}
+			_countI = i;
+		}
+	}
+	fclose(pFile);
 }
+
 void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 {
 	srand((unsigned)time(NULL));
@@ -64,15 +154,15 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	mario_vx = 0;
 	mario_vx_last = 1.0f;
 	mario_vy = 0;
-
+	sprites[0] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
 	mario_right = new CSprite(_SpriteHandler,MARIO_IMAGE_RIGHT,39,61,3,3);
 	mario_left = new CSprite(_SpriteHandler,MARIO_IMAGE_LEFT,39,61,3,3);
-
+	LoadMap();
 	// One sprite only :)
 	ground_middle = new CSprite(_SpriteHandler,GROUND_MIDDLE,32,32,1,1);
 	brick = new CSprite(_SpriteHandler,BRICK,32,32,1,1);
-	sample = new Brick(200, 100, 0, 0, 0, mario_right);
-	sample2 = new Cloud(400, 98, 0, 0, 0, mario_left);
+	sample2 = new Brick(200, 100, 0, 0, 0, sprites[0]);
+	sample = new Cloud(400, 98, 0, 0, 0, mario_left);
 	//sample2->_vx = 0;
 }
 
@@ -92,7 +182,10 @@ void CMarioSample::CollisionHanding()
 	float remainingtime = 1.0f - collisiontime;
 	if (collisiontime < 1.0f)
 	{
-		sample->_vx = -2;
+		if (normalx == -1); //
+		else if (normaly == 1);
+		if (normalx == -1);
+		else if (normaly == 1);
 	}
 	/*}*/
 
@@ -202,6 +295,8 @@ void CMarioSample::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 	brick->Render(100,47,vpx,VIEW_PORT_Y);
 	sample->Render();
 	sample2->Render();
+	for (int i = 0; i < _countI; i++)
+		_staticObjs[i]->Render();
 	_SpriteHandler->End();
 }
 
