@@ -10,7 +10,6 @@
 #define MARIO_IMAGE_RIGHT "mario_right.png"
 #define MARIO_IMAGE_LEFT "mario_left.png"
 #define GROUND_MIDDLE "ground_middle.png"
-#define BRICK_IMAGE "Image\\imgBrick.png"
 #define BRICK "brick.png"
 
 #define MARIO_SPEED 1.4f
@@ -22,7 +21,7 @@
 #define JUMP_VELOCITY_BOOST 3.0f
 #define FALLDOWN_VELOCITY_DECREASE 0.5f
 
-#define VIEW_PORT_Y  600
+#define VIEW_PORT_Y 0
 
 
 CMarioSample::CMarioSample(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate):
@@ -31,6 +30,9 @@ CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 	mario_right = NULL;
 	mario_left = NULL;
 	_col = new Collision();
+
+	for (int i = 0; i < 20; i++)
+		_sprites[i] = NULL;
 }
 
 CMarioSample::~CMarioSample()
@@ -38,6 +40,27 @@ CMarioSample::~CMarioSample()
 	delete mario_left;
 	delete mario_right;
 }
+void CMarioSample::LoadSprite()
+{
+	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
+	_sprites[S_BMARIO_01] = new CSprite(_SpriteHandler, BMARIO_IMAGE_01,16,32,8,8);
+	_sprites[S_BMARIO_02] = new CSprite(_SpriteHandler, BMARIO_IMAGE_02,16,32,8,8);
+	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
+	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3);
+	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4);
+	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 32, 32, 2, 2);
+	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4);
+	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 4, 4);
+	_sprites[S_MONEY] = new CSprite(_SpriteHandler,MONEY_IMAGE,16,16,7,7);
+	_sprites[S_NUMBER] = new CSprite(_SpriteHandler,NUMBER_IMAGE,16,16,10,10);
+	_sprites[S_PIPE] = new CSprite(_SpriteHandler,PIPE_IMAGE,16,16,4,4);
+	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler,PIRHANA_IMAGE,16,16,2,2);
+	_sprites[S_SMARIO_01] = new CSprite(_SpriteHandler,SMARIO__IMAGE_01,16,16,8,8);
+	_sprites[S_SMARIO_02] = new CSprite(_SpriteHandler,SMARIO__IMAGE_02,16,16,8,8);
+	_sprites[S_STAR] = new CSprite(_SpriteHandler,STAR_IMAGE,16,16,4,4);
+}
+
 typedef struct SRC {
 	int id;
 	int srcX;
@@ -125,7 +148,7 @@ void CMarioSample::LoadMap()
 				//	i++;
 				//	break;*/
 				default:
-					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY),0,0, t.id, mario_right);
+					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY),0,0, t.id, _sprites[S_BRICK]);
 					i++;
 					break;
 				}
@@ -147,6 +170,9 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	//Background = CreateSurfaceFromFile(_d3ddv, BACKGROUND_FILE);
 
 	HRESULT res = D3DXCreateSprite(_d3ddv,&_SpriteHandler);
+	LoadSprite();
+
+
 
 	mario_x = 0;
 	mario_y = GROUND_Y;
@@ -154,14 +180,14 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	mario_vx = 0;
 	mario_vx_last = 1.0f;
 	mario_vy = 0;
-	sprites[0] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
+	//sprites[0] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
 	mario_right = new CSprite(_SpriteHandler,MARIO_IMAGE_RIGHT,39,61,3,3);
 	mario_left = new CSprite(_SpriteHandler,MARIO_IMAGE_LEFT,39,61,3,3);
 	LoadMap();
 	// One sprite only :)
 	ground_middle = new CSprite(_SpriteHandler,GROUND_MIDDLE,32,32,1,1);
-	brick = new CSprite(_SpriteHandler,BRICK,32,32,1,1);
-	sample2 = new Brick(200, 100, 0, 0, 0, sprites[0]);
+	brick = new CSprite(_SpriteHandler,BRICK,32,32,8,8);
+	sample2 = new Brick(200, 100, 0, 0, 0, _sprites[0]);
 	sample = new Cloud(400, 98, 0, 0, 0, mario_left);
 	//sample2->_vx = 0;
 }

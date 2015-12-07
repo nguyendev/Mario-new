@@ -35,7 +35,6 @@ public:
 
 	CSprite * mario_right;
 	CSprite * mario_left;	
-	CSprite * sprites[20];
 	CSprite * ground_middle;		
 	CSprite * brick;
 	CSprite * mountain;
@@ -52,6 +51,9 @@ protected:
 
 	virtual void OnKeyDown(int KeyCode);
 
+
+
+	void LoadSprite();
 	void LoadMap();
 	void CollisionHanding();
 	void RenderBackground(int view_port_x, int view_port_y);

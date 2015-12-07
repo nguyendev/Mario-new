@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-char *__trace_file = "C:\\temp\\trace.log";
+char *__trace_file = "D:\\temp\\trace.log";
 int __trace = 1;
 
 void trace(const LPWSTR format, ...)
