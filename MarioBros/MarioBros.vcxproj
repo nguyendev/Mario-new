@@ -95,7 +95,6 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Castle.cpp" />
     <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="dsutil.cpp" />
@@ -117,7 +116,6 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Castle.h" />
     <ClInclude Include="Cloud.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="dsutil.h" />

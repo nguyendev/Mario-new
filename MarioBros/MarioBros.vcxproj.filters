@@ -47,13 +47,16 @@
     <ClCompile Include="Audio.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Cloud.cpp">
-      <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Castle.cpp">
-      <Filter>Game\Static</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloud.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
     <ClCompile Include="Grass.cpp">
@@ -64,12 +67,6 @@
     </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,19 +104,7 @@
     <ClInclude Include="Audio.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Mountain.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Castle.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Grass.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
@@ -128,11 +113,20 @@
     <ClInclude Include="Collision.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
     <ClInclude Include="Cloud.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="Grass.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Mountain.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Game\Static</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

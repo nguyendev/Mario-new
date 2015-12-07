@@ -13,7 +13,7 @@
 #define BRICK "brick.png"
 
 #define MARIO_SPEED 1.4f
-#define GROUND_Y 61
+#define GROUND_Y 100
 
 #define BACKGROUND_FILE "bg.bmp"
 
@@ -187,8 +187,8 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	// One sprite only :)
 	ground_middle = new CSprite(_SpriteHandler,GROUND_MIDDLE,32,32,1,1);
 	brick = new CSprite(_SpriteHandler,BRICK,32,32,8,8);
-	sample2 = new Brick(200, 100, 0, 0, 0, _sprites[0]);
-	sample = new Cloud(400, 98, 0, 0, 0, mario_left);
+	sample2 = new Cloud(200, 100, 0, 0, 0, mario_left);
+	sample = new Cloud(100, 98, 0, 0, 0, mario_left);
 	//sample2->_vx = 0;
 }
 
@@ -204,7 +204,7 @@ void CMarioSample::CollisionHanding()
 	float normaly;
 	float collisiontime = _col->SweptAABB(sample, sample2, OUT normalx, OUT normaly);
 	sample->_x += sample->_vx * collisiontime;
-	//sample->_y += sample->_vy * collisiontime;
+	sample->_y += sample->_vy * collisiontime;
 	float remainingtime = 1.0f - collisiontime;
 	if (collisiontime < 1.0f)
 	{

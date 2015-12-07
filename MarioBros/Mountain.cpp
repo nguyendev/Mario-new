@@ -16,11 +16,11 @@ void Mountain::Render()
 	switch (_ID)
 	{
 		case 28:
-			_sprite->Draw(_x, _y,0,600, ZOOM, ZOOM, _ani->GetRect(0), 0.5);
-			_sprite->Draw(_x, _y + TILE_SIZE + 2,0, 600, ZOOM, ZOOM, _ani->GetRect(1), 0.5);
+			_sprite->Draw(_x, _y,_vx,_vy, ZOOM, ZOOM, _ani->GetRect(0), 0.5);
+			_sprite->Draw(_x, _y + TILE_SIZE + 2, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(1), 0.5);
 			break;
 		case(29) :
-			_sprite->Draw(_x, _y, 0, 600,ZOOM, ZOOM, _ani->GetRect(0), 0.5);
+			_sprite->Draw(_x, _y, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(0), 0.5);
 		break;
 	}
 }

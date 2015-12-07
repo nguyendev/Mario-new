@@ -104,16 +104,16 @@ float Collision::SweptAABB(BaseObject* b1, BaseObject* b2, float& normalx, float
 }
 BaseObject* Collision::GetSweptBroadphaseBox(BaseObject *b)
 {
-	BaseObject* broadphasebox;
+	BaseObject* broadphasebox = new BaseObject();
 	broadphasebox->_x = b->_vx > 0 ? b->_x : b->_x + b->_vx;
 	broadphasebox->_y = b->_vy > 0 ? b->_y : b->_y + b->_vy;
-	broadphasebox->_width = b->_vx > 0 ? b->_vx + b->_width : b->_width - b->_vx;
+	broadphasebox->_width = b->_vy > 0 ? b->_vx + b->_width : b->_width - b->_vx;
 	broadphasebox->_height = b->_vy > 0 ? b->_vy + b->_height : b->_height - b->_vy;
 	return broadphasebox;
 
 }
 
-bool AABBCheck(BaseObject* b1, BaseObject * b2)
+bool Collision::AABBCheck(BaseObject* b1, BaseObject * b2)
 {
 	return !(b1->_x + b1->_height<b2->_x || b1->_x>b2->_x + b2->_width || b1->_y + b1->_height<b2->_y || b1->_y>b2->_y + b2->_height); 
 }

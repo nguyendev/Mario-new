@@ -21,10 +21,11 @@ public:
 	float _height;	//	height screen
 	float _vx;
 	float _vy;
+	float _vxObj;
+	float _vyObj;
 
 	int _ID;
 	char _direction;
-	Box b1;
 	RECT _rect;
 	Game* _game;
 
@@ -32,17 +33,11 @@ public:
 	Sprite* _sprite;
 	Animation* _ani;
 	BaseObject();
+	BaseObject(float x, float y, float width, float height,int vxObj, int vyObj, float vx, float vy);
 	BaseObject(float x, float y, float width, float height, float vx, float vy);
 	~BaseObject();
-
-	virtual void ResetRect();
-	virtual void ResetWhenReload(Sprite* sprite){};
-	virtual void SetVar(char* Name, int val){};
-	virtual int	 GetVar(char* Name){ return -1; };
 	virtual void Update(BaseObject* _staticObjs[], BaseObject* _dynamicObjs[], Input* input, float TPF){};
 	virtual void Render(){};
-	virtual void Save(fstream *fs){};
-	virtual void Load(fstream *fs){};
 };
 
 #endif

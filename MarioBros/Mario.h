@@ -19,11 +19,12 @@ public:
 	float	ax;
 	float	ay;
 	bool isRight;
+	float _vxObj_last = 1.0f;
 	float timeJumped;
 	bool isJumping;
 	Camera* camera;
 	Mario();
-	Mario(float x, float y, float width, float height,float vx, float vy, Sprite* sprite);
+	Mario(float x, float y, float width, float height,int vxObj, int vyObj,float vx, float vy, Sprite* sprite);
 	virtual void Render();
 	virtual void Update(BaseObject* _staticObjs[], BaseObject* _dynamicObjs[], Input* input, float TPF);
 	void UpdateAnimation(float TPF);

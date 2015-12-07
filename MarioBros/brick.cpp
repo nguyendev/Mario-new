@@ -2,7 +2,7 @@
 #include "Global.h"
 
 Brick::Brick() :BaseObject(){}
-Brick::Brick(float _x, float _y, float width, float height,float _vx, float _vy, bool _isBright, int ID, Sprite* sprite) : BaseObject(_x, _y, width, height, _vx, _vy)
+Brick::Brick(float _x, float _y, float width, float height,int vxObj, int vyObj, float _vx, float _vy, bool _isBright, int ID, Sprite* sprite) : BaseObject(_x, _y, width, height,vxObj,vyObj, _vx, _vy)
 {
 	_sprite = sprite;
 	_ID = ID;
@@ -11,11 +11,11 @@ Brick::Brick(float _x, float _y, float width, float height,float _vx, float _vy,
 
 void Brick::Render()
 {
-	//switch (_ID)
-	//{
-	//case(17) :
+	switch (_ID)
+	{
+	case(17) :
 		_sprite->Draw(_x, _y, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(2), 0.5);
-	/*	break;
+		break;
 	case(18) :
 		_sprite->Draw(_x, _y, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(0), 0.5);
 		break;
@@ -23,6 +23,6 @@ void Brick::Render()
 		_sprite->Draw(_x, _y, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(8), 0.5);
 		break;
 
-	}*/
+	}
 
 }

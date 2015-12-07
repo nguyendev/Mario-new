@@ -43,7 +43,7 @@ void Sprite::Draw(int x, int y,int vpx,int vpy, float xScaleRatio, float yScaleR
 
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
-	mt._22 = -1.0f;
+	mt._22 = 1.0f;
 	mt._41 = -vpx;
 	mt._42 = vpy;
 	D3DXVECTOR4 vp_pos;
@@ -63,4 +63,12 @@ void Sprite::Draw(int x, int y,int vpx,int vpy, float xScaleRatio, float yScaleR
 
 	//spriteHandler->Draw(image, &rSrc,NULL, &position, D3DCOLOR_XRGB(255, 255, 255));
 	spriteHandler->Draw(image, &rSrc, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+
+
+
+
+	//D3DXMATRIX mTransform;
+	//D3DXMatrixTransformation2D(&mTransform, NULL, 0, &D3DXVECTOR2(xScaleRatio, yScaleRatio), &D3DXVECTOR2(0, 0), 0, &D3DXVECTOR2((float)vp_pos.x, (float)vp_pos.y));
+	//spriteHandler->SetTransform(&mTransform);
+	//spriteHandler->Draw(image, &rSrc, NULL, &D3DXVECTOR3(0, 0, deep), D3DCOLOR_XRGB(255, 255, 255));
 }

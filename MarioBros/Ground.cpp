@@ -14,6 +14,6 @@ Ground::Ground(float _x, float _y, float width, float height,float vx, float vy,
 
 void Ground::Render()
 {
-	_sprite->Draw(_x, _y, 0, 600, ZOOM, ZOOM, _ani->GetRect(1), 0.5);
-		_sprite->Draw(_x, _y + 40, 0, 600, ZOOM, ZOOM, _ani->GetRect(1), 0.5);
+	_sprite->Draw(_x, _y, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(1), 0.5);
+	_sprite->Draw(_x, _y + 40, _vx, _vy, ZOOM, ZOOM, _ani->GetRect(1), 0.5);
 }

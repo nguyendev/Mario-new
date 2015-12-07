@@ -6,17 +6,10 @@ class BaseObject;
 class Camera
 {
 public:
-	float _x;
-	float _y;
-	float _vx;
-	int _width;
-	int _height;
-	BaseObject* _obj;
 
 	RECT _rect;
 
-	Camera(float x, float y, float width, float height);
-	void ResetRect();
+	Camera();
 	~Camera();
 	void Update(BaseObject* _obj);
 };

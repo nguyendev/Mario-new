@@ -11,17 +11,8 @@
 #define YMENU_MAX		405
 #define YMENU_MIN		360
 #define YMENU			40
-struct Box
-{
-	//position of top-left corner
-	float x, y;
+#define PIXEL 4
 
-	//dimensions
-	float w, h;
-
-	//velocity
-	float vx, vy;
-};
 enum _SPRITE
 {
 	S_CLOUD,
