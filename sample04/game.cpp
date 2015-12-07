@@ -65,7 +65,7 @@ void CGame::_InitWindow()
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = _Name;
+	wc.lpszClassName = "NameOfClass";
 	wc.hIconSm = NULL;
 	
 	RegisterClassEx(&wc);
@@ -78,8 +78,8 @@ void CGame::_InitWindow()
 
 	_hWnd = 
 		CreateWindow(
-			_Name,
-			_Name,
+		"NameOfClass",
+		"NameOfClass",
 			style, 
 			CW_USEDEFAULT,
 			CW_USEDEFAULT, 

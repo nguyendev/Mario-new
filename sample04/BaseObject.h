@@ -15,7 +15,11 @@ public:
 	float _y;		//postion y
 	float _vx;
 	float _vy;
+	float _width;
+	float _height;
 
+	float _cameraX;
+	float _cameraY;
 	int _ID;
 
 	RECT _rect;
@@ -24,7 +28,7 @@ public:
 
 	CSprite* _sprite;
 	BaseObject();
-	BaseObject(float x, float y);
+	BaseObject(float xWorld, float yWorld, float cameraX, float cameraY);
 	~BaseObject();
 
 	virtual void Update(){};

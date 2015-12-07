@@ -10,12 +10,13 @@ protected:
 	LPD3DXSPRITE _SpriteHandler;			
 
 	int _Index;								// Current sprite index
-	int _Width;								// Sprite width
-	int _Height;							// Sprite height
+							// Sprite height
 	int _Count;								// Number of sprites
 	int _SpritePerRow;						// Number of sprites per row
 public: 
-	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow);
+	int _Width;								// Sprite width
+	int _Height;
+	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow);
 	void Next();
 	void Reset();
 

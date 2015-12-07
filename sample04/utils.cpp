@@ -4,7 +4,7 @@
 #include "trace.h"
 
 
-LPDIRECT3DSURFACE9 CreateSurfaceFromFile(LPDIRECT3DDEVICE9 d3ddv, LPWSTR FilePath)
+LPDIRECT3DSURFACE9 CreateSurfaceFromFile(LPDIRECT3DDEVICE9 d3ddv, char* FilePath)
 {
 	D3DXIMAGE_INFO info; 
 

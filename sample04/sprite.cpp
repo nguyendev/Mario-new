@@ -3,7 +3,7 @@
 
 #include <d3dx9.h>
 
-CSprite::CSprite(LPD3DXSPRITE SpriteHandler, LPWSTR FilePath, int Width, int Height, int Count, int SpritePerRow) 
+CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow) 
 {
 	D3DXIMAGE_INFO info; 
 	HRESULT result; 
@@ -49,7 +49,6 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, LPWSTR FilePath, int Width, int Hei
 		return;
 	}
 }
-
 
 void CSprite::Render(int X, int Y, int vpx, int vpy)
 {
