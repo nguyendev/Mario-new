@@ -18,7 +18,7 @@
 
 //Load image
 #define GOOMBA_IMAGE		"Image\\imgGoomba.bmp"
-#define BMARIO_IMAGE	"Image\\imgBigMario.png"
+#define BMARIO_IMAGE		"Image\\imgBigMario.png"
 #define BRICK_IMAGE			"Image\\imgBrick.png"
 #define S_EXPLOSION_IMAGE	"Image\\ImgExplosion.png"
 #define FIREBULLET_IMAGE	"Image\\ImgFireBullet.png"
@@ -47,10 +47,11 @@
 #define PIPE_DEEP			0.5
 #define PIRHANA_DEEP		0.5
 #define MARIO_DEEP			0.9
+#define ZOOM				2.5
 
 
 
-#define ANIMATE_RATE 30
+#define ANIMATE_RATE 60
 enum DIRECT
 {
 	LEFT,
@@ -60,8 +61,8 @@ enum DIRECT
 };
 enum _SPRITE
 {
-	S_GOOMBA = 109,
-	S_BMARIO = 100,
+	S_GOOMBA,
+	S_BMARIO,
 	S_BRICK,
 	S_EXPLOSION,
 	S_FIREBULLET,

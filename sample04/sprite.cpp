@@ -1,6 +1,6 @@
 #include "sprite.h"
 #include "trace.h"
-
+#include "Global.h"
 #include <d3dx9.h>
 
 CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow) 
@@ -38,7 +38,8 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Heig
 		D3DPOOL_DEFAULT,
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
-		D3DCOLOR_XRGB(0,63,63),
+		//D3DCOLOR_XRGB(0,63,63),
+		D3DCOLOR_XRGB(255, 0, 255),
 		&info,
 		NULL,
 		&_Image);
@@ -49,7 +50,32 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Heig
 		return;
 	}
 }
+void CSprite::Render(int X, int Y,int vpx,int vpy, int zoomX, int zoomY, RECT rSrc, float deep)
+{
+	D3DXVECTOR3 position((float)X, (float)Y, 0);
+	D3DXMATRIX mt;
+	D3DXMatrixIdentity(&mt);
+	mt._22 = 1.0f;
+	mt._41 = -vpx;
+	mt._42 = vpy;
+	D3DXVECTOR4 vp_pos;
+	D3DXVec3Transform(&vp_pos, &position, &mt);
 
+	D3DXVECTOR3 p(vp_pos.x, vp_pos.y, deep);
+	D3DXVECTOR3 center((float)_Width / 2, (float)_Height / 2, 0);
+
+	D3DXMATRIX mt1;
+	D3DXMatrixScaling(&mt1, zoomX, zoomY, 1);
+	_SpriteHandler->SetTransform(&mt1);
+
+	_SpriteHandler->Draw(
+		_Image,
+		&rSrc,
+		&center,
+		&p,
+		D3DCOLOR_XRGB(255, 255, 255)
+		);
+}
 void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 {
 	RECT srect;
@@ -72,11 +98,11 @@ void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 	D3DXVECTOR4 vp_pos;
 	D3DXVec3Transform(&vp_pos,&position,&mt);
 	
-	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,deep);
+	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,0);
 	D3DXVECTOR3 center((float)_Width/2,(float)_Height/2,0);
 	
 	D3DXMATRIX mt1;
-	D3DXMatrixScaling(&mt1, 2.5, 2.5, 1);
+	D3DXMatrixScaling(&mt1, ZOOM, ZOOM, 1);
 	_SpriteHandler->SetTransform(&mt1);
 
 	_SpriteHandler->Draw(
@@ -86,7 +112,6 @@ void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 		&p, 
 		D3DCOLOR_XRGB(255,255,255)
 	);
-
 }
 void CSprite::setIndex(int index)
 {

@@ -11,7 +11,6 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_vx_last = 1.0f;
-
 }
 
 
@@ -25,10 +24,11 @@ void Mario::Move(int t)
 }
 void Mario::Update(int t)
 {
-	Move(t);
+	
 	DWORD now = GetTickCount();
 	if (now - last_time > 1000 / ANIMATE_RATE)
 	{
+		Move(t);
 		if (_vx > 0) _sprite->Next();
 		if (_vx < 0) _sprite->Next();
 		last_time = now;

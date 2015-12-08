@@ -239,7 +239,7 @@ void CGame::Run()
 	int done = 0;
 	DWORD frame_start = GetTickCount();;
 	
-	DWORD tick_per_frame = 100 / _FrameRate;
+	DWORD tick_per_frame = 1000 / _FrameRate;
 	
 	trace(L">>> Main game loop has been started");
 

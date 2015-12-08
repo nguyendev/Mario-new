@@ -96,7 +96,6 @@ public:
 	int GetDepth();
 
 	int FrameRate;			// Desired frame rate of game
-
 	CGame(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullscreen, int FrameRate);
 	~CGame();
 

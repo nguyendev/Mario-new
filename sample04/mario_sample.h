@@ -9,6 +9,7 @@
 #include "Collision.h"
 #include "Camera.h"
 #include "Audio.h"
+#include "Writer.h"
 
 
 class CMarioSample: public CGame
@@ -24,7 +25,8 @@ public:
 	BaseObject* mario;
 	Camera * _camera;
 	Audio* _audio;
-	
+	Writer* _writer;
+	LPD3DXFONT	_fontArial;
 	int _countI = 0;
 	int vpx = 0;
 	int mario_x;			// position of kitty
@@ -37,6 +39,8 @@ public:
 
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
+	float wait1Sec;
+	int timegame;
 	//LPDIRECT3DSURFACE9 Background;
 
 protected:
@@ -45,7 +49,7 @@ protected:
 	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int Delta);
 	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta);
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
-
+	virtual void UpdateWorld(int Delta);
 	virtual void OnKeyDown(int KeyCode);
 
 	void Update(LPDIRECT3DDEVICE9 d3ddv, int Delta);

@@ -51,6 +51,7 @@
     </ClCompile>
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -94,5 +95,6 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Writer.h" />
   </ItemGroup>
 </Project>
