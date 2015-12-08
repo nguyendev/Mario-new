@@ -52,9 +52,11 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	D3DXCreateFont(_d3ddv, 30, 0, FW_BOLD, 0, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("SuperMarioBros"), &_fontArial);
 	
 	LoadSprite();
-	LoadMap();
+	//LoadMap();
 	LoadAudio();
-	mario = new Mario(0, 180, Camera::_cameraX, Camera::_cameraY, 0, _sprites[S_SMARIO]);
+	mario = new Mario(0, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
+	testBrick2 = new Brick(180, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_BRICK]);
+	testBrick = new Brick(180, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_BRICK]);
 	_state = GS_PLAYING;
 	timegame = 300; 
 	wait1Sec = 0;
@@ -68,6 +70,7 @@ void CMarioSample::UpdateWorld(int t)
 			wait1Sec -= 1;
 			timegame--;
 		}
+		mario->Update(t);
 }
 void CMarioSample::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 {
@@ -90,6 +93,8 @@ void CMarioSample::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 				_staticObjs[i]->Render();
 			}
 			mario->Render();
+			testBrick->Render();
+			testBrick2->Render();
 			break;
 		case GS_GAMEOVER:
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
@@ -278,7 +283,7 @@ void CMarioSample::LoadMap()
 					//	i++;
 					//	break;*/
 				default:
-					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY), vpx, VIEW_PORT_Y, t.id, _sprites[S_BRICK]);
+					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY), _camera->_cameraX, _camera->_cameraY, t.id, _sprites[S_BRICK]);
 					i++;
 					break;
 				}

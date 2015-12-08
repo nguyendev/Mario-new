@@ -98,7 +98,7 @@ void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 	D3DXVECTOR4 vp_pos;
 	D3DXVec3Transform(&vp_pos,&position,&mt);
 	
-	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,0);
+	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,deep);
 	D3DXVECTOR3 center((float)_Width/2,(float)_Height/2,0);
 	
 	D3DXMATRIX mt1;

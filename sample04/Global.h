@@ -1,11 +1,9 @@
 #pragma once
-#include <Windows.h>
+#include <windows.h>
 #ifndef _GLOBAL_
 #define _GLOBAL_
 
 #define PI				3.141592654
-#define TILE_SIZE		40
-#define ZOOM			2.5
 #define G				2000
 #define WIDTH			800
 #define HEIGHT			600
@@ -13,6 +11,7 @@
 #define YMENU_MIN		360
 #define YMENU			40
 #define PIXEL 4
+#define ZOOM			2.5
 #define MARIO_VOID    "MARIO VOID"
 
 
@@ -47,7 +46,6 @@
 #define PIPE_DEEP			0.5
 #define PIRHANA_DEEP		0.5
 #define MARIO_DEEP			0.9
-#define ZOOM				2.5
 
 
 

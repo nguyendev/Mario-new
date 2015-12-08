@@ -20,9 +20,12 @@ public:
 
 	LPD3DXSPRITE _SpriteHandler;
 	CSprite * _sprites[20];
+
 	Collision* _col;
 	BaseObject* _staticObjs[1000];
 	BaseObject* mario;
+	BaseObject* testBrick;
+	BaseObject* testBrick2;
 	Camera * _camera;
 	Audio* _audio;
 	Writer* _writer;
