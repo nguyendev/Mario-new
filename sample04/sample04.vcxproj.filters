@@ -52,6 +52,7 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Writer.cpp" />
+    <ClCompile Include="KeyBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -96,5 +97,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Writer.h" />
+    <ClInclude Include="KeyBoard.h" />
   </ItemGroup>
 </Project>

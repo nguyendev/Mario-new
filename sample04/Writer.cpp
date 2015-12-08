@@ -21,7 +21,15 @@ void Writer::DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int 
 {
 	DrawNumber(sprite, number, x, y,vpx, vpy,1,1);
 }
-
+LPDIRECT3DSURFACE9 Writer::CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
+{
+	D3DXIMAGE_INFO imageInfo;
+	D3DXGetImageInfoFromFile(filePath, &imageInfo);
+	IDirect3DSurface9* rSurface;	//return surface
+	d3ddv->CreateOffscreenPlainSurface(imageInfo.Width, imageInfo.Height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &rSurface, NULL);
+	D3DXLoadSurfaceFromFile(rSurface, NULL, NULL, filePath, NULL, D3DX_DEFAULT, 0, NULL);
+	return rSurface;
+}
 void Writer::DrawNumber(CSprite* sprite, int number, int x, int y,int vpx, int vpy, char zoomX, char zoomY)
 {
 	char temp;

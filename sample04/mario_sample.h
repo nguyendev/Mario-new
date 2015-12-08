@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Audio.h"
 #include "Writer.h"
+#include "KeyBoard.h"
 
 
 class CMarioSample: public CGame
@@ -31,14 +32,8 @@ public:
 	Writer* _writer;
 	LPD3DXFONT	_fontArial;
 	int _countI = 0;
-	int vpx = 0;
-	int mario_x;			// position of kitty
-	int mario_y;		
+	KeyBoard* _keyboard;
 
-	float mario_vx;			// velocity of kitty
-	float mario_vy;		
-
-	float mario_vx_last;	// last vx of mario before stop ( to determine the direction of mario )
 
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
@@ -47,7 +42,6 @@ public:
 	//LPDIRECT3DSURFACE9 Background;
 
 protected:
-	LPDIRECT3DSURFACE9 _Background;
 
 	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int Delta);
 	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta);
@@ -65,9 +59,17 @@ protected:
 	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin;
 	CSound *_sound_Die, *_sound_EnemyFire, *_sound_FireBall, *_sound_Flagpole, *_sound_GameOver, *_sound_Item, *_sound_Warp;
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine;
+
+	LPDIRECT3DSURFACE9 _title;
 	void LoadAudio();
 	void LoadSprite();
 	void LoadMap();
+
+
+	CSprite* _marioMenu;
+	int _marioMenuX;
+	int _marioMenuY;
+	void RenderMenu(LPDIRECT3DDEVICE9);
 
 };
 #endif

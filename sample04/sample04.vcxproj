@@ -99,6 +99,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="dsutil.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="mario_sample.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="dxutil.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="mario_sample.h" />
     <ClInclude Include="sprite.h" />
