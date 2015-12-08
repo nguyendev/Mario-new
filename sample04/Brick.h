@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sprite.h"
-#include "BaseObject.h"
+#include "Camera.h"
 #include <list>
 using namespace std;
 

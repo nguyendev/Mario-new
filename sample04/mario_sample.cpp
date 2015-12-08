@@ -7,6 +7,7 @@
 #include <string>
 #include <string.h>
 #include "Global.h"
+#include "Mario.h"
 #define MARIO_IMAGE_RIGHT "mario_right.png"
 #define MARIO_IMAGE_LEFT "mario_left.png"
 #define GROUND_MIDDLE "ground_middle.png"
@@ -17,7 +18,7 @@
 
 #define BACKGROUND_FILE "bg.bmp"
 
-#define ANIMATE_RATE 30
+
 #define JUMP_VELOCITY_BOOST 3.0f
 #define FALLDOWN_VELOCITY_DECREASE 0.5f
 
@@ -27,24 +28,45 @@
 CMarioSample::CMarioSample(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate):
 CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 {
-	mario_right = NULL;
-	mario_left = NULL;
 	_col = new Collision();
-
+	_audio = new Audio(_hWnd);
+	_camera = new Camera();
 	for (int i = 0; i < 20; i++)
 		_sprites[i] = NULL;
 }
-
+void CMarioSample::LoadAudio()
+{
+	_sound_1up = _audio->LoadSound("Sounds\\1up.wav");
+	_sound_Beep = _audio->LoadSound("Sounds\\Beep.wav");
+	_sound_BigJump = _audio->LoadSound("Sounds\\BigJump.wav");
+	_sound_BowserDie = _audio->LoadSound("Sounds\\Bowser.wav");
+	_sound_Break = _audio->LoadSound("Sounds\\Break.wav");
+	_sound_Bump = _audio->LoadSound("Sounds\\Bump.wav");
+	_sound_Coin = _audio->LoadSound("Sounds\\Coin.wav");
+	_sound_Die = _audio->LoadSound("Sounds\\Die.wav");
+	_sound_EnemyFire = _audio->LoadSound("Sounds\\EnemyFire.wav");
+	_sound_FireBall = _audio->LoadSound("Sounds\\FireBall.wav");
+	_sound_Flagpole = _audio->LoadSound("Sounds\\Flagpole.wav");
+	_sound_GameOver = _audio->LoadSound("Sounds\\GameOver.wav");
+	_sound_Item = _audio->LoadSound("Sounds\\Item.wav");
+	_sound_Jump = _audio->LoadSound("Sounds\\Jump.wav");
+	_sound_Kick = _audio->LoadSound("Sounds\\Kick.wav");
+	_sound_Pause = _audio->LoadSound("Sounds\\Pause.wav");
+	_sound_Powerup = _audio->LoadSound("Sounds\\Powerup.wav");
+	_sound_Skid = _audio->LoadSound("Sounds\\Skid.wav");
+	_sound_Squish = _audio->LoadSound("Sounds\\Squish.wav");
+	_sound_Thwomp = _audio->LoadSound("Sounds\\Thwomp.wav");
+	_sound_Vine = _audio->LoadSound("Sounds\\Vine.wav");
+	_sound_Warp = _audio->LoadSound("Sounds\\Warp.wav");
+}
 CMarioSample::~CMarioSample()
 {
-	delete mario_left;
-	delete mario_right;
+	delete _col;
 }
 void CMarioSample::LoadSprite()
 {
 	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
-	_sprites[S_BMARIO_01] = new CSprite(_SpriteHandler, BMARIO_IMAGE_01,16,32,8,8);
-	_sprites[S_BMARIO_02] = new CSprite(_SpriteHandler, BMARIO_IMAGE_02,16,32,8,8);
+	_sprites[S_BMARIO] = new CSprite(_SpriteHandler, BMARIO_IMAGE,16,32,8,8);
 	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
 	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3);
 	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4);
@@ -56,8 +78,7 @@ void CMarioSample::LoadSprite()
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler,NUMBER_IMAGE,16,16,10,10);
 	_sprites[S_PIPE] = new CSprite(_SpriteHandler,PIPE_IMAGE,16,16,4,4);
 	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler,PIRHANA_IMAGE,16,16,2,2);
-	_sprites[S_SMARIO_01] = new CSprite(_SpriteHandler,SMARIO__IMAGE_01,16,16,8,8);
-	_sprites[S_SMARIO_02] = new CSprite(_SpriteHandler,SMARIO__IMAGE_02,16,16,8,8);
+	_sprites[S_SMARIO] = new CSprite(_SpriteHandler,SMARIO__IMAGE,16,16,8,8);
 	_sprites[S_STAR] = new CSprite(_SpriteHandler,STAR_IMAGE,16,16,4,4);
 }
 
@@ -148,7 +169,7 @@ void CMarioSample::LoadMap()
 				//	i++;
 				//	break;*/
 				default:
-					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY),0,0, t.id, _sprites[S_BRICK]);
+					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY),vpx,VIEW_PORT_Y, t.id, _sprites[S_BRICK]);
 					i++;
 					break;
 				}
@@ -166,30 +187,13 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	// TO-DO: not a very good place to initial sprite handler
 	D3DXCreateSprite(d3ddv,&_SpriteHandler);
 
-
-	//Background = CreateSurfaceFromFile(_d3ddv, BACKGROUND_FILE);
-
 	HRESULT res = D3DXCreateSprite(_d3ddv,&_SpriteHandler);
 	LoadSprite();
-
-
-
-	mario_x = 0;
-	mario_y = GROUND_Y;
-
-	mario_vx = 0;
-	mario_vx_last = 1.0f;
-	mario_vy = 0;
-	//sprites[0] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
-	mario_right = new CSprite(_SpriteHandler,MARIO_IMAGE_RIGHT,39,61,3,3);
-	mario_left = new CSprite(_SpriteHandler,MARIO_IMAGE_LEFT,39,61,3,3);
 	LoadMap();
-	// One sprite only :)
-	ground_middle = new CSprite(_SpriteHandler,GROUND_MIDDLE,32,32,1,1);
-	brick = new CSprite(_SpriteHandler,BRICK,32,32,8,8);
-	sample2 = new Cloud(200, 100, 0, 0, 0, mario_left);
-	sample = new Cloud(100, 98, 0, 0, 0, mario_left);
-	//sample2->_vx = 0;
+	LoadAudio();
+	mario = new Mario(0, 180, Camera::_cameraX, Camera::_cameraY, 0, _sprites[S_SMARIO]);
+	
+	_state = GS_PLAYING;
 }
 
 int xc = 0;
@@ -200,151 +204,89 @@ void CMarioSample::CollisionHanding()
 	{*/
 
 	//sample->Update();
-	float normalx;
-	float normaly;
-	float collisiontime = _col->SweptAABB(sample, sample2, OUT normalx, OUT normaly);
-	sample->_x += sample->_vx * collisiontime;
-	sample->_y += sample->_vy * collisiontime;
-	float remainingtime = 1.0f - collisiontime;
-	if (collisiontime < 1.0f)
-	{
-		if (normalx == -1); //
-		else if (normaly == 1);
-		if (normalx == -1);
-		else if (normaly == 1);
-	}
+	//float normalx;
+	//float normaly;
+	//float collisiontime = _col->SweptAABB(sample, sample2, OUT normalx, OUT normaly);
+	//sample->_x += sample->_vx * collisiontime;
+	//sample->_y += sample->_vy * collisiontime;
+	//float remainingtime = 1.0f - collisiontime;
+	//if (collisiontime < 1.0f)
+	//{
+	//	if (normalx == -1); //
+	//	else if (normaly == 1);
+	//	if (normalx == -1);
+	//	else if (normaly == 1);
+	//}
 	/*}*/
 
 }
+void CMarioSample::Update(LPDIRECT3DDEVICE9 d3ddv, int t)
+{
+	mario->Update(t);
+}
 void CMarioSample::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 {
-	// TO-DO: should enhance CGame to put a separate virtual method for updating game status
-
-
-	// NOTES: If there is a class for mario, this should be mario->Update(t);
-	// Putting mario update here is NOT a good place
-
-
-	//
-	// Update mario status
-	//
-
-	mario_x += mario_vx * t;
-	mario_y += mario_vy * t;
-	
-	CollisionHanding();
-	//
-	// Animate mario if she is running
-	//
-	DWORD now = GetTickCount();
-	if (now - last_time > 1000 / ANIMATE_RATE)
-	{
-		if (mario_vx > 0) mario_right->Next();
-		if (mario_vx < 0) mario_left->Next();
-
-		last_time = now;
-	}
-
-	//
-	// Simulate fall down
-	//
-	if (mario_y > GROUND_Y) mario_vy -= FALLDOWN_VELOCITY_DECREASE;
-	else 
-	{
-		mario_y = GROUND_Y;
-		mario_vy = 0;
-	}
-	
-	// Background
-	/*d3ddv->StretchRect(
-			Background,			// from 
-			NULL,				// which portion?
-			_BackBuffer,		// to 
-			NULL,				// which portion?
-			D3DTEXF_NONE);*/
+	Update(d3ddv, t);
 	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-
-	int vpx = mario_x - 400;
-	//int vpx = xc;
-	if (vpx<=0) vpx=0;
-	xc += 1;
-
-
-	int i=0;
-	ground_middle->Render(16,16,vpx,VIEW_PORT_Y);
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-
-	i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-	ground_middle->Render(16+i,16,vpx,VIEW_PORT_Y);i+=32;
-
-	int j=0;
-	brick->Render(165+j,200,vpx,VIEW_PORT_Y);
-
-	//
-	//  Select correct sprite to render depends on which direction mario is facing
-	//
-	if (mario_vx > 0)			mario_right->Render(mario_x,mario_y,vpx,VIEW_PORT_Y);
-	else if (mario_vx < 0)		mario_left->Render(mario_x,mario_y,vpx,VIEW_PORT_Y);
-	else if (mario_vx_last < 0) mario_left->Render(mario_x,mario_y,vpx,VIEW_PORT_Y);
-	else						mario_right->Render(mario_x,mario_y,vpx,VIEW_PORT_Y);
-
-
-	brick->Render(100,47,vpx,VIEW_PORT_Y);
-	sample->Render();
-	sample2->Render();
-	for (int i = 0; i < _countI; i++)
-		_staticObjs[i]->Render();
+	switch (_state)
+	{
+		case GS_PLAYING:
+			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
+			_audio->PlaySound(_sound_GameOver);
+			//vpx = mario->_x - 300;
+			////mario->_cameraX = vpx;
+			//if (vpx <= 0) vpx = 0;
+			_camera->Update(mario);
+			
+			for (int i = 0; i < _countI; i++)
+			{
+				//_staticObjs[i]->_cameraX = _camera->_cameraX;
+				_staticObjs[i]->Render();
+			}
+			mario->Render();
+			break;
+		case GS_GAMEOVER:
+			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
+			break;
+	}
 	_SpriteHandler->End();
 }
 
 void CMarioSample::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int t)
 {
-	if (IsKeyDown(DIK_RIGHT))
+	switch (_state)
 	{
-		mario_vx = MARIO_SPEED;
-		mario_vx_last = mario_vx;
-	}	
-	else 
+	case GS_MENU:
+		if (IsKeyDown(DIK_Q))
+			PostQuitMessage(0);
+		else if (IsKeyDown(DIK_RETURN))
+		{
+				_state = GS_PLAYING;
+		}
+		break;
+
+	case GS_PLAYING:
+		if (IsKeyDown(DIK_RIGHT))
+		{
+			mario->_vx = MARIO_SPEED;
+			mario->_vx_last = mario->_vx;
+		}
+		else
 		if (IsKeyDown(DIK_LEFT))
 		{
-			mario_vx = -MARIO_SPEED;
-			mario_vx_last = mario_vx;
+			mario->_vx = -MARIO_SPEED;
+			mario->_vx_last = mario->_vx;
 		}
-		else 
+		else
 		{
-			mario_vx = 0;
-			mario_left->Reset();
-			mario_right->Reset();
+			mario->_vx = 0;
+			mario->_sprite->Reset();
 		}
+		if (IsKeyDown(DIK_Q))
+			PostQuitMessage(0);
+		break;
+	}
+	
 }
 
 void CMarioSample::OnKeyDown(int KeyCode)

@@ -65,7 +65,7 @@ void CGame::_InitWindow()
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = "NameOfClass";
+	wc.lpszClassName = "Game Mario";
 	wc.hIconSm = NULL;
 	
 	RegisterClassEx(&wc);
@@ -78,8 +78,8 @@ void CGame::_InitWindow()
 
 	_hWnd = 
 		CreateWindow(
-		"NameOfClass",
-		"NameOfClass",
+		"Game Mario",
+		"Game Mario",
 			style, 
 			CW_USEDEFAULT,
 			CW_USEDEFAULT, 

@@ -15,9 +15,10 @@
 #define PIXEL 4
 #define MARIO_VOID    "MARIO VOID"
 
+
+//Load image
 #define GOOMBA_IMAGE		"Image\\imgGoomba.bmp"
-#define BMARIO_IMAGE_01		"Image\\ImgBigMario_01.png"
-#define BMARIO_IMAGE_02		"Image\\ImgBigMario_02.png"
+#define BMARIO_IMAGE	"Image\\imgBigMario.png"
 #define BRICK_IMAGE			"Image\\imgBrick.png"
 #define S_EXPLOSION_IMAGE	"Image\\ImgExplosion.png"
 #define FIREBULLET_IMAGE	"Image\\ImgFireBullet.png"
@@ -29,16 +30,38 @@
 #define NUMBER_IMAGE		"Image\\imgNumber.bmp"
 #define PIPE_IMAGE			"Image\\imgPipe.bmp"
 #define PIRHANA_IMAGE		"Image\\imgPirhana.png"
-#define SMARIO__IMAGE_01	"Image\\imgSmallMario_01.png"
-#define SMARIO__IMAGE_02	"Image\\imgSmallMario_02.png"
+#define SMARIO__IMAGE		"Image\\imgSmallMario.png"
 #define STAR_IMAGE			"Image\\imgStar.png"
 
+//Deep Object
+#define GOOMBA_DEEP			0.5
+#define BRICK_DEEP			0.5
+#define S_EXPLOSION_DEEP	0.5
+#define FIREBULLET_DEEP		0.5
+#define FLAG_DEEP			0.5
+#define FLOWER_DEEP			0.5
+#define FUNGI_DEEP			0.5
+#define KOOPA_DEEP			0.5
+#define MONEY_DEEP			0.5	
+#define NUMBER_DEEP			0.5
+#define PIPE_DEEP			0.5
+#define PIRHANA_DEEP		0.5
+#define MARIO_DEEP			0.9
 
+
+
+#define ANIMATE_RATE 30
+enum DIRECT
+{
+	LEFT,
+	RIGHT,
+	TOP,
+	BOTTOM,
+};
 enum _SPRITE
 {
-	S_GOOMBA,
-	S_BMARIO_01,
-	S_BMARIO_02,
+	S_GOOMBA = 109,
+	S_BMARIO = 100,
 	S_BRICK,
 	S_EXPLOSION,
 	S_FIREBULLET,
@@ -50,8 +73,7 @@ enum _SPRITE
 	S_NUMBER,
 	S_PIPE,
 	S_PIRHANA,
-	S_SMARIO_01,
-	S_SMARIO_02,
+	S_SMARIO,
 	S_STAR
 };
 enum ITEM_STATE
@@ -65,10 +87,20 @@ enum ENEMY_STATE
 {
 
 };
-enum MENU_STATE
+enum GAME_STATE
 {
-	MS_MENU,
-	MS_PLAYING,
+	GS_MENU,
+	GS_PLAYING,
+	GS_LOAD,
+	GS_SAVE,
+	GS_WIN,
+	GS_GAMEOVER,
+	GS_NEXT_STAGE,
+	GS_SUB_STAGE,
+	GS_REPLAY,
+	GS_RETURN_STAGE,
+	GS_ABOUT,
+	GS_CONFIRM
 };
 enum MARIO_STATE
 {

@@ -1,4 +1,5 @@
 #include "Brick.h"
+#include "Global.h"
 
 
 Brick::Brick() :BaseObject()
@@ -20,5 +21,5 @@ void Brick::Update()
 void Brick::Render()
 {
 	//_sprite->setIndex(3);
-	_sprite->Render(_x, _y, _cameraX, _cameraY);
+	_sprite->Render(_x, _y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 }

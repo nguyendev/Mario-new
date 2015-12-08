@@ -1,4 +1,5 @@
 #include "Cloud.h"
+#include "Global.h"
 
 
 Cloud::Cloud() :BaseObject()
@@ -16,5 +17,5 @@ Cloud::Cloud(float _x, float _y, float _cameraX, float _cameraY, int ID, CSprite
 
 void Cloud::Render()
 {
-	_sprite->Render(_x, _y, _cameraX, _cameraY);
+	_sprite->Render(_x, _y, _cameraX, _cameraY, MARIO_DEEP);
 }

@@ -2,7 +2,8 @@
 
 
 
-
+//float BaseObject::_cameraX = 0;
+//float BaseObject::_cameraY = 0;
 BaseObject::BaseObject()
 {
 	_sprite = NULL;

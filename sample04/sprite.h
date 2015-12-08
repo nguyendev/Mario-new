@@ -20,9 +20,9 @@ public:
 	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow);
 	void Next();
 	void Reset();
-
+	void Next(int start, int end);
 	// Render current sprite at location (X,Y)
-	void Render(int X, int Y, int vpx, int vpy);	
+	void Render(int X, int Y, int vpx, int vpy, float deep);	
 	~CSprite();
 };
 

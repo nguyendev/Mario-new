@@ -10,6 +10,8 @@ class CSprite;
 class BaseObject
 {
 public:
+
+
 	// Thông tin cơ bản
 	float _x;		//postion x
 	float _y;		//postion y
@@ -17,7 +19,7 @@ public:
 	float _vy;
 	float _width;
 	float _height;
-
+	float _vx_last;	// last vx of mario before stop ( to determine the direction of mario )
 	float _cameraX;
 	float _cameraY;
 	int _ID;
@@ -27,11 +29,12 @@ public:
 	//Information render
 
 	CSprite* _sprite;
+
 	BaseObject();
 	BaseObject(float xWorld, float yWorld, float cameraX, float cameraY);
 	~BaseObject();
 
-	virtual void Update(){};
+	virtual void Update(int t){};
 	virtual void Render(){};
 };
 
