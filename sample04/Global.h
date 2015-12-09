@@ -52,12 +52,13 @@
 #define ANIMATE_RATE 60
 
 
-enum DIRECT
+enum DIR
 {
 	LEFT,
 	RIGHT,
 	TOP,
 	BOTTOM,
+	NONE
 };
 enum _SPRITE
 {

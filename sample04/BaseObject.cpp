@@ -21,4 +21,3 @@ BaseObject::BaseObject(float xWorld, float yWorld, float cameraX, float cameraY)
 	_cameraY = cameraY;
 	_sprite = NULL;
 }
-

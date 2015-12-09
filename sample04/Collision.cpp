@@ -117,3 +117,21 @@ bool Collision::AABBCheck(BaseObject* b1, BaseObject * b2)
 }
 
 
+DIR Collision::AABB(BaseObject* box1, BaseObject* box2)
+{
+	float l = box2->_x - (box1->_x + box1->_width);
+	float r = box1->_x - (box2->_x + box2->_width);
+	float t = box1->_y - (box2->_height + box2->_y);
+	float b = box2->_y - (box1->_height + box1->_y);
+
+	// check that there was a collision
+	if (l > 0 || r > 0 || t > 0 || b > 0)
+		return DIR::NONE;
+
+
+	// co va cham khong can biet va cham ben nao
+	if (t <= 0 && box1->_y + box1->_height > box2->_y + box2->_height) return DIR::TOP;
+	if (l <= 0 && box1->_x < box2->_x) return DIR::LEFT;
+	if (r <= 0 && box1->_x + box1->_width > box2->_x + box2->_width) return DIR::RIGHT;
+	if (b <= 0 && box1->_y < box2->_y) return DIR::BOTTOM;
+}

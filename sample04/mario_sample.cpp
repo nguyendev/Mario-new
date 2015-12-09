@@ -70,27 +70,8 @@ void CMarioSample::UpdateWorld(int t)
 			wait1Sec -= 1;
 			timegame--;
 		}
-		if (true)
-		{
-		
-		}
 		mario->Update(t);
-		Box A(0, 180, 10, 10, 5, 0);
-		Box B(180, 180, 19, 10);
-		A.x += 180;
-		Box temp = GetSweptBroadphaseBox(A);
-		if (AABBCheck(temp, B))
-		{
-			MessageBox(_hWnd, "thong bao", "va cham", MB_OK);
-			float normalx, normaly;
-			float collisiontime = SweptAABB(A, B, OUT normalx, OUT normaly);
-			A.x += A.vx*collisiontime;
-			if (collisiontime < 1.0f)
-			{
-				MessageBox(_hWnd, "thong bao", "va cham", MB_OK);
-			}
-		}
-		//CollisionHanding(t);
+		CollisionHanding(t);
 		
 		//_keyboard->GetKey();
 }
@@ -220,7 +201,7 @@ void CMarioSample::LoadSprite()
 {
 	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
 	_sprites[S_BMARIO] = new CSprite(_SpriteHandler, BMARIO_IMAGE, 16, 32, 8, 8);
-	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 128, 128, 1, 1);
+	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 1, 1);
 	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3);
 	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4);
 	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 32, 32, 2, 2);
@@ -231,7 +212,7 @@ void CMarioSample::LoadSprite()
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10);
 	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 16, 4, 4);
 	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2);
-	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 128, 128, 1, 1);
+	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 17, 16, 8, 8);
 	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
 }
 typedef struct SRC {
@@ -336,26 +317,17 @@ void CMarioSample::CollisionHanding(int t)
 	BaseObject* temp= _col->GetSweptBroadphaseBox(mario);
 	if (_col->AABBCheck(temp, testBrick))
 	{
-	//	MessageBox(_hWnd, "Va cham", "Thong bao", MB_5OK);
-		float normalx = 0; 
-		float normaly = 0;
-		float collisiontime = _col->SweptAABB(mario, testBrick, normalx, normaly);
-		mario->_x += mario->_vx * collisiontime * t;
-		mario->_y += mario->_vy * collisiontime * t;
-		if (collisiontime < 1.0f)
-		{
-			MessageBox(_hWnd, "va cham", "Thong bao", MB_OK);
-		}
+		if (_col->AABB(mario, testBrick) == LEFT)
+			mario->_x = testBrick->_x -mario->_width;
+		if (_col->AABB(mario, testBrick) == RIGHT)
+			mario->_x = testBrick->_x + testBrick->_width;
+		if (_col->AABB(mario, testBrick) == TOP)
+			mario->_vx = -1;
+		if (_col->AABB(mario, testBrick) == BOTTOM)
+			mario->_vx = -1;
 	}
 	//
 	
 
 }
 
-
-
-//void CMarioSample::RenderMenu(LPDIRECT3DDEVICE9 d3ddv)
-//{
-//	_marioMenu->Render(_marioMenuX, _marioMenuY, _camera->_cameraX, _camera->_cameraY, 1);
-//	d3ddv->StretchRect(_title, NULL, _BackBuffer, NULL, D3DTEXF_NONE);
-//}

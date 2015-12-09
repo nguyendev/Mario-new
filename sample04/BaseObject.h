@@ -33,7 +33,6 @@ public:
 	BaseObject();
 	BaseObject(float xWorld, float yWorld, float cameraX, float cameraY);
 	~BaseObject();
-
 	virtual void Update(int t){};
 	virtual void Render(){};
 };
