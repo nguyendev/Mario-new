@@ -8,9 +8,9 @@
 #include <string.h>
 #include "Global.h"
 #include "Mario.h"
+#include "SweptAABB.h"
 
-#define MENU_MAX 160
-#define MENU_MIN  148
+
 
 
 
@@ -22,11 +22,13 @@ CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 	_audio = new Audio(_hWnd);
 	_camera = new Camera();
 	_writer = new Writer();
-	_keyboard = new KeyBoard(_hWnd, hInstance);
+	///_keyboard = new KeyBoard(_hWnd, hInstance);
 	for (int i = 0; i < 20; i++)
 		_sprites[i] = NULL;
-	_marioMenuY = 148;
-	_marioMenuX = 100;
+	_menuGame = new MenuGame();
+	/*_marioMenuY = 148;
+	_marioMenuX = 100;*/
+	//_keyboard->GetKey();
 }
 
 CMarioSample::~CMarioSample()
@@ -42,21 +44,22 @@ void CMarioSample::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv,&_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv,&_SpriteHandler);
-
-	
 	D3DXCreateFont(_d3ddv, 30, 0, FW_BOLD, 0, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("SuperMarioBros"), &_fontArial);
 	
 	LoadSprite();
-	LoadMap();
+	//LoadMap();
 	LoadAudio();
 	mario = new Mario(0, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
 	testBrick2 = new Brick(180, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_BRICK]);
 	testBrick = new Brick(180, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_BRICK]);
-	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
+	
 	_state = GS_MENU;
 	timegame = 300; 
 	wait1Sec = 0;
-	_title  =   _writer->CreateSurface("Image\\imgbgMenu.png", d3ddv);
+	_menuGame->LoadMenuGame(d3ddv, _SpriteHandler, _writer);
+	//_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
+	//_title  =   _writer->CreateSurface("Image\\imgbgMenu.png", d3ddv);
+
 }
 
 void CMarioSample::UpdateWorld(int t)
@@ -67,8 +70,29 @@ void CMarioSample::UpdateWorld(int t)
 			wait1Sec -= 1;
 			timegame--;
 		}
-		//CollisionHanding();
+		if (true)
+		{
+		
+		}
 		mario->Update(t);
+		Box A(0, 180, 10, 10, 5, 0);
+		Box B(180, 180, 19, 10);
+		A.x += 180;
+		Box temp = GetSweptBroadphaseBox(A);
+		if (AABBCheck(temp, B))
+		{
+			MessageBox(_hWnd, "thong bao", "va cham", MB_OK);
+			float normalx, normaly;
+			float collisiontime = SweptAABB(A, B, OUT normalx, OUT normaly);
+			A.x += A.vx*collisiontime;
+			if (collisiontime < 1.0f)
+			{
+				MessageBox(_hWnd, "thong bao", "va cham", MB_OK);
+			}
+		}
+		//CollisionHanding(t);
+		
+		//_keyboard->GetKey();
 }
 void CMarioSample::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 {
@@ -77,7 +101,7 @@ void CMarioSample::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 	{
 		case GS_MENU:
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
-			RenderMenu(d3ddv);
+			_menuGame->RenderMenu(d3ddv,_camera->_cameraX,_camera->_cameraY,_BackBuffer);
 			
 			break;
 		case GS_PLAYING:
@@ -108,43 +132,38 @@ void CMarioSample::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int t)
 	switch (_state)
 	{
 	case GS_MENU:
-		if (IsKeyDown(DIK_Q))
+		if (KeyDown(DIK_Q))
 			PostQuitMessage(0);
-		else if (IsKeyDown(DIK_DOWN))
+
+		else if (KeyPress(DIK_DOWN))
 		{
-			_marioMenuX += 40;
-			if (_marioMenuY >= MENU_MAX)
-			{
-				_marioMenuY = MENU_MIN;
-			}
+			_menuGame->_marioMenuY += MENU_INCREASE;
+			if (_menuGame->_marioMenuY > MENU_MAX)
+				_menuGame->_marioMenuY = MENU_MIN;
 		}
-		else if (IsKeyDown(DIK_UP))
+		else if (KeyPress(DIK_UP))
 		{
-			_marioMenuY -= 40;
-			if (_marioMenuY <= MENU_MIN)
-			{
-				_marioMenuY = MENU_MAX;
-			}
+			_menuGame->_marioMenuY -= MENU_INCREASE;
+			if (_menuGame->_marioMenuY < MENU_MIN)
+				_menuGame->_marioMenuY = MENU_MAX;
 		}
-		else if (IsKeyDown(DIK_RETURN))
+		else if (KeyPress(DIK_RETURN))
 		{
-			if (_marioMenuY == MENU_MIN)
-			{
+			if(_menuGame->_marioMenuY = MENU_MIN)
 				_state = GS_PLAYING;
-			}
-			else
+			else if (_menuGame->_marioMenuY = MENU_MAX)
 				_state = GS_PLAYING;
 		}
 		break;
 
 	case GS_PLAYING:
-		if (IsKeyDown(DIK_RIGHT))
+		if (KeyDown(DIK_RIGHT))
 		{
 			mario->_vx = MARIO_SPEED;
 			mario->_vx_last = mario->_vx;
 		}
 		else
-		if (IsKeyDown(DIK_LEFT))
+		if (KeyDown(DIK_LEFT))
 		{
 			mario->_vx = -MARIO_SPEED;
 			mario->_vx_last = mario->_vx;
@@ -154,7 +173,7 @@ void CMarioSample::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int t)
 			mario->_vx = 0;
 			mario->_sprite->Reset();
 		}
-		if (IsKeyDown(DIK_Q))
+		if (KeyDown(DIK_Q))
 			PostQuitMessage(0);
 		break;
 	}
@@ -166,12 +185,10 @@ void CMarioSample::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 		case DIK_SPACE:
-			if (mario->_y <= GROUND_Y) mario->_vy+=JUMP_VELOCITY_BOOST;			// start jump if is not "on-air"
+			if (mario->_y >= GROUND_Y) mario->_vy-=JUMP_VELOCITY_BOOST;			// start jump if is not "on-air"
 			break;
 	}
 }
-
-
 
 //Load Resources
 void CMarioSample::LoadAudio()
@@ -203,7 +220,7 @@ void CMarioSample::LoadSprite()
 {
 	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
 	_sprites[S_BMARIO] = new CSprite(_SpriteHandler, BMARIO_IMAGE, 16, 32, 8, 8);
-	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 8, 8);
+	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 128, 128, 1, 1);
 	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3);
 	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4);
 	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 32, 32, 2, 2);
@@ -214,7 +231,7 @@ void CMarioSample::LoadSprite()
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10);
 	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 16, 4, 4);
 	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2);
-	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 16, 16, 8, 8);
+	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 128, 128, 1, 1);
 	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
 }
 typedef struct SRC {
@@ -314,52 +331,31 @@ void CMarioSample::LoadMap()
 	}
 	fclose(pFile);
 }
-void CMarioSample::CollisionHanding()
+void CMarioSample::CollisionHanding(int t)
 {
-	
-	/*if (collisiontime < 1.0f)
+	BaseObject* temp= _col->GetSweptBroadphaseBox(mario);
+	if (_col->AABBCheck(temp, testBrick))
 	{
-		if (normalx == -1.0f)
-			MessageBox(_hWnd, "va cham nomarlx -1", "INFO", MB_OKCANCEL);
-		else if (normaly == 1.0f)
-			MessageBox(_hWnd, "va cham nomarly 1", "INFO", MB_OKCANCEL);
-		else if (normalx == -1.0f)
-			MessageBox(_hWnd, "va cham normalx -1", "INFO", MB_OKCANCEL);
-		else if (normaly == 1.0f)
-			MessageBox(_hWnd, "va cham normaly 1", "INFO", MB_OKCANCEL);
-	}*/
-	if (_col->AABBCheck(mario, testBrick))
-	{
-		float normalx;
-		float normaly;
-		float collisiontime = _col->SweptAABB(mario, testBrick, OUT normalx, OUT normaly);
-		//mario->_x += mario->_vx * collisiontime;
-		////mario->_y += mario->_vy * collisiontime;
-		//float remainingtime = 1.0f - collisiontime;
-
+	//	MessageBox(_hWnd, "Va cham", "Thong bao", MB_5OK);
+		float normalx = 0; 
+		float normaly = 0;
+		float collisiontime = _col->SweptAABB(mario, testBrick, normalx, normaly);
+		mario->_x += mario->_vx * collisiontime * t;
+		mario->_y += mario->_vy * collisiontime * t;
 		if (collisiontime < 1.0f)
 		{
-			/*if (normalx == -1.0f)
-				MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
-			else if (normaly == 1.0f)
-				MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
-			else if (normalx == -1.0f)
-				MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
-			else if (normaly == 1.0f)*/
-				MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
+			MessageBox(_hWnd, "va cham", "Thong bao", MB_OK);
 		}
-		MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
-		//MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
-		
 	}
-	//	MessageBox(_hWnd, "va cham", "INFO", MB_OKCANCEL);
+	//
+	
 
 }
 
 
 
-void CMarioSample::RenderMenu(LPDIRECT3DDEVICE9 d3ddv)
-{
-	_marioMenu->Render(_marioMenuX, _marioMenuY, _camera->_cameraX, _camera->_cameraY, 1);
-	d3ddv->StretchRect(_title, NULL, _BackBuffer, NULL, D3DTEXF_NONE);
-}
+//void CMarioSample::RenderMenu(LPDIRECT3DDEVICE9 d3ddv)
+//{
+//	_marioMenu->Render(_marioMenuX, _marioMenuY, _camera->_cameraX, _camera->_cameraY, 1);
+//	d3ddv->StretchRect(_title, NULL, _BackBuffer, NULL, D3DTEXF_NONE);
+//}

@@ -21,6 +21,13 @@ void Mario::Move(int t)
 {
 	_x +=_vx * t;
 	_y += _vy * t;
+	if (_y < GROUND_Y) 
+		_vy += FALLDOWN_VELOCITY_DECREASE;
+	else 
+	{
+		_y = GROUND_Y;
+		_vy = 0;
+	}
 }
 void Mario::Update(int t)
 {

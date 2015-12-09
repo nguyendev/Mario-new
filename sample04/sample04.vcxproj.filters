@@ -11,6 +11,12 @@
     <Filter Include="Game">
       <UniqueIdentifier>{dbcd08cb-530f-477f-8cf9-e7c208767d6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\State">
+      <UniqueIdentifier>{cdb2376c-3c92-4eaa-a856-2a18998a5dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Static">
+      <UniqueIdentifier>{009b07c0-6939-47df-b8e4-2bafb1924bb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">
@@ -25,9 +31,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="sprite.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -37,22 +40,36 @@
     <ClCompile Include="utils.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="mario_sample.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Cloud.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="dsutil.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Writer.cpp" />
-    <ClCompile Include="KeyBoard.cpp" />
+    <ClCompile Include="mario_sample.cpp">
+      <Filter>Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuGame.cpp">
+      <Filter>Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyBoard.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Writer.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -76,27 +93,41 @@
     <ClInclude Include="sprite.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="mario_sample.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Cloud.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="dsutil.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h" />
     <ClInclude Include="dxutil.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Writer.h" />
-    <ClInclude Include="KeyBoard.h" />
+    <ClInclude Include="MenuGame.h">
+      <Filter>Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="mario_sample.h">
+      <Filter>Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBoard.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Writer.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SweptAABB.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

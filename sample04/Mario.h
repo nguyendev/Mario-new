@@ -1,6 +1,12 @@
 #include "Camera.h"
 #include "BaseObject.h"
 #include "sprite.h"
+
+#define GROUND_Y 180
+#define JUMP_VELOCITY_BOOST 0.4f
+#define FALLDOWN_VELOCITY_DECREASE 0.5f
+#define MARIO_SPEED 0.2f
+
 class Mario: public BaseObject
 {
 public:

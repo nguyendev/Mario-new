@@ -10,7 +10,7 @@
 #include "Camera.h"
 #include "Audio.h"
 #include "Writer.h"
-#include "KeyBoard.h"
+#include "MenuGame.h"
 
 
 class CMarioSample: public CGame
@@ -34,7 +34,6 @@ public:
 	int _countI = 0;
 	KeyBoard* _keyboard;
 
-
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
 	float wait1Sec;
@@ -52,7 +51,7 @@ protected:
 	void Update(LPDIRECT3DDEVICE9 d3ddv, int Delta);
 	void RenderBackground(int view_port_x, int view_port_y);
 	
-	void CollisionHanding();
+	void CollisionHanding(int t);
 	
 
 	//Load Resource-----------
@@ -66,10 +65,11 @@ protected:
 	void LoadMap();
 
 
-	CSprite* _marioMenu;
-	int _marioMenuX;
-	int _marioMenuY;
-	void RenderMenu(LPDIRECT3DDEVICE9);
+	MenuGame * _menuGame;
+	//CSprite* _marioMenu;
+	//int _marioMenuX;
+	//int _marioMenuY;
+	//void RenderMenu(LPDIRECT3DDEVICE9);
 
 };
 #endif

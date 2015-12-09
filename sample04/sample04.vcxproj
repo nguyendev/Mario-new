@@ -103,6 +103,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="mario_sample.cpp" />
+    <ClCompile Include="MenuGame.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="trace.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -122,7 +123,9 @@
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="mario_sample.h" />
+    <ClInclude Include="MenuGame.h" />
     <ClInclude Include="sprite.h" />
+    <ClInclude Include="SweptAABB.h" />
     <ClInclude Include="trace.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Writer.h" />

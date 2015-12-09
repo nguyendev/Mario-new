@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <dinput.h>
+#include "KeyBoard.h"
 
 //
 // Screen resolution
@@ -30,12 +31,11 @@ protected:
 	LPDIRECTINPUTDEVICE8 _Keyboard;	// The keyboard device 
 
 	BYTE  _KeyStates[256];			// DirectInput keyboard state buffer 
-
+	char KeyPressState[256];
 	// Buffered keyboard data
 	DIDEVICEOBJECTDATA _KeyEvents[ KEYBOARD_BUFFER_SIZE ];
 
 	void _Init();
-	
 	DWORD _DeltaTime;		// Time between the last frame and current frame
 	int _Mode;				// Screen mode 
 	int _IsFullScreen;		// Is running in fullscreen mode?
@@ -71,7 +71,9 @@ protected:
 	void _RenderFrame();
 
 	void _ProcessKeyBoard();
-	int IsKeyDown(int KeyCode);
+	bool KeyDown(int KeyCode);
+	bool KeyUp(int KeyCode);
+	bool KeyPress(int KeyCode);
 
 	//
 	// Place holder for child classes
@@ -88,7 +90,7 @@ public:
 	LPDIRECT3D9 GetDirectX();
 	LPDIRECT3DDEVICE9 GetDevice();
 	LPDIRECT3DSURFACE9 GetBackBuffer();
-
+	KeyBoard *_keyboard;
 	int GetMode();
 
 	int GetScreenWidth();

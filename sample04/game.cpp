@@ -10,7 +10,7 @@ CGame::CGame(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int F
 
 	_di = NULL;
 	_Keyboard = NULL;
-
+	_keyboard = NULL;
 	_Mode = Mode;
 	_SetScreenDimension(Mode);
 	_Name = Name;
@@ -194,7 +194,9 @@ void CGame::_InitKeyboard()
 
 	hr = _Keyboard->Acquire(); 
 	if (hr!=DI_OK) return;
-
+	for (int i = 0; i < 256; i++){
+		KeyPressState[i] = 0;
+	}
 	trace(L"Keyboard has been acquired successfully");
 }
 void CGame::Init()
@@ -202,6 +204,7 @@ void CGame::Init()
 	_InitWindow();
 	_InitDirectX();
 	_InitKeyboard();
+	//_keyboard = new KeyBoard(_hWnd, _hInstance);
 	LoadResources(_d3ddv);
 }
 
@@ -210,7 +213,7 @@ void CGame::_ProcessKeyBoard()
 		// Collect all key states first
 		_Keyboard->GetDeviceState( sizeof(_KeyStates), _KeyStates);
 
-		if (IsKeyDown(DIK_ESCAPE)) 
+		if (KeyDown(DIK_ESCAPE)) 
 		{
 			trace(L"Escape key pressed!");
 			PostMessage(_hWnd,WM_QUIT,0,0);
@@ -230,6 +233,7 @@ void CGame::_ProcessKeyBoard()
 			else 
 				OnKeyUp(KeyCode);
 		}
+		
 }
 
 // Main game message loop
@@ -308,12 +312,48 @@ CGame::~CGame()
     if (_di) _di->Release();
 }
 
-int CGame::IsKeyDown(int KeyCode)
+bool CGame::KeyDown(int KeyCode)
 {
-	return (_KeyStates[KeyCode] & 0x80) > 0;
+	if (_KeyStates[KeyCode] & 0x80)
+		return true;
+	else
+		return false;
+}
+bool CGame::KeyUp(int KeyCode)
+{
+	if (_KeyStates[KeyCode] & 0x80)
+		return false;
+	else
+		return true;
 }
 
-void CGame::OnKeyUp(int KeyCode) { }
+bool CGame::KeyPress(int KeyCode)
+{
+	//check for keydown
+	if (KeyDown(KeyCode)){
+		KeyPressState[KeyCode] = 1;
+	}
+	if (KeyPressState[KeyCode] == 1){
+		//check for key release
+		if (KeyUp(KeyCode))
+			KeyPressState[KeyCode] = 2;
+	}
+
+	//check if key has been pressed and released
+	if (KeyPressState[KeyCode] == 2){
+		//reset the key status
+		KeyPressState[KeyCode] = 0;
+		return true;
+	}
+
+	return false;
+}
+
+void CGame::OnKeyUp(int KeyCode) {}
+//int CGame::IsKeyUp(int KeyCode)
+//{
+//	return(_KeyStates[KeyCode] & 0x80) <0
+//}
 void CGame::OnKeyDown(int KeyCode) { }
 
 LRESULT CALLBACK CGame::_WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

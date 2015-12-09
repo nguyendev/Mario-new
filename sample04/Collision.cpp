@@ -2,7 +2,7 @@
 #include <limits>
 #include <algorithm>
 
-float Collision::SweptAABB(BaseObject* b1, BaseObject* b2, float& normalx, float &normaly)
+float Collision::SweptAABB(BaseObject* b1, BaseObject* b2, float &normalx, float &normaly)
 {
 	float xInvEntry, yInvEntry;
 	float xInvExit, yInvExit;

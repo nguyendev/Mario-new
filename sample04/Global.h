@@ -48,12 +48,10 @@
 #define MARIO_DEEP			0.9
 
 
-#define MARIO_SPEED 0.2f
+
 #define ANIMATE_RATE 60
 
-#define GROUND_Y 100
-#define JUMP_VELOCITY_BOOST 3.0f
-#define FALLDOWN_VELOCITY_DECREASE 0.5f
+
 enum DIRECT
 {
 	LEFT,
