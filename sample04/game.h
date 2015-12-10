@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <dinput.h>
-#include "KeyBoard.h"
 
 //
 // Screen resolution
@@ -90,7 +89,6 @@ public:
 	LPDIRECT3D9 GetDirectX();
 	LPDIRECT3DDEVICE9 GetDevice();
 	LPDIRECT3DSURFACE9 GetBackBuffer();
-	KeyBoard *_keyboard;
 	int GetMode();
 
 	int GetScreenWidth();

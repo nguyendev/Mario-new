@@ -1,3 +1,5 @@
+#ifndef _COLLISION_H_
+#define _COLLISION_H_
 #include "BaseObject.h"
 #include "Global.h"
 class Collision
@@ -11,4 +13,5 @@ public:
 	~Collision(){};
 
 };
+#endif _COLLISION_H_
 

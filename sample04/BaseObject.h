@@ -4,14 +4,13 @@
 #include <d3dx9.h>
 #include <list>
 #include <fstream>
+#include "KeyBoard.h"
 using namespace std;
 
 class CSprite;
 class BaseObject
 {
 public:
-
-
 	// Thông tin cơ bản
 	float _x;		//postion x
 	float _y;		//postion y
@@ -23,16 +22,15 @@ public:
 	float _cameraX;
 	float _cameraY;
 	int _ID;
-
 	RECT _rect;
 
 	//Information render
-
 	CSprite* _sprite;
 
 	BaseObject();
 	BaseObject(float xWorld, float yWorld, float cameraX, float cameraY);
 	~BaseObject();
+	virtual void ProcessInput(KeyBoard* keyboard){};
 	virtual void Update(int t){};
 	virtual void Render(){};
 };

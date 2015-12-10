@@ -46,12 +46,6 @@
     <ClCompile Include="dsutil.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="mario_sample.cpp">
-      <Filter>Game\State</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuGame.cpp">
-      <Filter>Game\State</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
@@ -68,6 +62,9 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMario.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,12 +99,6 @@
     <ClInclude Include="dxutil.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="MenuGame.h">
-      <Filter>Game\State</Filter>
-    </ClInclude>
-    <ClInclude Include="mario_sample.h">
-      <Filter>Game\State</Filter>
-    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
@@ -126,8 +117,8 @@
     <ClInclude Include="Mario.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="SweptAABB.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="GameMario.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

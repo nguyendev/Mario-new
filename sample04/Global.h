@@ -46,7 +46,7 @@
 #define PIPE_DEEP			0.5
 #define PIRHANA_DEEP		0.5
 #define MARIO_DEEP			0.9
-
+#define KEYBOARD_BUFFER_SIZE	1024
 
 
 #define ANIMATE_RATE 60

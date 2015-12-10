@@ -10,7 +10,6 @@ CGame::CGame(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int F
 
 	_di = NULL;
 	_Keyboard = NULL;
-	_keyboard = NULL;
 	_Mode = Mode;
 	_SetScreenDimension(Mode);
 	_Name = Name;
@@ -203,7 +202,7 @@ void CGame::Init()
 {
 	_InitWindow();
 	_InitDirectX();
-	_InitKeyboard();
+	//_InitKeyboard();
 	//_keyboard = new KeyBoard(_hWnd, _hInstance);
 	LoadResources(_d3ddv);
 }
@@ -266,7 +265,7 @@ void CGame::Run()
 			_RenderFrame();
 		}
 
-		_ProcessKeyBoard();
+		//_ProcessKeyBoard();
 
 		ProcessInput(_d3ddv, _DeltaTime);
 	}

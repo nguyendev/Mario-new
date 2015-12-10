@@ -14,6 +14,7 @@
     <ProjectGuid>{C007529A-BB85-457C-ADAD-6D6834AFE16A}</ProjectGuid>
     <RootNamespace>input_sample</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>GameMario</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -102,8 +103,7 @@
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
-    <ClCompile Include="mario_sample.cpp" />
-    <ClCompile Include="MenuGame.cpp" />
+    <ClCompile Include="GameMario.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="trace.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -122,10 +122,8 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mario.h" />
-    <ClInclude Include="mario_sample.h" />
-    <ClInclude Include="MenuGame.h" />
+    <ClInclude Include="GameMario.h" />
     <ClInclude Include="sprite.h" />
-    <ClInclude Include="SweptAABB.h" />
     <ClInclude Include="trace.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Writer.h" />
