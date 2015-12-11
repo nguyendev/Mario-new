@@ -1,10 +1,7 @@
 #include "Writer.h"
+#include "Brick.h"
 
-
-Writer::Writer()
-{
-}
-void Writer::DrawTextAdvanced(LPCWSTR text, int x, int y, int width, int height, D3DXCOLOR color, LPD3DXFONT font)
+void DrawTextAdvanced(LPCWSTR text, int x, int y, int width, int height, D3DXCOLOR color, LPD3DXFONT font)
 {
 	RECT rect;
 	rect.left = x;
@@ -13,15 +10,11 @@ void Writer::DrawTextAdvanced(LPCWSTR text, int x, int y, int width, int height,
 	rect.bottom = y + height;
 	font->DrawTextW(NULL, (LPCWSTR)text, -1, &rect, 0, color);
 }
-
-Writer::~Writer()
-{
-}
-void Writer::DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
+void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
 {
 	DrawNumber(sprite, number, x, y,vpx, vpy,1,1);
 }
-LPDIRECT3DSURFACE9 Writer::CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
+LPDIRECT3DSURFACE9 CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
 {
 	D3DXIMAGE_INFO imageInfo;
 	D3DXGetImageInfoFromFile(filePath, &imageInfo);
@@ -30,7 +23,7 @@ LPDIRECT3DSURFACE9 Writer::CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv
 	D3DXLoadSurfaceFromFile(rSurface, NULL, NULL, filePath, NULL, D3DX_DEFAULT, 0, NULL);
 	return rSurface;
 }
-void Writer::DrawNumber(CSprite* sprite, int number, int x, int y,int vpx, int vpy, char zoomX, char zoomY)
+void DrawNumber(CSprite* sprite, int number, int x, int y,int vpx, int vpy, char zoomX, char zoomY)
 {
 	char temp;
 	RECT rSrc;
@@ -46,4 +39,101 @@ void Writer::DrawNumber(CSprite* sprite, int number, int x, int y,int vpx, int v
 		sprite->Render(x, y,vpx, vpy, zoomX, zoomY, rSrc, 1);
 		x -= numWidth;
 	} while (number>0);
+}
+typedef struct SRC {
+	int id;
+	int srcX;
+	int srcY;
+};
+void ReadMap(char* fileName, bool isBright, CGameMario* game)
+{
+	Camera*  _camera;
+	int _count;
+	FILE * pFile;
+	BaseObject* obj = NULL;
+	int m = 0;
+	int i = 0, j = 0;
+
+	pFile = fopen("MAP1.ptl", "r");
+	long a[200][1000];
+	SRC t[2000];
+	char ch;
+	string s = "";
+	bool kt = true;
+	while (EOF != (ch = getc(pFile)))
+	{
+		if (ch != ' ' && ch != '\n')
+		{
+			s = s + ch;
+		}
+		if (' ' == ch && s != "")
+		{
+			a[i][j] = atoi(s.c_str());
+			j++;
+			s = "";
+			kt = true;
+		}
+		if ('\n' == ch)
+		{
+			if (s != ""){
+				a[i][j] = atoi(s.c_str());
+				j++;
+
+			}
+			m = j;
+			j = 0;
+			i++;
+			s = "";
+			kt = true;
+		}
+	}
+	int n = i;
+	i = 0;
+	for (int k = 0; k < n; k++)
+	{
+		for (int l = 0; l < m; l++)
+		{
+
+			if (a[k][l] == 0)
+				continue;
+			else
+			{
+				t[i].srcX = l + 1;
+				t[i].srcY = k + 1;
+				t[i].id = a[k][l];
+				i++;
+			}
+			_count = i;
+		}
+	}
+	for (int i = 0; i < _count; i++)
+	{
+		switch (t[i].id)
+		{
+			//case 28: case 29:
+			//	_staticObjs[i] = new Mountain(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_MOUNTAIN]);
+			//	i++;
+			//	break;
+			//case 25: case 26: case 27:
+			//	_staticObjs[i] = new Cloud(PIXEL * (t.srcX), PIXEL * (t.srcY), 40, 40, vx, vy, t.id, _sprites[S_CLOUD]);
+			//	i++;
+			//case 11: case 12: case 13:
+			//	_staticObjs[i] = new Grass(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_GRASS]);
+			//	i++;
+			//	break;
+			//case 22:
+			//	_staticObjs[i] = new Ground(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_BASIC]);
+			//	i++;
+			//	break;
+			//	/*case 23:
+			//	_staticObjs[i] = new Castle(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_CLOUD]);
+			//	i++;
+			//	break;*/
+		default:
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			break;
+		}
+		game->staticObjs.push_back(obj);
+	}
+	fclose(pFile);
 }

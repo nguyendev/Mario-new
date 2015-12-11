@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "BaseObject.h"
 #include "sprite.h"
+#include "Collision.h"
 #define GROUND_Y 180
 #define JUMP_VELOCITY_BOOST 0.4f
 #define FALLDOWN_VELOCITY_DECREASE 0.5f
@@ -16,6 +17,7 @@ public:
 	void Update(int t);
 	void Render();
 	void ProcessInput(KeyBoard* _keyboard);
+	void CollisionTemp(BaseObject *);
 	~Mario();
 };
 

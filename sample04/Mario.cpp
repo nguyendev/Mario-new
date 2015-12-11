@@ -71,3 +71,16 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 		_sprite->Reset();
 	}
 }
+void Mario::CollisionTemp(BaseObject* obj)
+{
+	BaseObject* temp = GetSweptBroadphaseBox(this);
+	if (AABBCheck(temp, obj))
+	{
+		if (AABB(this, obj) == LEFT);
+		_x = obj->_x - _width - 1;
+		if (AABB(this, obj) == RIGHT);
+		//mario->_x = testBrick->_x + testBrick->_width+1;
+		if (AABB(this, obj) == TOP);
+		if (AABB(this, obj) == BOTTOM);
+	}
+}

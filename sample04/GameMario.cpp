@@ -3,11 +3,11 @@
 #include "GameMario.h"
 #include "utils.h"
 #include "Brick.h"
-#include "Cloud.h"
 #include <string>
 #include <string.h>
 #include "Global.h"
 #include "Mario.h"
+#include "Writer.h"
 #define MENU_MAX 170
 #define MENU_MIN  149
 #define MENU_INCREASE 17
@@ -17,10 +17,8 @@ CGameMario::CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScr
 CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 {
 	//Framework............................
-	_col = new Collision();
 	_audio = new Audio(_hWnd);
 	_camera = new Camera();
-	_writer = new Writer();
 	_keyboard = new KeyBoard(_hWnd, hInstance);
 	//--------------------------------------
 	for (int i = 0; i < 20; i++)
@@ -35,8 +33,6 @@ CGameMario::~CGameMario()
 {
 	delete _audio;
 	delete _camera;
-	delete _writer;
-	delete _col;
 }
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
@@ -50,30 +46,44 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	//LoadMap();
 	LoadAudio();
 	_state = _curState =  GS_MENU;
-	timegame = 300; 
 	wait1Sec = 0;
 
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
-	_title = _writer->CreateSurface("Image\\imgbgMenu.png", d3ddv);
+	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
 
 	_mario = new Mario(0, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
-	_testBrick2 = new Brick(180, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_BRICK]);
-	_testBrick = new Brick(180, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_BRICK]);
+	_testBrick2 = new Brick(180, 150, _camera->_cameraX, _camera->_cameraY, 5, _sprites[S_BRICK]);
+	_testBrick = new Brick(180, 180, _camera->_cameraX, _camera->_cameraY, 5, _sprites[S_BRICK]);
+	ReadMap("a", true, this);
 }
 
 void CGameMario::UpdateWorld(int t)
 {
-		wait1Sec += 0.05;
-		if (wait1Sec>1)
-		{
-			wait1Sec -= 1;
-			timegame--;
-		}
-		mario->Update(t);
+	switch (_state)
+	{
+		case GS_MENU:
+			//if (isLoad == false)
+				//ChangeMap(1,isLoad);
+			break;
+		case GS_PLAYING:
+
+			wait1Sec += 0.05;
+			if (wait1Sec>1)
+			{
+				wait1Sec -= 1;
+				_timeGame--;
+			}
+			_mario->CollisionTemp(_testBrick);
+			_mario->Update(t);
+			break;
+	}
+		
 }
 void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 {
+	BaseObject* obj;
+	list<BaseObject*>::iterator i;
 	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 	switch (_state)
 	{
@@ -87,10 +97,11 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 			_audio->PlaySound(_sound_GameOver);
 			_camera->Update(_mario);
 			//_writer->DrawTextAdvanced(L"YOU WON !", 100, 300, 800, 200, D3DCOLOR_XRGB(255, 255, 255), _fontArial);
-			_writer->DrawNumber(_sprites[S_NUMBER], timegame, 150, 20, 0, 0);
-			for (int i = 0; i < _countI; i++)
+			DrawNumber(_sprites[S_NUMBER], _timeGame, 150, 20, 0, 0);
+			for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 			{
-				_staticObjs[i]->Render();
+				obj = *i;
+				obj->Render();
 			}
 			_mario->Render();
 			_testBrick->Render();
@@ -141,16 +152,6 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int t)
 	
 }
 
-void CGameMario::OnKeyDown(int KeyCode)
-{
-	switch (KeyCode)
-	{
-		//case DIK_SPACE:
-		//	if (mario->_y >= GROUND_Y) mario->_vy-=JUMP_VELOCITY_BOOST;			// start jump if is not "on-air"
-		//	break;
-	}
-}
-
 //Load Resources
 void CGameMario::LoadAudio()
 {
@@ -195,119 +196,27 @@ void CGameMario::LoadSprite()
 	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 17, 16, 8, 8);
 	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
 }
-typedef struct SRC {
-	int id;
-	int srcX;
-	int srcY;
-};
-void CGameMario::LoadMap()
+void CGameMario::ChangeMap(int Map, bool sLoad)
 {
-	FILE * pFile;
-	FILE * sFile;
-
-	int m = 0;
-	int i = 0, j = 0;
-
-	pFile = fopen("MAP1.ptl", "r");
-	long a[200][1000];
-
-	char ch;
-	string s = "";
-	if (pFile == NULL)
+	_timeGame = 300;
+	_Map = Map;
+	isLoad = sLoad;
+	switch (_Map)
 	{
-		MessageBox(_hWnd, "File khong ton tai", MARIO_VOID, MB_OK);
-		return;
+	case 1:
+		ReadMap("Map\\World1-1.mm", true, this);
+		//ReadMap("Map\\Test.mm",true,this);
+		break;
+	case 2:
+		ReadMap("Map\\World1-2.mm", false, this);
+		break;
+	case 3:
+		ReadMap("Map\\World1-3.mm", true, this);
+		break;
 	}
-	bool kt = true;
-	while (EOF != (ch = getc(pFile)))
-	{
-		if (ch != ' ' && ch != '\n')
-		{
-			s = s + ch;
-		}
-		if (' ' == ch && s != "")
-		{
-			a[i][j] = atoi(s.c_str());
-			j++;
-			s = "";
-			kt = true;
-		}
-		if ('\n' == ch)
-		{
-			if (s != ""){
-				a[i][j] = atoi(s.c_str());
-				j++;
-
-			}
-			m = j;
-			j = 0;
-			i++;
-			s = "";
-			kt = true;
-		}
-	}
-	int n = i;
-	i = 0;
-	for (int k = 0; k < n; k++)
-	{
-		for (int l = 0; l < m; l++)
-		{
-			if (a[k][l] == 0)
-				continue;
-			else
-			{
-				SRC t;
-				t.srcX = l + 1;
-				t.srcY = k + 1;
-				t.id = a[k][l];
-				switch (a[k][l])
-				{
-					//case 28: case 29:
-					//	_staticObjs[i] = new Mountain(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_MOUNTAIN]);
-					//	i++;
-					//	break;
-					//case 25: case 26: case 27:
-					//	_staticObjs[i] = new Cloud(PIXEL * (t.srcX), PIXEL * (t.srcY), 40, 40, vx, vy, t.id, _sprites[S_CLOUD]);
-					//	i++;
-					//case 11: case 12: case 13:
-					//	_staticObjs[i] = new Grass(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_GRASS]);
-					//	i++;
-					//	break;
-					//case 22:
-					//	_staticObjs[i] = new Ground(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_BASIC]);
-					//	i++;
-					//	break;
-					//	/*case 23:
-					//	_staticObjs[i] = new Castle(PIXEL * (t.srcX), PIXEL * (t.srcY), 0, 0, vx, vy, t.id, _sprites[S_CLOUD]);
-					//	i++;
-					//	break;*/
-				default:
-					_staticObjs[i] = new Brick(PIXEL * (t.srcX), PIXEL * (t.srcY), _camera->_cameraX, _camera->_cameraY, t.id, _sprites[S_BRICK]);
-					i++;
-					break;
-				}
-			}
-			_countI = i;
-		}
-	}
-	fclose(pFile);
+	isLoad = false;
+	//if (_Map<4)
+	//	ChangeState(GS_PLAYING);
+	//else ChangeState(GS_WIN);
 }
-//void CGameMario::CollisionHanding(int t)
-//{
-//	BaseObject* temp= _col->GetSweptBroadphaseBox(mario);
-//	if (_col->AABBCheck(temp, testBrick))
-//	{
-//		if (_col->AABB(mario, testBrick) == LEFT)
-//			mario->_x = testBrick->_x -mario->_width;
-//		if (_col->AABB(mario, testBrick) == RIGHT)
-//			mario->_x = testBrick->_x + testBrick->_width;
-//		if (_col->AABB(mario, testBrick) == TOP)
-//			mario->_vx = -1;
-//		if (_col->AABB(mario, testBrick) == BOTTOM)
-//			mario->_vx = -1;	
-//	}
-//	//
-//	
-//
-//}
 

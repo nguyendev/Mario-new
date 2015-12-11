@@ -9,7 +9,7 @@
 #include "Collision.h"
 #include "Camera.h"
 #include "Audio.h"
-#include "Writer.h"
+
 
 
 class CGameMario: public CGame
@@ -20,20 +20,17 @@ public:
 
 	LPD3DXSPRITE _SpriteHandler;
 	CSprite * _sprites[20];
-	Collision* _col;
 	BaseObject* _staticObjs[1000];
-
+	list<BaseObject*> staticObjs;
 	Camera * _camera;
 	Audio* _audio;
-	Writer* _writer;
 	LPD3DXFONT	_fontArial;
 
-	int _countI = 0;
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
 	int _curState;	
 	float wait1Sec;
-	int timegame;
+	int _timeGame;
 
 protected:
 
@@ -41,7 +38,6 @@ protected:
 	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta);
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
 	virtual void UpdateWorld(int Delta);
-	virtual void OnKeyDown(int KeyCode);
 	void RenderBackground(int view_port_x, int view_port_y);
 	
 	//Load Resource-----------
@@ -50,15 +46,17 @@ protected:
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine;
 	void LoadAudio();
 	void LoadSprite();
-	void LoadMap();
-	//-------------------------
 
+	//-------------------------
+	void ChangeMap(int Map,bool isLoad);
 	LPDIRECT3DSURFACE9 _title;
 	int _marioMenuX;
 	int _marioMenuY;
 	CSprite* _marioMenu;
+	bool isLoad = false;
 	BaseObject* _mario;
 	BaseObject* _testBrick;
 	BaseObject* _testBrick2;
+	int _Map;
 };
 #endif _GAME_MARIO_H_

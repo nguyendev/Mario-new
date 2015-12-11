@@ -33,6 +33,7 @@ public:
 	virtual void ProcessInput(KeyBoard* keyboard){};
 	virtual void Update(int t){};
 	virtual void Render(){};
+	virtual void CollisionTemp(BaseObject *);
 };
 
 #endif

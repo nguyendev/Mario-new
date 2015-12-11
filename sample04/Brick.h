@@ -16,4 +16,5 @@ public:
 	~Brick();
 	void Update();
 	void Render();
+	void CollisionTemp(BaseObject *){};
 };

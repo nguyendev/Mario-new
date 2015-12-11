@@ -40,9 +40,6 @@
     <ClCompile Include="utils.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Cloud.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="dsutil.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -89,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="sprite.h">
       <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Cloud.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="dsutil.h">
       <Filter>Framework</Filter>
