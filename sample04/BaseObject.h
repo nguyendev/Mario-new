@@ -5,6 +5,9 @@
 #include <list>
 #include <fstream>
 #include "KeyBoard.h"
+#include "sprite.h"
+
+
 using namespace std;
 
 class CSprite;
@@ -14,8 +17,8 @@ public:
 	// Thông tin cơ bản
 	float _x;		//postion x
 	float _y;		//postion y
-	float _vx;
-	float _vy;
+	float _vx;		//speed horizontal
+	float _vy;		//speed vertical
 	float _width;
 	float _height;
 	float _vx_last;	// last vx of mario before stop ( to determine the direction of mario )
@@ -33,7 +36,7 @@ public:
 	virtual void ProcessInput(KeyBoard* keyboard){};
 	virtual void Update(int t){};
 	virtual void Render(){};
-	virtual void CollisionTemp(BaseObject *);
+	virtual void CollisionTemp(BaseObject *, int t){};
 };
 
 #endif

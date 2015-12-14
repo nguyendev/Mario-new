@@ -17,6 +17,9 @@
     <Filter Include="Game\Static">
       <UniqueIdentifier>{009b07c0-6939-47df-b8e4-2bafb1924bb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Dynamic">
+      <UniqueIdentifier>{ee1eb9ce-7005-4702-9347-1a620ed51b47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">
@@ -64,6 +67,28 @@
     <ClCompile Include="GameMario.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneBrick.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorBrick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="IronBrick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -114,5 +139,30 @@
     <ClInclude Include="GameMario.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopa.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneBrick.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorBrick.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="IronBrick.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h" />
   </ItemGroup>
 </Project>

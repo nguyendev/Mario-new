@@ -79,10 +79,11 @@ void CSprite::Render(int X, int Y,int vpx,int vpy, int zoomX, int zoomY, RECT rS
 void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 {
 	RECT srect;
-	srect.left = (_Index % _SpritePerRow)*(_Width)+1;
-	srect.top = (_Index / _SpritePerRow)*(_Height)+1;
-	srect.right = srect.left + _Width ;
-	srect.bottom = srect.top + _Height +1;
+	// remove +1 in each index l,t,r,b
+	srect.left = (_Index % _SpritePerRow)*(_Width);
+	srect.top = (_Index / _SpritePerRow)*(_Height);
+	srect.right = srect.left + _Width;
+	srect.bottom = srect.top + _Height;
 
 	D3DXVECTOR3 position((float)X,(float)Y,0);
 
@@ -101,9 +102,9 @@ void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,deep);
 	D3DXVECTOR3 center((float)_Width/2,(float)_Height/2,0);
 	
-	D3DXMATRIX mt1;
+	/*D3DXMATRIX mt1;
 	D3DXMatrixScaling(&mt1, ZOOM, ZOOM, 1);
-	_SpriteHandler->SetTransform(&mt1);
+	_SpriteHandler->SetTransform(&mt1);*/
 
 	_SpriteHandler->Draw(
 		_Image,
@@ -113,9 +114,9 @@ void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 		D3DCOLOR_XRGB(255,255,255)
 	);
 }
-void CSprite::setIndex(int index)
+void CSprite::setIndex(int Index)
 {
-	_Index = index;
+	_Index = Index;
 }
 
 void CSprite::Next() 

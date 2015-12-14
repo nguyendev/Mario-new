@@ -20,13 +20,6 @@ void Mario::Move(int t)
 {
 	_x +=_vx * t;
 	_y += _vy * t;
-	if (_y < GROUND_Y) 
-		_vy += FALLDOWN_VELOCITY_DECREASE;
-	else 
-	{
-		_y = GROUND_Y;
-		_vy = 0;
-	}
 }
 void Mario::Update(int t)
 {
@@ -39,6 +32,7 @@ void Mario::Update(int t)
 		if (_vx < 0) _sprite->Next();
 		last_time = now;
 	}
+	
 }
 
 void Mario::Render()
@@ -60,6 +54,14 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 		_vx = -MARIO_SPEED;
 		_vx_last = _vx;
 	}
+	else if (_keyboard->KeyDown(DIK_UP))
+	{
+		_vy = -FALLDOWN_VELOCITY_DECREASE;
+	}
+	else if (_keyboard->KeyDown(DIK_DOWN))
+	{
+		_vy = FALLDOWN_VELOCITY_DECREASE;
+	}
 	else if (_keyboard->KeyPress(DIK_SPACE))
 	{
 		if (_y >= GROUND_Y) 
@@ -68,19 +70,52 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 	else
 	{
 		_vx = 0;
+		_vy = 0;
 		_sprite->Reset();
 	}
 }
-void Mario::CollisionTemp(BaseObject* obj)
+void Mario::CollisionTemp(BaseObject* obj, int t)
 {
-	BaseObject* temp = GetSweptBroadphaseBox(this);
-	if (AABBCheck(temp, obj))
+	float normalx = 0;
+	float normaly = 0;
+	BaseObject *a = new BaseObject();
+	a->_x = this->_x;
+	a->_y = this->_y;
+	a->_width = this->_width;
+	a->_height = this->_height;
+	a->_vx = this->_vx * t;
+	a->_vy = this->_vy * t;
+	BaseObject *b = new BaseObject();
+	b->_x = obj->_x;
+	b->_y = obj->_y;
+	b->_width = obj->_width;
+	b->_height = obj->_height;
+	b->_vx = 0;
+	b->_vy = 0;
+	BaseObject* temp = GetSweptBroadphaseBox(a);
+
+	if (AABBCheck(temp, b))
 	{
-		if (AABB(this, obj) == LEFT);
-		_x = obj->_x - _width - 1;
-		if (AABB(this, obj) == RIGHT);
-		//mario->_x = testBrick->_x + testBrick->_width+1;
-		if (AABB(this, obj) == TOP);
-		if (AABB(this, obj) == BOTTOM);
+		float collecsionTime = SweptAABB(a, b, normalx, normaly);
+		if (collecsionTime < 1.0f && collecsionTime > 0)
+		{
+				GetCollisionWith(b,normalx, normaly);
+		}
+		//
+		//	
+		//if (AABB(this, obj) == RIGHT);
+		////mario->_x = testBrick->_x + testBrick->_width+1;
+		//if (AABB(this, obj) == TOP);
+		//if (AABB(this, obj) == BOTTOM);
 	}
+}
+
+void Mario::GetCollisionWith(BaseObject* b,float normalx,float normaly)
+{
+
+		if (normalx == -1)
+		{
+			_x = 0;
+		}
+	
 }

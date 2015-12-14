@@ -9,14 +9,15 @@ protected:
 	LPDIRECT3DTEXTURE9 _Image;				// The container of all the sprites
 	LPD3DXSPRITE _SpriteHandler;			
 
-	int _Index;								// Current sprite index
+	int _Index;						// Current sprite index
 							// Sprite height
 	int _Count;								// Number of sprites
 	int _SpritePerRow;						// Number of sprites per row
 public: 
+	
 	int _Width;								// Sprite width
 	int _Height;
-	void setIndex(int _Count);
+	void setIndex(int Index);
 	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow);
 	void Next();
 	void Reset();

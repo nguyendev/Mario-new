@@ -1,6 +1,7 @@
 #include <windows.h>
 #include "game.h"
 #include "trace.h"
+#include "Brick.h"
 
 CGame::CGame(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate)
 {
@@ -235,6 +236,8 @@ void CGame::_ProcessKeyBoard()
 		
 }
 
+
+
 // Main game message loop
 void CGame::Run()
 {
@@ -289,11 +292,14 @@ void CGame::_RenderFrame()
 void CGame::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int Delta) 
 {
 	d3ddv->ColorFill(_BackBuffer,NULL,D3DCOLOR_XRGB(0,0,0));
+	
 }
 
 void CGame::UpdateWorld(int Delta) { }
 
-void CGame::LoadResources(LPDIRECT3DDEVICE9 d3ddv) { }
+void CGame::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
+{
+}
 
 void CGame::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta) { }
 

@@ -58,8 +58,8 @@ float SweptAABB(BaseObject* b1, BaseObject* b2, float &normalx, float &normaly)
 	}
 
 	//find the earliest / last times of collision
-	float entryTime = max(xEntry, yEntry);
-	float exitTime = min(xExit, yExit);
+	float entryTime = xEntry > yEntry ? xEntry : yEntry;
+	float exitTime = xExit < yExit ? xExit : yExit;
 
 	//if there was no collision
 	if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f || xEntry > 1.0f || yEntry > 1.0f)
@@ -104,6 +104,8 @@ float SweptAABB(BaseObject* b1, BaseObject* b2, float &normalx, float &normaly)
 BaseObject* GetSweptBroadphaseBox(BaseObject *b)
 {
 	BaseObject* broadphasebox = new BaseObject();
+	broadphasebox->_vx =  b->_vx;
+	broadphasebox->_vy =  b->_vy;
 	broadphasebox->_x = b->_vx > 0 ? b->_x : b->_x + b->_vx;
 	broadphasebox->_y = b->_vy > 0 ? b->_y : b->_y + b->_vy;
 	broadphasebox->_width = b->_vx > 0 ? b->_vx + b->_width : b->_width - b->_vx;
@@ -113,7 +115,7 @@ BaseObject* GetSweptBroadphaseBox(BaseObject *b)
 
 bool AABBCheck(BaseObject* b1, BaseObject * b2)
 {
-	return !(b1->_x + b1->_height<b2->_x || b1->_x>b2->_x + b2->_width || b1->_y + b1->_height<b2->_y || b1->_y>b2->_y + b2->_height);
+	return !(b1->_x + b1->_width<b2->_x || b1->_x>b2->_x + b2->_width || b1->_y + b1->_height<b2->_y || b1->_y>b2->_y + b2->_height);
 }
 
 
@@ -128,11 +130,9 @@ DIR AABB(BaseObject* box1, BaseObject* box2)
 	if (l > 0 || r > 0 || t > 0 || b > 0)
 		return DIR::NONE;
 
-
 	// co va cham khong can biet va cham ben nao
 	if (b < 0 && box1->_y > box2->_y) return DIR::BOTTOM;
 	if (t < 0 && box1->_y + box1->_height < box2->_y + box2->_height) return DIR::TOP;
 	if (l <= 0 && box1->_x < box2->_x) return DIR::LEFT;
 	if (r <= 0 && box1->_x + box1->_width > box2->_x + box2->_width) return DIR::RIGHT;
-
 }

@@ -49,7 +49,7 @@
 #define KEYBOARD_BUFFER_SIZE	1024
 
 
-#define ANIMATE_RATE 60
+#define ANIMATE_RATE 30		//fixed 60->30
 
 
 enum DIR
@@ -59,6 +59,10 @@ enum DIR
 	TOP,
 	BOTTOM,
 	NONE
+};
+enum _COL
+{
+	BRICK = 18
 };
 enum _SPRITE
 {

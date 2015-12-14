@@ -2,11 +2,10 @@
 #include <d3dx9.h>
 #include "GameMario.h"
 #include "utils.h"
-#include "Brick.h"
+
 #include <string>
 #include <string.h>
-#include "Global.h"
-#include "Mario.h"
+
 #include "Writer.h"
 #define MENU_MAX 170
 #define MENU_MIN  149
@@ -29,12 +28,6 @@ CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 	
 }
 
-CGameMario::~CGameMario()
-{
-	delete _audio;
-	delete _camera;
-}
-
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 {
 	srand((unsigned)time(NULL));
@@ -47,15 +40,18 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	LoadAudio();
 	_state = _curState =  GS_MENU;
 	wait1Sec = 0;
+	brick = new CSprite(_SpriteHandler, BRICK_IMAGE, 64, 64, 16, 4);
 
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
-
+	_test = new Brick(100, 180, 0, 0, BRICK, _sprites[S_BRICK], 0);
 	_mario = new Mario(0, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
-	_testBrick2 = new Brick(180, 150, _camera->_cameraX, _camera->_cameraY, 5, _sprites[S_BRICK]);
-	_testBrick = new Brick(180, 180, _camera->_cameraX, _camera->_cameraY, 5, _sprites[S_BRICK]);
+	
 	ReadMap("a", true, this);
+	// Example about Enemies
+	_dynamicObjs[0] = new Goomba(200, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_GOOMBA]);
+	_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
 }
 
 void CGameMario::UpdateWorld(int t)
@@ -74,8 +70,10 @@ void CGameMario::UpdateWorld(int t)
 				wait1Sec -= 1;
 				_timeGame--;
 			}
-			_mario->CollisionTemp(_testBrick);
+			_dynamicObjs[0]->Update(t);
+			_dynamicObjs[1]->Update(t);
 			_mario->Update(t);
+			_mario->CollisionTemp(_test, t);
 			break;
 	}
 		
@@ -103,14 +101,20 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 				obj = *i;
 				obj->Render();
 			}
+			_test->Render();
+			//Render things
+			_dynamicObjs[0]->Render();
+			_dynamicObjs[1]->Render();
 			_mario->Render();
-			_testBrick->Render();
-			_testBrick2->Render();
 			break;
 		case GS_GAMEOVER:
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 			break;
 	}
+	/*brick->Render(100, 47, _ViewPortX, _ViewPortY, BRICK_DEEP);
+
+	for (int i = 0; i < _countI; i++)
+		_staticObjs[i]->Render();*/
 	_SpriteHandler->End();
 }
 
@@ -180,20 +184,25 @@ void CGameMario::LoadAudio()
 }
 void CGameMario::LoadSprite()
 {
-	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
-	_sprites[S_BMARIO] = new CSprite(_SpriteHandler, BMARIO_IMAGE, 16, 32, 8, 8);
-	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 1, 1);
+	// Mario
+	_sprites[S_BMARIO] = new CSprite(_SpriteHandler, BMARIO_IMAGE, 16, 32, 32, 8); // fixed
+	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 17, 16, 8, 8);
 	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3);
 	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4);
+	//Static Object
 	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 32, 32, 2, 2);
+	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 16, 4);
+	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 8, 4);
+	//Enemies
+	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4);
+	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2);
+	//Items
 	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4);
 	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2);
-	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 4, 4);
 	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7);
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10);
-	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 16, 4, 4);
-	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2);
-	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 17, 16, 8, 8);
+	//Others
 	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
 }
 void CGameMario::ChangeMap(int Map, bool sLoad)
@@ -220,3 +229,8 @@ void CGameMario::ChangeMap(int Map, bool sLoad)
 	//else ChangeState(GS_WIN);
 }
 
+CGameMario::~CGameMario()
+{
+	delete _audio;
+	delete _camera;
+}

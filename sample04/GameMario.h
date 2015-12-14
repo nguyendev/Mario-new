@@ -5,11 +5,18 @@
 
 #include "game.h"
 #include "sprite.h"
-#include "BaseObject.h"
+#include "Global.h"
+// Objects
+#include "BaseObject.h" 
+#include "Goomba.h"
+#include "Mario.h"
+#include "Brick.h"
+#include "Pipe.h"	
+#include "Koopa.h"
+// Others
 #include "Collision.h"
 #include "Camera.h"
 #include "Audio.h"
-
 
 
 class CGameMario: public CGame
@@ -22,9 +29,15 @@ public:
 	CSprite * _sprites[20];
 	BaseObject* _staticObjs[1000];
 	list<BaseObject*> staticObjs;
+	BaseObject* _dynamicObjs[40];
+	BaseObject* _test;
 	Camera * _camera;
 	Audio* _audio;
 	LPD3DXFONT	_fontArial;
+	
+	int _countI = 0;
+
+	CSprite * brick;
 
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
@@ -46,6 +59,7 @@ protected:
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine;
 	void LoadAudio();
 	void LoadSprite();
+	
 
 	//-------------------------
 	void ChangeMap(int Map,bool isLoad);
@@ -55,8 +69,6 @@ protected:
 	CSprite* _marioMenu;
 	bool isLoad = false;
 	BaseObject* _mario;
-	BaseObject* _testBrick;
-	BaseObject* _testBrick2;
 	int _Map;
 };
 #endif _GAME_MARIO_H_

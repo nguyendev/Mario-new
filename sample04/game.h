@@ -3,6 +3,9 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <dinput.h>
+#include "sprite.h"
+#include "BaseObject.h"
+#include "Collision.h"
 
 //
 // Screen resolution
@@ -50,6 +53,15 @@ protected:
 
 	int _ViewPortX;			// Position of view port in World space
 	int _ViewPortY; 
+
+	
+	BaseObject* koopa;
+	BaseObject * goomba;
+	BaseObject * pirhana;
+	BaseObject * fungi;
+	BaseObject * money;
+	BaseObject * flower;
+	BaseObject * star;
 
 	D3DFORMAT _BackBufferFormat;
 
@@ -104,6 +116,7 @@ public:
 
 	// Run game
 	void Run();
+	
 };
 
 #endif
