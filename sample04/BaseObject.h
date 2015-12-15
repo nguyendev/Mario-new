@@ -34,9 +34,9 @@ public:
 	BaseObject(float xWorld, float yWorld, float cameraX, float cameraY);
 	~BaseObject();
 	virtual void ProcessInput(KeyBoard* keyboard){};
-	virtual void Update(int t){};
+	virtual void Update(float t){};
 	virtual void Render(){};
-	virtual void CollisionTemp(BaseObject *, int t){};
+	virtual void CollisionTemp(BaseObject *, float t){};
 };
 
 #endif

@@ -112,6 +112,7 @@
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="StoneBrick.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="trace.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Writer.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="StoneBrick.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="trace.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Writer.h" />

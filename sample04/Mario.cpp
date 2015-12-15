@@ -16,23 +16,21 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 Mario::~Mario()
 {
 }
-void Mario::Move(int t)
+void Mario::Move(float TPF)
 {
-	_x +=_vx * t;
-	_y += _vy * t;
+	_x += _vx * TPF;
+	_y += _vy * TPF;
 }
-void Mario::Update(int t)
+void Mario::Update(float TPF)
 {
-	
 	DWORD now = GetTickCount();
 	if (now - last_time > 1000 / ANIMATE_RATE)
 	{
-		Move(t);
+		Move(TPF);
 		if (_vx > 0) _sprite->Next();
 		if (_vx < 0) _sprite->Next();
 		last_time = now;
 	}
-	
 }
 
 void Mario::Render()
@@ -74,7 +72,7 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 		_sprite->Reset();
 	}
 }
-void Mario::CollisionTemp(BaseObject* obj, int t)
+void Mario::CollisionTemp(BaseObject* obj, float t)
 {
 	float normalx = 0;
 	float normaly = 0;

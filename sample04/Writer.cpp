@@ -13,7 +13,7 @@ void DrawTextAdvanced(LPCWSTR text, int x, int y, int width, int height, D3DXCOL
 }
 void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
 {
-	DrawNumber(sprite, number, x, y,vpx, vpy,1,1);
+	DrawNumber(sprite, number, x, y,vpx, vpy,ZOOM,ZOOM);
 }
 LPDIRECT3DSURFACE9 CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
 {

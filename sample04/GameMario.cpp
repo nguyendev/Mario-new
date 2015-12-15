@@ -25,6 +25,7 @@ CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 	
 	_marioMenuY = MENU_MIN;
 	_marioMenuX = 100;
+	_timeGame = 300;
 	
 }
 
@@ -54,7 +55,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
 }
 
-void CGameMario::UpdateWorld(int t)
+void CGameMario::UpdateWorld(float TPF)
 {
 	switch (_state)
 	{
@@ -64,21 +65,21 @@ void CGameMario::UpdateWorld(int t)
 			break;
 		case GS_PLAYING:
 
-			wait1Sec += 0.05;
+			wait1Sec += TPF;
 			if (wait1Sec>1)
 			{
 				wait1Sec -= 1;
 				_timeGame--;
 			}
-			_dynamicObjs[0]->Update(t);
-			_dynamicObjs[1]->Update(t);
-			_mario->Update(t);
-			_mario->CollisionTemp(_test, t);
+			_dynamicObjs[0]->Update(TPF);
+			_dynamicObjs[1]->Update(TPF);
+			_mario->Update(TPF);
+			_mario->CollisionTemp(_test, TPF);
 			break;
 	}
 		
 }
-void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
+void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	BaseObject* obj;
 	list<BaseObject*>::iterator i;
@@ -118,7 +119,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int t)
 	_SpriteHandler->End();
 }
 
-void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int t)
+void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	_keyboard->_ProcessKeyBoard();
 	switch (_state)
@@ -201,7 +202,7 @@ void CGameMario::LoadSprite()
 	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4);
 	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2);
 	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7);
-	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10);
+	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 15, 16, 10, 10);
 	//Others
 	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
 }

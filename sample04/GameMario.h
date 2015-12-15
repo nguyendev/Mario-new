@@ -47,10 +47,10 @@ public:
 
 protected:
 
-	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int Delta);
-	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta);
+	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF);
+	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF);
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
-	virtual void UpdateWorld(int Delta);
+	virtual void UpdateWorld(float TPF);
 	void RenderBackground(int view_port_x, int view_port_y);
 	
 	//Load Resource-----------

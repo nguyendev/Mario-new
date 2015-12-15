@@ -205,7 +205,9 @@ void CGame::Init()
 	_InitDirectX();
 	//_InitKeyboard();
 	//_keyboard = new KeyBoard(_hWnd, _hInstance);
+	
 	LoadResources(_d3ddv);
+	_timeManager = new TimeManager();
 }
 
 void CGame::_ProcessKeyBoard()
@@ -243,9 +245,9 @@ void CGame::Run()
 {
 	MSG msg;
 	int done = 0;
-	DWORD frame_start = GetTickCount();;
+	//DWORD frame_start = GetTickCount();;
 	
-	DWORD tick_per_frame = 1000 / _FrameRate;
+	//DWORD tick_per_frame = 1000 / _FrameRate;
 	
 	trace(L">>> Main game loop has been started");
 
@@ -259,18 +261,16 @@ void CGame::Run()
 			DispatchMessage(&msg);			
 		}
 
-		DWORD now = GetTickCount();
+		/*DWORD now = GetTickCount();
 		_DeltaTime = now - frame_start; 
 		if (_DeltaTime >= tick_per_frame)
-		{
-			frame_start = now;
-			UpdateWorld(_DeltaTime);
-			_RenderFrame();
-		}
-
-		//_ProcessKeyBoard();
-
-		ProcessInput(_d3ddv, _DeltaTime);
+		{*/
+			/*frame_start = now;*/
+		_timeManager->LimitFPS(60);
+		TPF = _timeManager->TPF;
+		UpdateWorld(TPF);
+		_RenderFrame();
+		ProcessInput(_d3ddv, TPF);
 	}
 
 	trace(L"Main game loop has ended");
@@ -283,25 +283,25 @@ void CGame::_RenderFrame()
 		// Clear back buffer with BLACK
 		_d3ddv->ColorFill(_BackBuffer,NULL,D3DCOLOR_XRGB(0xAA,0xAA,0xAA));
 
-		RenderFrame(_d3ddv, _DeltaTime);
+		RenderFrame(_d3ddv, TPF);
 		_d3ddv->EndScene();
 	}
 	_d3ddv->Present(NULL,NULL,NULL,NULL);
 }
 
-void CGame::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int Delta) 
+void CGame::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	d3ddv->ColorFill(_BackBuffer,NULL,D3DCOLOR_XRGB(0,0,0));
 	
 }
 
-void CGame::UpdateWorld(int Delta) { }
+void CGame::UpdateWorld(float TPF) { }
 
 void CGame::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 {
 }
 
-void CGame::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta) { }
+void CGame::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF) { }
 
 CGame::~CGame()
 {

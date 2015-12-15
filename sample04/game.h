@@ -6,6 +6,7 @@
 #include "sprite.h"
 #include "BaseObject.h"
 #include "Collision.h"
+#include "TimeManager.h"
 
 //
 // Screen resolution
@@ -38,7 +39,6 @@ protected:
 	DIDEVICEOBJECTDATA _KeyEvents[ KEYBOARD_BUFFER_SIZE ];
 
 	void _Init();
-	DWORD _DeltaTime;		// Time between the last frame and current frame
 	int _Mode;				// Screen mode 
 	int _IsFullScreen;		// Is running in fullscreen mode?
 	int _FrameRate; 
@@ -64,7 +64,8 @@ protected:
 	BaseObject * star;
 
 	D3DFORMAT _BackBufferFormat;
-
+	TimeManager* _timeManager;
+	float TPF;
 	HINSTANCE _hInstance;	// Handle of the game instance
 	HWND _hWnd;				// Handle of the Game Window
 
@@ -89,10 +90,10 @@ protected:
 	//
 	// Place holder for child classes
 	//
-	virtual void UpdateWorld(int Delta);
-	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, int Delta);
+	virtual void UpdateWorld(float TPF);
+	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF);
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
-	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, int Delta);
+	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF);
 
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
@@ -102,7 +103,6 @@ public:
 	LPDIRECT3DDEVICE9 GetDevice();
 	LPDIRECT3DSURFACE9 GetBackBuffer();
 	int GetMode();
-
 	int GetScreenWidth();
 	int GetScreenHeight();
 	int GetDepth();

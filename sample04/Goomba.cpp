@@ -1,5 +1,5 @@
 #include "Goomba.h"
-
+#define GOOMBA_SPEED -100.0f
 
 Goomba::Goomba()
 {
@@ -8,17 +8,17 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 {
 	_sprite = sprite;
 	_ID = ID;
-	_vx = -0.1f;		// demo, if the game is real, it is 0
+	_vx = GOOMBA_SPEED;		// demo, if the game is real, it is 0
 	_vy = 0;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 }
-void Goomba::Move(int t)
+void Goomba::Move(float t)
 {
 	_x += _vx * t;
 	_y += _vy * t;
 }
-void Goomba::Update(int t)
+void Goomba::Update(float t)
 {
 
 	DWORD now = GetTickCount();

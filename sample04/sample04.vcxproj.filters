@@ -89,6 +89,9 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -164,5 +167,8 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="TimeManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

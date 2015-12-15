@@ -11,5 +11,6 @@ public:
 	list<BaseObject*> object;
 	QuadTree();
 	~QuadTree();
+	bool Add(BaseObject* obj);
 };
 

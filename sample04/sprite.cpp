@@ -102,9 +102,9 @@ void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
 	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,deep);
 	D3DXVECTOR3 center((float)_Width/2,(float)_Height/2,0);
 	
-	/*D3DXMATRIX mt1;
+	D3DXMATRIX mt1;
 	D3DXMatrixScaling(&mt1, ZOOM, ZOOM, 1);
-	_SpriteHandler->SetTransform(&mt1);*/
+	_SpriteHandler->SetTransform(&mt1);
 
 	_SpriteHandler->Draw(
 		_Image,
