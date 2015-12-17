@@ -55,7 +55,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	int m = 0;
 	int i = 0, j = 0;
 
-	pFile = fopen("MAP1.ptl", "r");
+	pFile = fopen(fileName, "r");
 	long a[200][1000];
 	SRC t[2000];
 	char ch;
@@ -100,13 +100,17 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			else
 			{
 				t[i].srcX = l + 1;
-				t[i].srcY = k + 1;
+				t[i].srcY = k + 1 + CHANGE_POSY;
 				t[i].id = a[k][l];
 				i++;
 			}
 			_count = i;
 		}
 	}
+	if (game->_quadTree != NULL) delete game->_quadTree;
+	int sizeWidth = m *PIXEL*ZOOM;
+	int sizeHeight = n * PIXEL*	ZOOM;
+	game->_quadTree = new QuadTree(0, 0,sizeWidth ,sizeHeight, 0);
 	for (int i = 0; i < _count; i++)
 	{
 		switch (t[i].id)
@@ -134,7 +138,12 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],1);
 			break;
 		}
-		game->staticObjs.push_back(obj);
+		obj->_game = game;
+		if (obj != NULL)
+		{
+			game->_quadTree->Add(obj, true);
+		}
+		obj = NULL;
 	}
 	fclose(pFile);
 }

@@ -1,4 +1,4 @@
-#include "Mario.h"
+﻿#include "Mario.h"
 #include "Global.h"
 
 Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
@@ -10,6 +10,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_vx_last = 1.0f;
+	ResetRect();
 }
 
 
@@ -20,6 +21,10 @@ void Mario::Move(float TPF)
 {
 	_x += _vx * TPF;
 	_y += _vy * TPF;
+	if (_x < Camera::_cameraX)									//Không cho đi quá Camera
+		_x = Camera::_cameraX;
+	if (_x > Camera::_cameraX + WIDTH)
+		_x = Camera::_cameraX + WIDTH;
 }
 void Mario::Update(float TPF)
 {
@@ -91,7 +96,6 @@ void Mario::CollisionTemp(BaseObject* obj, float t)
 	b->_vx = 0;
 	b->_vy = 0;
 	BaseObject* temp = GetSweptBroadphaseBox(a);
-
 	if (AABBCheck(temp, b))
 	{
 		float collecsionTime = SweptAABB(a, b, normalx, normaly);
@@ -113,7 +117,7 @@ void Mario::GetCollisionWith(BaseObject* b,float normalx,float normaly)
 
 		if (normalx == -1)
 		{
-			_x = 0;
+//			_x = obj->_x - this->_width;
 		}
 	
 }

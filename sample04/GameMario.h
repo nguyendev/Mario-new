@@ -17,6 +17,7 @@
 #include "Collision.h"
 #include "Camera.h"
 #include "Audio.h"
+#include "QuadTree.h"
 
 
 class CGameMario: public CGame
@@ -29,10 +30,12 @@ public:
 	CSprite * _sprites[20];
 	BaseObject* _staticObjs[1000];
 	list<BaseObject*> staticObjs;
+	list<BaseObject*> dynamicObjs;
 	BaseObject* _dynamicObjs[40];
 	BaseObject* _test;
 	Camera * _camera;
 	Audio* _audio;
+	QuadTree* _quadTree;
 	LPD3DXFONT	_fontArial;
 	
 	int _countI = 0;
@@ -62,7 +65,7 @@ protected:
 	
 
 	//-------------------------
-	void ChangeMap(int Map,bool isLoad);
+	void ChangeMap(int Map);
 	LPDIRECT3DSURFACE9 _title;
 	int _marioMenuX;
 	int _marioMenuY;

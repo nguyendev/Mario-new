@@ -43,10 +43,11 @@
 #define KOOPA_DEEP			0.5
 #define MONEY_DEEP			0.5	
 #define NUMBER_DEEP			0.5
-#define PIPE_DEEP			0.5
+#define PIPE_DEEP			0.6
 #define PIRHANA_DEEP		0.5
-#define MARIO_DEEP			0.9
+#define MARIO_DEEP			0.4
 #define KEYBOARD_BUFFER_SIZE	1024
+#define CHANGE_POSY			3
 
 
 #define ANIMATE_RATE 30		//fixed 60->30

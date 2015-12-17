@@ -20,6 +20,9 @@
     <Filter Include="Game\Dynamic">
       <UniqueIdentifier>{ee1eb9ce-7005-4702-9347-1a620ed51b47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Audio">
+      <UniqueIdentifier>{5cf3f960-2d98-46c9-84a7-aa90fdae6f64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">
@@ -43,14 +46,8 @@
     <ClCompile Include="utils.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="dsutil.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Framework</Filter>
@@ -92,6 +89,12 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Framework\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="dsutil.cpp">
+      <Filter>Framework\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -115,17 +118,8 @@
     <ClInclude Include="sprite.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="dsutil.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="dxutil.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Framework</Filter>
@@ -168,6 +162,18 @@
     </ClInclude>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="TimeManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Framework\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="dsutil.h">
+      <Filter>Framework\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="dxutil.h">
+      <Filter>Framework\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SweptAABB.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>

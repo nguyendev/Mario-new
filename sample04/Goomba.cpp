@@ -12,6 +12,7 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_vy = 0;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
+	ResetRect();
 }
 void Goomba::Move(float t)
 {

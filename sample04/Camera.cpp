@@ -1,22 +1,44 @@
-#include "Camera.h"
+﻿#include "Camera.h"
 #include "Global.h"
 
 float Camera::_cameraX = 0;
 float Camera::_cameraY = 0;
-Camera::Camera()
+Camera::Camera(float x, float y, float width, float height)
 {
-	_cameraX = 0;
-	_cameraY = 0;
+	_cameraX = x;
+	_cameraY = y;
+	_width = width;
+	_height = height;
+	ResetRect();
 }
 
 
 Camera::~Camera()
 {
 }
-void Camera::Update(BaseObject* mario)
+void Camera::Update(BaseObject* mario, QuadTree* quadTree)
 {
-	if (mario->_x - _cameraX > WIDTH / 2 / ZOOM)
-		_cameraX = mario->_x - WIDTH / 2 /ZOOM;
-	if (mario->_x < _cameraX)
-		mario->_x = _cameraX;
+	if (_cameraX + _width < quadTree->rect.right)
+	{
+		if (mario->_x > _cameraX + _width / 2 / ZOOM)
+		{
+			_cameraX = mario->_x - _width / 2 / ZOOM;
+			ResetRect();
+		}
+		if (mario->_x < _cameraX)
+		{
+			mario->_x = _cameraX;
+			ResetRect();
+		}
+	}
+	else
+		_cameraX = quadTree->rect.right - _width;
+	
+}
+void Camera::ResetRect()
+{
+	_rect.left = _cameraX;
+	_rect.right = _cameraX + _width;
+	_rect.top = _cameraY;
+	_rect.bottom = _cameraY + _height;
 }

@@ -140,6 +140,7 @@
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="StoneBrick.h" />
+    <ClInclude Include="SweptAABB.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="trace.h" />
     <ClInclude Include="utils.h" />

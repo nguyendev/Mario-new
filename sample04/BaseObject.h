@@ -7,10 +7,11 @@
 #include "KeyBoard.h"
 #include "sprite.h"
 
-
 using namespace std;
 
 class CSprite;
+class QuadTree;
+class CGameMario;
 class BaseObject
 {
 public:
@@ -26,10 +27,11 @@ public:
 	float _cameraY;
 	int _ID;
 	RECT _rect;
-
+	CGameMario* _game;
 	//Information render
 	CSprite* _sprite;
-
+	QuadTree* _oldNode;
+	BaseObject* obj;
 	BaseObject();
 	BaseObject(float xWorld, float yWorld, float cameraX, float cameraY);
 	~BaseObject();
@@ -37,6 +39,7 @@ public:
 	virtual void Update(float t){};
 	virtual void Render(){};
 	virtual void CollisionTemp(BaseObject *, float t){};
+	virtual void ResetRect();
 };
 
 #endif

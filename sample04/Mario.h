@@ -4,7 +4,7 @@
 #define GROUND_Y 180
 #define JUMP_VELOCITY_BOOST 400.0f
 #define FALLDOWN_VELOCITY_DECREASE 200.0f
-#define MARIO_SPEED 200.0f
+#define MARIO_SPEED 1000.0f
 
 class Mario: public BaseObject
 {

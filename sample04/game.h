@@ -30,13 +30,6 @@ protected:
 	LPDIRECT3DDEVICE9 _d3ddv;		// Rendering device
 	LPDIRECT3DSURFACE9 _BackBuffer;	// Pointer to backbuffer 
 
-	LPDIRECTINPUT8       _di;		// The DirectInput object         
-	LPDIRECTINPUTDEVICE8 _Keyboard;	// The keyboard device 
-
-	BYTE  _KeyStates[256];			// DirectInput keyboard state buffer 
-	char KeyPressState[256];
-	// Buffered keyboard data
-	DIDEVICEOBJECTDATA _KeyEvents[ KEYBOARD_BUFFER_SIZE ];
 
 	void _Init();
 	int _Mode;				// Screen mode 
@@ -77,15 +70,11 @@ protected:
 
 	void _InitWindow();
 	void _InitDirectX();
-	void _InitKeyboard();
+
 	
 	// Render a single frame
 	void _RenderFrame();
 
-	void _ProcessKeyBoard();
-	bool KeyDown(int KeyCode);
-	bool KeyUp(int KeyCode);
-	bool KeyPress(int KeyCode);
 
 	//
 	// Place holder for child classes
@@ -95,8 +84,6 @@ protected:
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
 	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF);
 
-	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode);
 
 public:
 	LPDIRECT3D9 GetDirectX();

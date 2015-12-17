@@ -14,6 +14,7 @@ FloorBrick::FloorBrick(float _x, float _y, float _cameraX, float _cameraY, int I
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_SpriteIndex = SpriteIndex;
+	ResetRect();
 }
 
 void FloorBrick::Update()

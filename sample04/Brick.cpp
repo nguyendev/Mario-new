@@ -14,6 +14,7 @@ Brick::Brick(float _x, float _y, float _cameraX, float _cameraY, int ID, CSprite
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_SpriteIndex = SpriteIndex;
+	ResetRect();
 }
 void Brick::Update()
 {

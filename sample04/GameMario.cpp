@@ -17,16 +17,15 @@ CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 {
 	//Framework............................
 	_audio = new Audio(_hWnd);
-	_camera = new Camera();
+	_camera = new Camera(0,0,800,600);
 	_keyboard = new KeyBoard(_hWnd, hInstance);
 	//--------------------------------------
 	for (int i = 0; i < 20; i++)
 		_sprites[i] = NULL;
-	
+	_quadTree = NULL;
 	_marioMenuY = MENU_MIN;
 	_marioMenuX = 100;
 	_timeGame = 300;
-	
 }
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
@@ -37,40 +36,42 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	D3DXCreateFont(_d3ddv, 30, 0, FW_BOLD, 0, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("SuperMarioBros"), &_fontArial);
 	
 	LoadSprite();
-	//LoadMap();
 	LoadAudio();
+
 	_state = _curState =  GS_MENU;
 	wait1Sec = 0;
-	brick = new CSprite(_SpriteHandler, BRICK_IMAGE, 64, 64, 16, 4);
-
+	
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
 	_test = new Brick(100, 180, 0, 0, BRICK, _sprites[S_BRICK], 0);
 	_mario = new Mario(0, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
 	
-	ReadMap("a", true, this);
-	// Example about Enemies
+	
+	 //Example about Enemies
 	_dynamicObjs[0] = new Goomba(200, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_GOOMBA]);
 	_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
+	brick = new CSprite(_SpriteHandler, BRICK_IMAGE, 64, 64, 16, 4);
 }
 
 void CGameMario::UpdateWorld(float TPF)
 {
+	BaseObject* _obj;
+	list<BaseObject*>::iterator i;
 	switch (_state)
 	{
-		case GS_MENU:
-			//if (isLoad == false)
-				//ChangeMap(1,isLoad);
-			break;
 		case GS_PLAYING:
-
+			//_audio->PlaySound(_sound_GameOver);
 			wait1Sec += TPF;
 			if (wait1Sec>1)
 			{
 				wait1Sec -= 1;
 				_timeGame--;
 			}
+			staticObjs.clear();
+			dynamicObjs.clear();
+			_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
+			_camera->Update(_mario, _quadTree);
 			_dynamicObjs[0]->Update(TPF);
 			_dynamicObjs[1]->Update(TPF);
 			_mario->Update(TPF);
@@ -83,25 +84,26 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	BaseObject* obj;
 	list<BaseObject*>::iterator i;
-	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK);
 	switch (_state)
 	{
 		case GS_MENU:
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
 			_marioMenu->Render(_marioMenuX, _marioMenuY, _camera->_cameraX, _camera->_cameraY, 1);
+			staticObjs.clear();
 			d3ddv->StretchRect(_title, NULL, _BackBuffer, NULL, D3DTEXF_NONE);
 			break;
 		case GS_PLAYING:
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
-			_audio->PlaySound(_sound_GameOver);
-			_camera->Update(_mario);
-			//_writer->DrawTextAdvanced(L"YOU WON !", 100, 300, 800, 200, D3DCOLOR_XRGB(255, 255, 255), _fontArial);
+			////_writer->DrawTextAdvanced(L"YOU WON !", 100, 300, 800, 200, D3DCOLOR_XRGB(255, 255, 255), _fontArial);
 			DrawNumber(_sprites[S_NUMBER], _timeGame, 150, 20, 0, 0);
 			for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 			{
 				obj = *i;
-				obj->Render();
+				if (obj->_x>_camera->_cameraX - 800 && obj->_x<_camera->_cameraX + WIDTH + 10)
+					obj->Render();
 			}
+
 			_test->Render();
 			//Render things
 			_dynamicObjs[0]->Render();
@@ -112,10 +114,6 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 			break;
 	}
-	/*brick->Render(100, 47, _ViewPortX, _ViewPortY, BRICK_DEEP);
-
-	for (int i = 0; i < _countI; i++)
-		_staticObjs[i]->Render();*/
 	_SpriteHandler->End();
 }
 
@@ -141,6 +139,8 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		}
 		else if (_keyboard->KeyPress(DIK_RETURN))
 		{
+			_audio->PlaySound(_sound_Squish);
+			ChangeMap(1);
 			if (_marioMenuY = MENU_MIN)
 				_state = GS_PLAYING;
 			else if (_marioMenuY = MENU_MAX)
@@ -154,7 +154,6 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			PostQuitMessage(0);
 		break;
 	}
-	
 }
 
 //Load Resources
@@ -206,32 +205,26 @@ void CGameMario::LoadSprite()
 	//Others
 	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
 }
-void CGameMario::ChangeMap(int Map, bool sLoad)
+void CGameMario::ChangeMap(int Map)
 {
 	_timeGame = 300;
 	_Map = Map;
-	isLoad = sLoad;
 	switch (_Map)
 	{
 	case 1:
-		ReadMap("Map\\World1-1.mm", true, this);
+		ReadMap("Map\\MAP1.ptl", true, this);
 		//ReadMap("Map\\Test.mm",true,this);
 		break;
-	case 2:
-		ReadMap("Map\\World1-2.mm", false, this);
-		break;
-	case 3:
-		ReadMap("Map\\World1-3.mm", true, this);
-		break;
+	
 	}
-	isLoad = false;
-	//if (_Map<4)
-	//	ChangeState(GS_PLAYING);
-	//else ChangeState(GS_WIN);
 }
 
 CGameMario::~CGameMario()
 {
 	delete _audio;
 	delete _camera;
+	if (_quadTree != NULL) 
+		delete _quadTree;
+	for (int i = 0; i<20; i++)
+		if (_sprites[i] != NULL) delete _sprites[i];
 }
