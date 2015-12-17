@@ -64,7 +64,11 @@ enum DIR
 };
 enum _COL
 {
-	BRICK = 18
+	ID_BRICK_01 = 18,
+	ID_BRICK_02 = 19,
+	ID_CLOUD_LV_01 = 25,
+	ID_CLOUD_LV_02 = 26,
+	ID_CLOUD_LV_03 = 27,
 };
 enum _SPRITE
 {

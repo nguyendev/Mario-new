@@ -32,15 +32,16 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 		if (AABB(dynamicBox, GetSweptBroadPhaseBox(moveBox)) != DIR::NONE)
 		{
 			timeCollision = SweptAABB(moveBox, dynamicBox, normalX, normalY);
-			setTimeCol(timeCollision);
+			//setTimeCol(timeCollision);
 			if (timeCollision > 0.0f && timeCollision < 1.0f)
 			{
 				// update velocity
+				//MessageBox(NULL, "s", "", NULL);
 				if (abs(velocity.x) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f);
-					//velocity.x = moveBox.vx * timeCollision + normalX;
+					velocity.x = moveBox.vx * timeCollision + normalX;
 
 				if (abs(velocity.y) >= abs(moveBox.vy * timeCollision + normalY) && normalY != 0.0f);
-					//velocity.y = moveBox.vy * timeCollision + normalY;
+					velocity.y = moveBox.vy * timeCollision + normalY;
 
 				//object1->setVelocity(velocity.x, velocity.y);
 

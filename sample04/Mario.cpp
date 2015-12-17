@@ -2,7 +2,6 @@
 #include "Global.h"
 #include "Collision.h"
 Collision* checkCollision;
-
 Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
 {
 	_sprite = sprite;
@@ -27,17 +26,42 @@ void Mario::Move(float TPF)
 	else if (_m_Velocity.x < -vMax) 
 		_m_Velocity.x = -vMax;
 	_m_Position.x += _m_Velocity.x * TPF + 1 / 2 * ax*TPF*TPF;
-	//_m_Position.x += _m_Velocity.x * TPF;
-	_m_Position.y += _m_Velocity.y * TPF;
+
+	//Theo phương y
+	ay = G / 2;
+	_m_Velocity.y += ay*TPF;
+	_m_Position.y += _m_Velocity.y*TPF + 1.0 / 2 * ay*TPF*TPF;
+
 	if (_m_Position.x < Camera::_cameraX)									//Không cho đi quá Camera
 		_m_Position.x = Camera::_cameraX;
 	if (_m_Position.x > Camera::_cameraX + WIDTH)
 		_m_Position.x = Camera::_cameraX + WIDTH;
-
-	//Theo phương y
-	ay = G/2;
-	_m_Velocity.y += ay*TPF;
-	_m_Position.y += _m_Velocity.y*TPF + 1.0 / 2 * ay*TPF*TPF;
+	
+	
+}
+void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
+{
+	list<BaseObject*>::iterator i;
+	for (i = staticObj->begin(); i != staticObj->end(); i++)
+	{
+		obj = *i;
+		DIR dir = checkCollision->isCollision(this, obj);
+		if (obj->_ID >= 18 && obj->_ID <= 25)
+		{
+			if (dir == DIR::TOP || dir == DIR::BOTTOM)
+				this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
+		}
+		else if (obj->_ID <= 18 || obj->_ID >= 25)
+			if (dir == DIR::LEFT || dir == DIR::RIGHT)
+				this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
+		/*else
+		{
+			if (dir == DIR::TOP || dir == DIR::BOTTOM)
+				this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
+			else if (dir == DIR::LEFT || dir == DIR::RIGHT)
+				this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
+		}*/
+	}
 }
 void Mario::Update(float TPF, list<BaseObject*>* staticObj)
 {
@@ -45,22 +69,10 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj)
 	if (now - last_time > 1000 / ANIMATE_RATE)
 	{
 		Move(TPF);
+		CollisionStatic(TPF, staticObj);
 		if (_m_Velocity.x > 0) _sprite->Next();
 		if (_m_Velocity.x < 0) _sprite->Next();
 		last_time = now;
-	}
-	list<BaseObject*>::iterator i;
-	for (i = staticObj->begin(); i != staticObj->end(); i++)
-	{
-		obj = *i;
-		DIR dir = checkCollision->isCollision(this, obj);
-		//if (dir == DIR::LEFT && dir == DIR::TOP)
-		//	this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
-		if (dir == DIR::TOP || dir == DIR::BOTTOM)
-			this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
-		else if (dir == DIR::LEFT || dir == DIR::RIGHT)
-			this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
-		
 	}
 }
 
@@ -89,7 +101,6 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 	}
 	else if (_keyboard->KeyPress(DIK_SPACE))
 	{
-		
 	}
 	else
 	{
@@ -100,55 +111,4 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 		_sprite->Reset();
 	}
 }
-void Mario::CollisionTemp(BaseObject* obj, float t)
-{
-	//float normalx = 0;
-	//float normaly = 0;
-	//BaseObject *a = new BaseObject();
-	//a->_m_Position.x = this->_m_Position.x;
-	//a->_m_Position.y = this->_m_Position.y;
-	//a->_width = this->_width;
-	//a->_height = this->_height;
-	//a->_m_Velocity.x = this->_m_Velocity.x * t;
-	//a->_m_Velocity.y = this->_m_Velocity.y * t;
-	//BaseObject *b = new BaseObject();
-	//b->_m_Position.x = obj->_m_Position.x;
-	//b->_m_Position.y = obj->_m_Position.y;
-	//b->_width = obj->_width;
-	//b->_height = obj->_height;
-	//b->_m_Velocity.x = 0;
-	//b->_m_Velocity.y = 0;
-	//BaseObject* temp = GetSweptBroadphaseBox(a);
-	//if (AABBCheck(temp, b))
-	//{
-	//	float collecsionTime = SweptAABB(a, b, normalx, normaly);
-	//	if (collecsionTime < 1.0f && collecsionTime > 0)
-	//	{
-	//			GetCollisionWith(b,normalx, normaly);
-	//	}
-	//	//
-	//	//	
-	//	//if (AABB(this, obj) == RIGHT);
-	//	////mario->m_Position.x = testBrick->m_Position.x + testBrick->_width+1;
-	//	//if (AABB(this, obj) == TOP);
-	//	//if (AABB(this, obj) == BOTTOM);
-	//}
-	DIR dir = checkCollision->isCollision(this, obj);
-	
-	if (dir == DIR::TOP || dir == DIR::BOTTOM)
-		this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
-	else if (dir == DIR::LEFT || dir == DIR::RIGHT)
-		this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
-		
-//	this->set
-}
 
-void Mario::GetCollisionWith(BaseObject* b,float normalx,float normaly)
-{
-
-//		if (normalx == -1)
-//		{
-////			m_Position.x = obj->m_Position.x - this->_width;
-//		}
-//	
-}

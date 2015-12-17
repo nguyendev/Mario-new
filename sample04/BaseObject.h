@@ -9,10 +9,9 @@
 #include "SweptAABB.h"
 
 using namespace std;
-
+class CGameMario;
 class CSprite;
 class QuadTree;
-class CGameMario;
 class BaseObject
 {
 protected:
@@ -27,7 +26,6 @@ public:
 	float _cameraY;
 	int _ID;
 	RECT _rect;
-
 	//test-------
 
 	void				setPositionX(float);
@@ -55,7 +53,6 @@ public:
 	virtual void ProcessInput(KeyBoard* keyboard){};
 	virtual void Update(float t,list<BaseObject*>* staticObj){};
 	virtual void Render(){};
-	virtual void CollisionTemp(BaseObject *, float t){};
 	virtual void ResetRect();
 };
 

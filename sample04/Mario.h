@@ -6,6 +6,8 @@
 #define FALLDOWN_VELOCITY_DECREASE 200.0f
 #define MARIO_SPEED 1000.0f
 
+
+class BaseObject;
 class Mario: public BaseObject
 {
 	float	yTemp;
@@ -20,8 +22,7 @@ public:
 	void Update(float t,list<BaseObject*>* staticObj);
 	void Render();
 	void ProcessInput(KeyBoard* _keyboard);
-	void CollisionTemp(BaseObject *obj, float t);
-	void GetCollisionWith(BaseObject *obj,float normalx,float normaly);
+	void CollisionStatic(float t, list<BaseObject*>* staticObj);
 	~Mario();
 };
 

@@ -8,12 +8,12 @@
 // Copyright (c) Microsoft Corp. All rights reserved.
 //-----------------------------------------------------------------------------
 #define STRICT
-#include <windows.h>
+#include <Windows.h>
 #include <mmsystem.h>
-#include <dxerr.h>
 #include <dsound.h>
 #include "dsutil.h"
 #include "dxutil.h"
+#include <DxErr.h>
 
 
 

@@ -13,6 +13,15 @@ Pipe::Pipe(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sp
 	_ID = ID;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
+	switch (ID)
+	{
+	case 14:
+		//_width *= 3;
+		//_height += _height;
+		break;
+	default:
+		break;
+	}
 	_SpriteIndex = SpriteIndex;
 	ResetRect();
 }

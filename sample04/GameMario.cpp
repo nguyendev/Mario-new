@@ -17,7 +17,7 @@ CGameMario::CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScr
 CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 {
 	//Framework............................
-	_audio = new Audio(_hWnd);
+	
 	_camera = new Camera(0,0,800,600);
 	_keyboard = new KeyBoard(_hWnd, hInstance);
 	//--------------------------------------
@@ -31,6 +31,7 @@ CGame(hInstance,Name,Mode,IsFullScreen, FrameRate)
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 {
+	_audio = new Audio(_hWnd);
 	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv,&_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv,&_SpriteHandler);
@@ -49,8 +50,8 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	
 	
 	 //Example about Enemies
-	_dynamicObjs[0] = new Goomba(200, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_GOOMBA]);
-	_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
+	//_dynamicObjs[0] = new Goomba(200, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_GOOMBA]);
+	//_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
 }
 
 void CGameMario::UpdateWorld(float TPF)
@@ -60,7 +61,7 @@ void CGameMario::UpdateWorld(float TPF)
 	switch (_state)
 	{
 		case GS_PLAYING:
-			//_audio->PlaySound(_sound_GameOver);
+			
 			wait1Sec += TPF;
 			if (wait1Sec>1)
 			{
@@ -71,11 +72,10 @@ void CGameMario::UpdateWorld(float TPF)
 			dynamicObjs.clear();
 			_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
 			_camera->Update(_mario, _quadTree);
-			//_dynamicObjs[0]->Update(TPF,_lis);
-			//_dynamicObjs[1]->Update(TPF);
 			_mario->Update(TPF, &staticObjs);
-			//_mario->CollisionTemp(_test, TPF);
 			break;
+		case GS_GAMEOVER:
+			_audio->PlaySound(_sound_GameOver);
 	}
 		
 }
@@ -118,6 +118,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	_keyboard->_ProcessKeyBoard();
+	
 	switch (_state)
 	{
 	case GS_MENU:

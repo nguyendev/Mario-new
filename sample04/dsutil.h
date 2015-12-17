@@ -8,7 +8,7 @@
 #ifndef DSUTIL_H
 #define DSUTIL_H
 
-#include <windows.h>
+#include <Windows.h>
 #include <mmsystem.h>
 #include <mmreg.h>
 #include <dsound.h>
