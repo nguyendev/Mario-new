@@ -45,14 +45,12 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
-	_test = new Brick(100, 180, 0, 0, BRICK, _sprites[S_BRICK], 0);
-	_mario = new Mario(0, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
+	_mario = new Mario(0, 0, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
 	
 	
 	 //Example about Enemies
 	_dynamicObjs[0] = new Goomba(200, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_GOOMBA]);
 	_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
-	brick = new CSprite(_SpriteHandler, BRICK_IMAGE, 64, 64, 16, 4);
 }
 
 void CGameMario::UpdateWorld(float TPF)
@@ -72,11 +70,11 @@ void CGameMario::UpdateWorld(float TPF)
 			staticObjs.clear();
 			dynamicObjs.clear();
 			_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
-			//_camera->Update(_mario, _quadTree);
-			_dynamicObjs[0]->Update(TPF);
-			_dynamicObjs[1]->Update(TPF);
-			_mario->Update(TPF);
-			_mario->CollisionTemp(_test, TPF);
+			_camera->Update(_mario, _quadTree);
+			//_dynamicObjs[0]->Update(TPF,_lis);
+			//_dynamicObjs[1]->Update(TPF);
+			_mario->Update(TPF, &staticObjs);
+			//_mario->CollisionTemp(_test, TPF);
 			break;
 	}
 		
@@ -105,10 +103,9 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 					obj->Render();
 			}
 
-			_test->Render();
 			//Render things
-			_dynamicObjs[0]->Render();
-			_dynamicObjs[1]->Render();
+			//_dynamicObjs[0]->Render();
+			//_dynamicObjs[1]->Render();
 			_mario->Render();
 			break;
 		case GS_GAMEOVER:

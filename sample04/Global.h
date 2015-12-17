@@ -4,7 +4,8 @@
 #define _GLOBAL_
 
 #define PI				3.141592654
-#define G				2000
+#define G				10000
+#define	VMAX			1000;
 #define WIDTH			800
 #define HEIGHT			600
 #define YMENU_MAX		405

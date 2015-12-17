@@ -36,11 +36,11 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 			if (timeCollision > 0.0f && timeCollision < 1.0f)
 			{
 				// update velocity
-				if (abs(velocity.x) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f)
-					velocity.x = moveBox.vx * timeCollision + normalX;
+				if (abs(velocity.x) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f);
+					//velocity.x = moveBox.vx * timeCollision + normalX;
 
-				if (abs(velocity.y) >= abs(moveBox.vy * timeCollision + normalY) && normalY != 0.0f)
-					velocity.y = moveBox.vy * timeCollision + normalY;
+				if (abs(velocity.y) >= abs(moveBox.vy * timeCollision + normalY) && normalY != 0.0f);
+					//velocity.y = moveBox.vy * timeCollision + normalY;
 
 				//object1->setVelocity(velocity.x, velocity.y);
 
@@ -81,19 +81,23 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 		
 		if (dir == DIR::BOTTOM) // bottom
 		{
-			position.y = dynamicBox.y - moveBox.height - 1;
+			position.y = dynamicBox.y + moveBox.height + 1;
+			//MessageBox(NULL, "bottom", "noty", NULL);
 		}
 		else if (dir == DIR::LEFT)  // left
 		{
 			position.x = dynamicBox.x - moveBox.width - 1;
+			//MessageBox(NULL, "Left", "noty", NULL);
 		}
 		else if (dir == TOP) // top
 		{
-			position.y = dynamicBox.y + dynamicBox.height + 1;
+			position.y = dynamicBox.y - dynamicBox.height - 1;
+			//MessageBox(NULL, "Top", "noty", NULL);
 		}
 		else if (dir == DIR::RIGHT)
 		{
 			position.x = dynamicBox.x + dynamicBox.width + 1;
+			//MessageBox(NULL, "Right", "noty", NULL);
 		}
 
 		moveObject->setPosition(position.x, position.y);

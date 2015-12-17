@@ -100,7 +100,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			else
 			{
 				t[i].srcX = l + 1;
-				t[i].srcY = k + 1;
+				t[i].srcY = k + 1 + CHANGE_POSY;
 				t[i].id = a[k][l];
 				i++;
 			}
@@ -138,9 +138,10 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],1);
 			break;
 		}
-		obj->_game = game;
+		
 		if (obj != NULL)
 		{
+			obj->_game = game;
 			game->_quadTree->Add(obj, true);
 		}
 		obj = NULL;

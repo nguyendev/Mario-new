@@ -53,7 +53,7 @@ public:
 	BaseObject(float x, float y, float cameraX, float cameraY);
 	~BaseObject();
 	virtual void ProcessInput(KeyBoard* keyboard){};
-	virtual void Update(float t){};
+	virtual void Update(float t,list<BaseObject*>* staticObj){};
 	virtual void Render(){};
 	virtual void CollisionTemp(BaseObject *, float t){};
 	virtual void ResetRect();

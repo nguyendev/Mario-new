@@ -8,11 +8,16 @@
 
 class Mario: public BaseObject
 {
+	float	yTemp;
+	float	ax;
+	float	ay;
+	float	vyOld;
+	float vMax;
 public:
 	DWORD last_time;
 	Mario(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
 	void Move(float t);
-	void Update(float t);
+	void Update(float t,list<BaseObject*>* staticObj);
 	void Render();
 	void ProcessInput(KeyBoard* _keyboard);
 	void CollisionTemp(BaseObject *obj, float t);
