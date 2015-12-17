@@ -3,16 +3,9 @@
 #include <math.h>
 #include <limits>
 #include "d3d9.h"
+#include "Global.h"
 using namespace std;
 
-enum DIR
-{
-	NONE = 0,
-	LEFT,
-	RIGHT,
-	TOP,
-	BOTTOM
-};
 
 struct Box
 {

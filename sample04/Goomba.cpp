@@ -8,16 +8,16 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 {
 	_sprite = sprite;
 	_ID = ID;
-	_vx = GOOMBA_SPEED;		// demo, if the game is real, it is 0
-	_vy = 0;
+	_m_Velocity.x = GOOMBA_SPEED;		// demo, if the game is real, it is 0
+	_m_Velocity.y = 0;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	ResetRect();
 }
 void Goomba::Move(float t)
 {
-	_x += _vx * t;
-	_y += _vy * t;
+	_m_Position.x += _m_Velocity.y * t;
+	_m_Position.y += _m_Velocity.y * t;
 }
 void Goomba::Update(float t)
 {
@@ -32,7 +32,7 @@ void Goomba::Update(float t)
 }
 void Goomba::Render()
 {
-	_sprite->Render(_x, _y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
 }
 void Goomba::CollisionTemp(BaseObject* obj)
 {

@@ -20,14 +20,14 @@ void Camera::Update(BaseObject* mario, QuadTree* quadTree)
 {
 	if (_cameraX + _width < quadTree->rect.right)
 	{
-		if (mario->_x > _cameraX + _width / 2 / ZOOM)
+		if (mario->getPosition().x > _cameraX + _width / 2 / ZOOM)
 		{
-			_cameraX = mario->_x - _width / 2 / ZOOM;
+			_cameraX = mario->getPosition().x - _width / 2 / ZOOM;
 			ResetRect();
 		}
-		if (mario->_x < _cameraX)
+		if (mario->getPosition().x < _cameraX)
 		{
-			mario->_x = _cameraX;
+			mario->setPositionX(_cameraX);
 			ResetRect();
 		}
 	}

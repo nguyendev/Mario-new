@@ -9,8 +9,6 @@ IronBrick::IronBrick(float _x, float _y, float _cameraX, float _cameraY, int ID,
 {
 	_sprite = sprite;
 	_ID = ID;
-	_vx = 5;
-	_vy = 5;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_SpriteIndex = SpriteIndex;
@@ -18,10 +16,10 @@ IronBrick::IronBrick(float _x, float _y, float _cameraX, float _cameraY, int ID,
 }
 void IronBrick::Update()
 {
-	_x += 10;
+	_m_Position.x += 10;
 }
 void IronBrick::Render()
 {
 	_sprite->setIndex(_SpriteIndex);
-	_sprite->Render(_x, _y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 }

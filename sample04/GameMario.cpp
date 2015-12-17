@@ -2,7 +2,8 @@
 #include <d3dx9.h>
 #include "GameMario.h"
 #include "utils.h"
-
+#include "Goomba.h"
+#include "Koopa.h"
 #include <string>
 #include <string.h>
 
@@ -71,7 +72,7 @@ void CGameMario::UpdateWorld(float TPF)
 			staticObjs.clear();
 			dynamicObjs.clear();
 			_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
-			_camera->Update(_mario, _quadTree);
+			//_camera->Update(_mario, _quadTree);
 			_dynamicObjs[0]->Update(TPF);
 			_dynamicObjs[1]->Update(TPF);
 			_mario->Update(TPF);
@@ -100,7 +101,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 			{
 				obj = *i;
-				if (obj->_x>_camera->_cameraX - 800 && obj->_x<_camera->_cameraX + WIDTH + 10)
+				if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
 					obj->Render();
 			}
 

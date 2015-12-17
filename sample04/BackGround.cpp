@@ -15,5 +15,5 @@ BackGround::BackGround(float _x, float _y, float _cameraX, float _cameraY, int I
 
 void BackGround::Render()
 {
-	_sprite->Render(_x, _y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(getPosition().x, getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 }

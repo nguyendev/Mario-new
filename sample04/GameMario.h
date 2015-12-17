@@ -8,11 +8,11 @@
 #include "Global.h"
 // Objects
 #include "BaseObject.h" 
-#include "Goomba.h"
+
 #include "Mario.h"
 #include "Brick.h"
-#include "Pipe.h"	
-#include "Koopa.h"
+
+
 // Others
 #include "Collision.h"
 #include "Camera.h"

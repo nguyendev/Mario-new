@@ -1,138 +1,107 @@
 ﻿#include "Collision.h"
-#include <limits>
-#include <algorithm>
 
-float SweptAABB(BaseObject* b1, BaseObject* b2, float &normalx, float &normaly)
+
+Collision::Collision()
 {
-	float xInvEntry, yInvEntry;
-	float xInvExit, yInvExit;
+}
+void Collision::setTimeCol(float time)
+{
+	timeCol = time;
+}
+DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
+{
+	float timeCollision;
 
-	//tim khoang cach giua hai vat the o canh gan va canh xa
+	Box dynamicBox = dynamicObject->getBouding();
+	Box moveBox = moveObject->getBouding();
 
-	if (b1->_vx > 0.0f)
-	{
-		xInvEntry = b2->_x - (b1->_x + b1->_width);
-		xInvExit = (b2->_x + b2->_width) - b1->_x;
-	}
-	else
-	{
-		xInvEntry = (b2->_x + b2->_width) - b1->_x;
-		xInvExit = b2->_x - (b1->_x + b1->_width);
-	}
+	velocity = moveObject->getVelocity();
+	float normalX = 0, normalY = 0;
 
-	if (b1->_vy > 0.0f)
+	// kiem tra va cham không cần biết vận tốc cua doi tuong
+	DIR dir = AABB(moveBox, dynamicBox);
+	if (dir == DIR::NONE)
 	{
-		yInvEntry = b2->_y - (b1->_y + b1->_height);
-		yInvExit = (b2->_y + b2->_height) - b1->_y;
-	}
-	else
-	{
-		yInvEntry = (b2->_y + b2->_height) - b1->_y;
-		yInvExit = b2->_y - (b1->_y + b1->_height);
-	}
+		// hệ qui chiếu object2
+		moveBox.vx -= dynamicBox.vx;
+		moveBox.vy -= dynamicBox.vy;
+		dynamicBox.vx = dynamicBox.vy = 0;
 
 
-	float xEntry, yEntry;
-	float xExit, yExit;
-
-	if (b1->_vx == 0.0f)
-	{
-		xEntry = -std::numeric_limits<float>::infinity();
-		xExit = std::numeric_limits<float>::infinity();
-	}
-	else
-	{
-		xEntry = xInvEntry / b1->_vx;
-		xExit = xInvExit / b1->_vx;
-	}
-
-	if (b1->_vy == 0.0f)
-	{
-		yEntry = -std::numeric_limits<float>::infinity();
-		yExit = std::numeric_limits<float>::infinity();
-	}
-	else
-	{
-		yEntry = yInvEntry / b1->_vx;
-		yExit = yInvExit / b1->_vy;
-	}
-
-	//find the earliest / last times of collision
-	float entryTime = xEntry > yEntry ? xEntry : yEntry;
-	float exitTime = xExit < yExit ? xExit : yExit;
-
-	//if there was no collision
-	if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f || xEntry > 1.0f || yEntry > 1.0f)
-	{
-		normalx = 0.0f;
-		normaly = 0.0f;
-		return 1.0f;
-	}
-	else// if there was a collision
-	{
-		//calculate normal of collided surface
-		if (xEntry > yEntry)
+		// vật nằm trong không gian của đối tượng 
+		if (AABB(dynamicBox, GetSweptBroadPhaseBox(moveBox)) != DIR::NONE)
 		{
-			if (xInvEntry < 0.0f)
+			timeCollision = SweptAABB(moveBox, dynamicBox, normalX, normalY);
+			setTimeCol(timeCollision);
+			if (timeCollision > 0.0f && timeCollision < 1.0f)
 			{
-				normalx = 1.0f;
-				normaly = 0.0f;
+				// update velocity
+				if (abs(velocity.x) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f)
+					velocity.x = moveBox.vx * timeCollision + normalX;
+
+				if (abs(velocity.y) >= abs(moveBox.vy * timeCollision + normalY) && normalY != 0.0f)
+					velocity.y = moveBox.vy * timeCollision + normalY;
+
+				//object1->setVelocity(velocity.x, velocity.y);
+
+				if (normalX != 0.0f)
+				{
+					if (normalX == -1.0f)
+						return DIR::LEFT;
+
+					if (normalX == 1.0f)
+						return DIR::RIGHT;
+				}
+				else
+				{
+					if (normalY != 0.0f)
+					{
+						if (normalY == 1.0f)
+							return DIR::BOTTOM;
+
+						if (normalY == -1.0f)
+							return DIR::TOP;
+					}
+				}
 			}
 			else
 			{
-				normalx = -1.0f;
-				normaly = 0.0f;
+				return DIR::NONE;
 			}
 		}
 		else
 		{
-			if (yInvEntry < 0.0f)
-			{
-				normalx = 0.0f;
-				normaly = 1.0f;
-			}
-			else
-			{
-				normalx = 0.0f;
-				normaly = -1.0f;
-			}
+			return DIR::NONE;
 		}
-		//return the time of collision
-		return entryTime;
+	}
+	else // xảy ra va chạm
+	{
+		D3DXVECTOR2 position = moveObject->getPosition();
+
+		
+		if (dir == DIR::BOTTOM) // bottom
+		{
+			position.y = dynamicBox.y - moveBox.height - 1;
+		}
+		else if (dir == DIR::LEFT)  // left
+		{
+			position.x = dynamicBox.x - moveBox.width - 1;
+		}
+		else if (dir == TOP) // top
+		{
+			position.y = dynamicBox.y + dynamicBox.height + 1;
+		}
+		else if (dir == DIR::RIGHT)
+		{
+			position.x = dynamicBox.x + dynamicBox.width + 1;
+		}
+
+		moveObject->setPosition(position.x, position.y);
+
+		return dir;
 	}
 }
-BaseObject* GetSweptBroadphaseBox(BaseObject *b)
+
+Collision::~Collision()
 {
-	BaseObject* broadphasebox = new BaseObject();
-	broadphasebox->_vx =  b->_vx;
-	broadphasebox->_vy =  b->_vy;
-	broadphasebox->_x = b->_vx > 0 ? b->_x : b->_x + b->_vx;
-	broadphasebox->_y = b->_vy > 0 ? b->_y : b->_y + b->_vy;
-	broadphasebox->_width = b->_vx > 0 ? b->_vx + b->_width : b->_width - b->_vx;
-	broadphasebox->_height = b->_vy > 0 ? b->_vy + b->_height : b->_height - b->_vy;
-	return broadphasebox;
-}
-
-bool AABBCheck(BaseObject* b1, BaseObject * b2)
-{
-	return !(b1->_x + b1->_width<b2->_x || b1->_x>b2->_x + b2->_width || b1->_y + b1->_height<b2->_y || b1->_y>b2->_y + b2->_height);
-}
-
-
-DIR AABB(BaseObject* box1, BaseObject* box2)
-{
-	float l = box2->_x - (box1->_x + box1->_width);
-	float r = box1->_x - (box2->_x + box2->_width);
-	float t = box1->_y - (box2->_height + box2->_y);
-	float b = box2->_y - (box1->_height + box1->_y);
-
-	// check that there was a collision
-	if (l > 0 || r > 0 || t > 0 || b > 0)
-		return DIR::NONE;
-
-	// co va cham khong can biet va cham ben nao
-	if (b < 0 && box1->_y > box2->_y) return DIR::BOTTOM;
-	if (t < 0 && box1->_y + box1->_height < box2->_y + box2->_height) return DIR::TOP;
-	if (l <= 0 && box1->_x < box2->_x) return DIR::LEFT;
-	if (r <= 0 && box1->_x + box1->_width > box2->_x + box2->_width) return DIR::RIGHT;
 }

@@ -8,16 +8,16 @@ Koopa::Koopa(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 {
 	_sprite = sprite;
 	_ID = ID;
-	_vx = -KOOPA_SPEED;		// demo, if the game is real, it is 0
-	_vy = 0;
+	_m_Velocity.x = -KOOPA_SPEED;		// demo, if the game is real, it is 0
+	_m_Velocity.y = 0;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	ResetRect();
 }
 void Koopa::Move(float t)
 {
-	_x += _vx * t;
-	_y += _vy * t;
+	_m_Position.x += _m_Velocity.x * t;
+	_m_Position.y += _m_Velocity.y * t;
 }
 void Koopa::Update(float t)
 {
@@ -32,7 +32,7 @@ void Koopa::Update(float t)
 }
 void Koopa::Render()
 {
-	_sprite->Render(_x, _y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
 }
 void Koopa::CollisionTemp(BaseObject* obj)
 {

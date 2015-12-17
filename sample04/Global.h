@@ -55,11 +55,11 @@
 
 enum DIR
 {
+	NONE = 0,
 	LEFT,
 	RIGHT,
 	TOP,
-	BOTTOM,
-	NONE
+	BOTTOM
 };
 enum _COL
 {

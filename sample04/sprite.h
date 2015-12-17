@@ -23,8 +23,8 @@ public:
 	void Reset();
 	void Next(int start, int end);
 	// Render current sprite at location (X,Y)
-	void Render(int X, int Y, int vpx, int vpy, float deep);	
-	void Render(int X, int Y, int vpx, int vpy, int zoomX,int zoomY,RECT rSrc,float deep);
+	void Render(int x, int y, int vpx, int vpy, float deep);
+	void Render(int x, int y, int vpx, int vpy, int zoomX, int zoomY, RECT rSrc, float deep);
 	~CSprite();
 };
 

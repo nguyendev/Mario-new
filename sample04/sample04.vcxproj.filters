@@ -64,24 +64,6 @@
     <ClCompile Include="GameMario.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Game\Dynamic</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopa.cpp">
-      <Filter>Game\Dynamic</Filter>
-    </ClCompile>
-    <ClCompile Include="StoneBrick.cpp">
-      <Filter>Game\Dynamic</Filter>
-    </ClCompile>
-    <ClCompile Include="FloorBrick.cpp">
-      <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="IronBrick.cpp">
-      <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="Pipe.cpp">
-      <Filter>Game\Static</Filter>
-    </ClCompile>
     <ClCompile Include="QuadTree.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -94,6 +76,24 @@
     </ClCompile>
     <ClCompile Include="dsutil.cpp">
       <Filter>Framework\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneBrick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorBrick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="IronBrick.cpp">
+      <Filter>Game\Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,24 +139,6 @@
     <ClInclude Include="Box.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Koopa.h">
-      <Filter>Game\Dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Game\Dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="StoneBrick.h">
-      <Filter>Game\Dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="FloorBrick.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="IronBrick.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipe.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
     <ClInclude Include="QuadTree.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -175,6 +157,24 @@
     </ClInclude>
     <ClInclude Include="SweptAABB.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopa.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneBrick.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorBrick.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="IronBrick.h">
+      <Filter>Game\Static</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

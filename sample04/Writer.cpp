@@ -2,18 +2,18 @@
 #include "Brick.h"
 #include "Pipe.h"
 
-void DrawTextAdvanced(LPCWSTR text, int x, int y, int width, int height, D3DXCOLOR color, LPD3DXFONT font)
+void DrawTextAdvanced(LPCWSTR text, D3DXVECTOR2 m_Position, int width, int height, D3DXCOLOR color, LPD3DXFONT font)
 {
 	RECT rect;
-	rect.left = x;
-	rect.right = x + width;
-	rect.top = y;
-	rect.bottom = y + height;
+	rect.left = m_Position.x;
+	rect.right = m_Position.x + width;
+	rect.top = m_Position.y;
+	rect.bottom = m_Position.y + height;
 	font->DrawTextW(NULL, (LPCWSTR)text, -1, &rect, 0, color);
 }
 void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
 {
-	DrawNumber(sprite, number, x, y,vpx, vpy,ZOOM,ZOOM);
+	DrawNumber(sprite, number, x,y, vpx, vpy, ZOOM, ZOOM);
 }
 LPDIRECT3DSURFACE9 CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
 {
@@ -24,7 +24,7 @@ LPDIRECT3DSURFACE9 CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
 	D3DXLoadSurfaceFromFile(rSurface, NULL, NULL, filePath, NULL, D3DX_DEFAULT, 0, NULL);
 	return rSurface;
 }
-void DrawNumber(CSprite* sprite, int number, int x, int y,int vpx, int vpy, char zoomX, char zoomY)
+void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy, char zoomX, char zoomY)
 {
 	char temp;
 	RECT rSrc;
@@ -37,7 +37,7 @@ void DrawNumber(CSprite* sprite, int number, int x, int y,int vpx, int vpy, char
 		rSrc.right = numWidth*(temp + 1);
 		rSrc.top = 0;
 		rSrc.bottom = sprite->_Height;
-		sprite->Render(x, y,vpx, vpy, zoomX, zoomY, rSrc, 1);
+		sprite->Render(x,y, vpx, vpy, zoomX, zoomY, rSrc, 1);
 		x -= numWidth;
 	} while (number>0);
 }
@@ -100,7 +100,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			else
 			{
 				t[i].srcX = l + 1;
-				t[i].srcY = k + 1 + CHANGE_POSY;
+				t[i].srcY = k + 1;
 				t[i].id = a[k][l];
 				i++;
 			}

@@ -1,13 +1,19 @@
-#ifndef _COLLISION_H_
-#define _COLLISION_H_
+#pragma once
+#include "SweptAABB.h"
 #include "BaseObject.h"
 #include "Global.h"
 
-float SweptAABB(BaseObject* b1, BaseObject* b2, float& normalx, float &normaly);
-BaseObject* GetSweptBroadphaseBox(BaseObject *);
-bool AABBCheck(BaseObject* b1, BaseObject * b2);
-DIR AABB(BaseObject* box1, BaseObject* box2);
+class Collision
+{
+	D3DXVECTOR2 velocity;
 
-
-#endif _COLLISION_H_
+public:
+	Collision();
+	DIR isCollision(BaseObject*, BaseObject*);
+	D3DXVECTOR2		getVelocity(){ return velocity; };
+	~Collision();
+	float timeCol;
+	void		setTimeCol(float);
+	float		getTimeCol(){ return timeCol; }
+};
 
