@@ -1,4 +1,6 @@
-﻿#include "Pipe.h"
+﻿#pragma warning(disable: 4244) // possible loss of data
+#pragma warning(disable: 4305) // argument
+#include "Pipe.h"
 #include "Global.h"
 
 
@@ -19,8 +21,12 @@ Pipe::Pipe(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sp
 		_widthRect  = _width*2;
 		_heightRect = _height*2;
 		break;
-	default:
-		break;
+	case 15:
+		_widthRect = _width * 2;
+		_heightRect = _height * 3;
+	case 16:
+		_widthRect = _width * 2;
+		_heightRect = _heightRect * 4;
 	}
 	_SpriteIndex = SpriteIndex;
 	ResetRect();

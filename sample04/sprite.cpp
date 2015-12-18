@@ -50,7 +50,7 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Heig
 		return;
 	}
 }
-void CSprite::Render(int X, int Y,int vpx,int vpy, int zoomX, int zoomY, RECT rSrc, float deep)
+void CSprite::Render(float X, float Y,int vpx,int vpy, int zoomX, int zoomY, RECT rSrc, float deep)
 {
 	D3DXVECTOR3 position((float)X, (float)Y, 0);
 	D3DXMATRIX mt;
@@ -76,7 +76,7 @@ void CSprite::Render(int X, int Y,int vpx,int vpy, int zoomX, int zoomY, RECT rS
 		D3DCOLOR_XRGB(255, 255, 255)
 		);
 }
-void CSprite::Render(int X, int Y, int vpx, int vpy, float deep)
+void CSprite::Render(float X, float Y, int vpx, int vpy, float deep)
 {
 	RECT srect;
 	// remove +1 in each index l,t,r,b

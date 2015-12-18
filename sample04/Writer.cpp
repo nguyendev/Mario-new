@@ -1,7 +1,9 @@
+#pragma warning(disable: 4244) // possible loss of data
+#pragma warning(disable: 4996) // variable may be unsafe
 #include "Writer.h"
 #include "Brick.h"
 #include "Pipe.h"
-
+Camera*  _camera;
 void DrawTextAdvanced(LPCWSTR text, D3DXVECTOR2 m_Position, int width, int height, D3DXCOLOR color, LPD3DXFONT font)
 {
 	RECT rect;
@@ -48,7 +50,6 @@ typedef struct SRC {
 };
 void ReadMap(char* fileName, bool isBright, CGameMario* game)
 {
-	Camera*  _camera;
 	int _count;
 	FILE * pFile;
 	BaseObject* obj = NULL;
@@ -115,6 +116,8 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	{
 		switch (t[i].id)
 		{
+		case 1:
+			obj = new Mario(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_SMARIO]);
 		case 14: case 15: case 16:
 			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
 			break;

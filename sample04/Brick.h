@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "FloorBrick.h"
 #include "IronBrick.h"
-#include "StoneBrick.h";
+#include "StoneBrick.h"
 #include <list>
 
 using namespace std;

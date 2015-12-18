@@ -15,16 +15,16 @@ protected:
 	int _SpritePerRow;						// Number of sprites per row
 public: 
 	
-	int _Width;								// Sprite width
-	int _Height;
+	float _Width;								// Sprite width
+	float _Height;
 	void setIndex(int Index);
 	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow);
 	void Next();
 	void Reset();
 	void Next(int start, int end);
 	// Render current sprite at location (X,Y)
-	void Render(int x, int y, int vpx, int vpy, float deep);
-	void Render(int x, int y, int vpx, int vpy, int zoomX, int zoomY, RECT rSrc, float deep);
+	void Render(float x, float y, int vpx, int vpy, float deep);
+	void Render(float x, float y, int vpx, int vpy, int zoomX, int zoomY, RECT rSrc, float deep);
 	~CSprite();
 };
 

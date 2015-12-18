@@ -20,9 +20,9 @@
 #include "QuadTree.h"
 
 
-class CGameMario: public CGame
+class CGameMario : public CGame
 {
-public: 
+public:
 	CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate);
 	~CGameMario();
 
@@ -37,14 +37,14 @@ public:
 	Audio* _audio;
 	QuadTree* _quadTree;
 	LPD3DXFONT	_fontArial;
-	
+
 	int _countI = 0;
 
 	CSprite * brick;
 
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
-	int _curState;	
+	int _curState;
 	float wait1Sec;
 	int _timeGame;
 
@@ -55,14 +55,14 @@ protected:
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
 	virtual void UpdateWorld(float TPF);
 	void RenderBackground(int view_port_x, int view_port_y);
-	
+
 	//Load Resource-----------
 	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin;
 	CSound *_sound_Die, *_sound_EnemyFire, *_sound_FireBall, *_sound_Flagpole, *_sound_GameOver, *_sound_Item, *_sound_Warp;
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine;
 	void LoadAudio();
 	void LoadSprite();
-	
+
 
 	//-------------------------
 	void ChangeMap(int Map);
