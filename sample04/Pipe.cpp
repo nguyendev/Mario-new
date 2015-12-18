@@ -16,8 +16,8 @@ Pipe::Pipe(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sp
 	switch (ID)
 	{
 	case 14:
-		//_width *= 3;
-		//_height += _height;
+		_widthRect  = _width*2;
+		_heightRect = _height*2;
 		break;
 	default:
 		break;
@@ -26,10 +26,6 @@ Pipe::Pipe(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sp
 	ResetRect();
 }
 
-void Pipe::Update()
-{
-	_m_Position.x += 10;
-}
 
 void Pipe::Render()
 {

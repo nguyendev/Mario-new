@@ -26,6 +26,8 @@ BaseObject::BaseObject(float x, float y, float cameraX, float cameraY)
 	_sprite = NULL;
 	_oldNode = NULL;
 	ResetRect();
+	_widthRect = _width;
+	_heightRect = _height;
 }
 void BaseObject::ResetRect()
 {
@@ -51,7 +53,7 @@ void BaseObject::setPositionY(float y)
 
 Box BaseObject::getBouding()
 {
-	return Box(_m_Position.x, _m_Position.y, _width, _height, _m_Velocity.x, _m_Velocity.y);
+	return Box(_m_Position.x, _m_Position.y, _widthRect, _heightRect, _m_Velocity.x, _m_Velocity.y);
 }
 
 void BaseObject::setVelocity(float vx, float vy)

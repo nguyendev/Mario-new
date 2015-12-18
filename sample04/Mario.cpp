@@ -1,7 +1,6 @@
 ﻿#include "Mario.h"
 #include "Global.h"
 #include "Collision.h"
-Collision* checkCollision;
 Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
 {
 	_sprite = sprite;
@@ -9,8 +8,9 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_vx_last = 1.0f;
+	_widthRect = _width;
+	_heightRect = _height;
 	ResetRect();
-	checkCollision = new Collision();
 }
 
 
@@ -45,22 +45,24 @@ void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
 		obj = *i;
-		DIR dir = checkCollision->isCollision(this, obj);
-		if (obj->_ID >= 18 && obj->_ID <= 25)
+		DIR dir = Collision::getInstance()->isCollision(this, obj);
+		if (dir != DIR::NONE)
 		{
-			if (dir == DIR::TOP || dir == DIR::BOTTOM)
-				this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
+			//D3DXVECTOR2 position = this->getPosition();
+			//_m_Velocity = Collision::getInstance()->getVelocity();
+			if (obj->_ID >= 18 && obj->_ID <= 22) //collision with Brick
+			{
+				if (dir == DIR::TOP || dir == DIR::BOTTOM)
+					this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
+			}
+			else if (obj->_ID >= 14 && obj->_ID <= 16)  //collision with PIPE
+			{
+				//if (dir == DIR::LEFT || dir == DIR::RIGHT)
+					//this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
+			//	if (dir == DIR::TOP || dir == DIR::BOTTOM)
+					//this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
+			}
 		}
-		else if (obj->_ID <= 18 || obj->_ID >= 25)
-			if (dir == DIR::LEFT || dir == DIR::RIGHT)
-				this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
-		/*else
-		{
-			if (dir == DIR::TOP || dir == DIR::BOTTOM)
-				this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
-			else if (dir == DIR::LEFT || dir == DIR::RIGHT)
-				this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
-		}*/
 	}
 }
 void Mario::Update(float TPF, list<BaseObject*>* staticObj)

@@ -21,6 +21,8 @@ public:
 	// Thông tin cơ bản
 	float _width;
 	float _height;
+	float _widthRect;
+	float _heightRect;
 	float _vx_last;	// last vx of mario before stop ( to determine the direction of mario )
 	float _cameraX;
 	float _cameraY;

@@ -5,13 +5,15 @@
 
 class Collision
 {
+private:
 	D3DXVECTOR2 velocity;
-
+	static Collision* m_instance;
+	Collision(){};
 public:
-	Collision();
+	static Collision* getInstance();
 	DIR isCollision(BaseObject*, BaseObject*);
 	D3DXVECTOR2		getVelocity(){ return velocity; };
-	~Collision();
+	~Collision(){};
 	float timeCol;
 	void		setTimeCol(float);
 	float		getTimeCol(){ return timeCol; }

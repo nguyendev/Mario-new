@@ -1,9 +1,14 @@
 ﻿#include "Collision.h"
 
+Collision* Collision::m_instance = 0;
 
-Collision::Collision()
+Collision* Collision::getInstance()
 {
+	if (m_instance == NULL)
+		m_instance = new Collision();
+	return m_instance;
 }
+
 void Collision::setTimeCol(float time)
 {
 	timeCol = time;
@@ -27,16 +32,13 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 		moveBox.vy -= dynamicBox.vy;
 		dynamicBox.vx = dynamicBox.vy = 0;
 
-
 		// vật nằm trong không gian của đối tượng 
 		if (AABB(dynamicBox, GetSweptBroadPhaseBox(moveBox)) != DIR::NONE)
 		{
 			timeCollision = SweptAABB(moveBox, dynamicBox, normalX, normalY);
-			//setTimeCol(timeCollision);
 			if (timeCollision > 0.0f && timeCollision < 1.0f)
 			{
 				// update velocity
-				//MessageBox(NULL, "s", "", NULL);
 				if (abs(velocity.x) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f);
 					velocity.x = moveBox.vx * timeCollision + normalX;
 
@@ -58,10 +60,10 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 					if (normalY != 0.0f)
 					{
 						if (normalY == 1.0f)
-							return DIR::BOTTOM;
+							return DIR::TOP;
 
 						if (normalY == -1.0f)
-							return DIR::TOP;
+							return DIR::BOTTOM;
 					}
 				}
 			}
@@ -79,26 +81,21 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 	{
 		D3DXVECTOR2 position = moveObject->getPosition();
 
-		
 		if (dir == DIR::BOTTOM) // bottom
 		{
 			position.y = dynamicBox.y + moveBox.height + 1;
-			//MessageBox(NULL, "bottom", "noty", NULL);
 		}
 		else if (dir == DIR::LEFT)  // left
 		{
 			position.x = dynamicBox.x - moveBox.width - 1;
-			//MessageBox(NULL, "Left", "noty", NULL);
 		}
 		else if (dir == TOP) // top
 		{
-			position.y = dynamicBox.y - dynamicBox.height - 1;
-			//MessageBox(NULL, "Top", "noty", NULL);
+			position.y = dynamicBox.y - moveBox.height - 1;
 		}
 		else if (dir == DIR::RIGHT)
 		{
 			position.x = dynamicBox.x + dynamicBox.width + 1;
-			//MessageBox(NULL, "Right", "noty", NULL);
 		}
 
 		moveObject->setPosition(position.x, position.y);
@@ -107,6 +104,3 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 	}
 }
 
-Collision::~Collision()
-{
-}
