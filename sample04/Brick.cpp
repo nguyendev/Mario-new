@@ -15,9 +15,8 @@ Brick::Brick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	_widthRect = _width;
 	_heightRect = _height;
 }
-void Brick::Update()
+void Brick::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
-	_m_Position.x += 10;
 }
 void Brick::Render()
 {

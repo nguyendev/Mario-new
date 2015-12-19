@@ -26,7 +26,6 @@ void Mario::Move(float TPF)
 	else if (_m_Velocity.x < -vMax) 
 		_m_Velocity.x = -vMax;
 	_m_Position.x += _m_Velocity.x * TPF + 1 / 2 * ax*TPF*TPF;
-
 	//Theo phương y
 	ay = G / 2;
 	_m_Velocity.y += ay*TPF;
@@ -36,8 +35,6 @@ void Mario::Move(float TPF)
 		_m_Position.x = Camera::_cameraX;
 	if (_m_Position.x > Camera::_cameraX + WIDTH)
 		_m_Position.x = Camera::_cameraX + WIDTH;
-	
-	
 }
 void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
 {
@@ -55,17 +52,14 @@ void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
 				if (dir == DIR::TOP || dir == DIR::BOTTOM)
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
 			}
-			else if (obj->_ID >= 14 && obj->_ID <= 16)  //collision with PIPE
-			{
-				//if (dir == DIR::LEFT || dir == DIR::RIGHT)
-					//this->setVelocity(this->getVelocity().x * -1, this->getVelocity().y);
-			//	if (dir == DIR::TOP || dir == DIR::BOTTOM)
-					//this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
-			}
+			//else if (obj->_ID >= 14 && obj->_ID <= 16)  //collision with PIPE
+			//{
+			//	
+			//}
 		}
 	}
 }
-void Mario::Update(float TPF, list<BaseObject*>* staticObj)
+void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
 	DWORD now = GetTickCount();
 	if (now - last_time > 1000 / ANIMATE_RATE)

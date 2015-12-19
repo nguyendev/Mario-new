@@ -1,3 +1,4 @@
+#pragma warning(disable: 4244) // possible loss of data
 #include "sprite.h"
 #include "trace.h"
 #include "Global.h"

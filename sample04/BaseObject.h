@@ -17,6 +17,9 @@ class BaseObject
 protected:
 	D3DXVECTOR2		_m_Position;
 	D3DXVECTOR2		_m_Velocity;
+	bool			m_isActive;
+
+	StatusObject	m_status;
 public:
 	// Thông tin cơ bản
 	float _width;
@@ -28,7 +31,10 @@ public:
 	float _cameraY;
 	int _ID;
 	RECT _rect;
-	//test-------
+	CGameMario* _game;
+	CSprite* _sprite;
+	QuadTree* _oldNode;
+	BaseObject* obj;
 
 	void				setPositionX(float);
 	float				getPositionX(){ return _m_Position.x; }
@@ -42,20 +48,20 @@ public:
 	void				setVelocity(float, float);
 	D3DXVECTOR2			getVelocity(){ return _m_Velocity; }
 
+	void				setStatusObject(StatusObject);
+	StatusObject		getStatusOBject(){ return m_status; }
+
 	Box					getBouding();
-	//----------
-	CGameMario* _game;
-	//Information render
-	CSprite* _sprite;
-	QuadTree* _oldNode;
-	BaseObject* obj;
+
 	BaseObject();
 	BaseObject(float x, float y, float cameraX, float cameraY);
 	~BaseObject();
-	virtual void ProcessInput(KeyBoard* keyboard){};
-	virtual void Update(float t,list<BaseObject*>* staticObj){};
-	virtual void Render(){};
-	virtual void ResetRect();
+	virtual void	SetState(char* varName, int val){};
+	virtual int		GetState(char* varName){ return -1; };
+	virtual void	ProcessInput(KeyBoard* keyboard){};
+	virtual void	Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj){};
+	virtual void	Render(){};
+	virtual void	ResetRect();
 };
 
 #endif

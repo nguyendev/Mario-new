@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <windows.h>
 #ifndef _GLOBAL_
 #define _GLOBAL_
@@ -32,10 +32,14 @@
 #define PIRHANA_IMAGE		"Image\\imgPirhana.png"
 #define SMARIO__IMAGE		"Image\\imgSmallMario.png"
 #define STAR_IMAGE			"Image\\imgStar.png"
+#define CASTLE_IMAGE		"Image\\imgCastle.png"
+#define CLOUD_IMAGE			"Image\\imgCloud.png"
+#define GRASS_IMAGE			"Image\\imgGrass.png"
+#define MOUNTAIN_IMAGE		"Image\\imgMountain.png"
 
 //Deep Object
 #define GOOMBA_DEEP			0.5
-#define BRICK_DEEP			0.5
+#define BRICK_DEEP			0.4
 #define S_EXPLOSION_DEEP	0.5
 #define FIREBULLET_DEEP		0.5
 #define FLAG_DEEP			0.5
@@ -44,9 +48,13 @@
 #define KOOPA_DEEP			0.5
 #define MONEY_DEEP			0.5	
 #define NUMBER_DEEP			0.5
-#define PIPE_DEEP			0.6
+#define PIPE_DEEP			0.5
 #define PIRHANA_DEEP		0.5
-#define MARIO_DEEP			0.4
+#define MARIO_DEEP			0.3
+#define CASTLE_DEEP			0.5
+#define CLOUD_DEEP			0.5
+#define GRASS_DEEP			0.4
+#define MOUNTAIN_DEEP		0.5
 #define KEYBOARD_BUFFER_SIZE	1024
 #define CHANGE_POSY			3
 
@@ -86,19 +94,13 @@ enum _SPRITE
 	S_PIPE,
 	S_PIRHANA,
 	S_SMARIO,
-	S_STAR
+	S_STAR,
+	S_CASTLE,
+	S_CLOUD,
+	S_GRASS,
+	S_MOUNTAIN
 };
-enum ITEM_STATE
-{
 
-};
-enum TERRAIN_STATE
-{
-};
-enum ENEMY_STATE
-{
-
-};
 enum GAME_STATE
 {
 	GS_MENU,
@@ -114,12 +116,30 @@ enum GAME_STATE
 	GS_ABOUT,
 	GS_CONFIRM
 };
-enum MARIO_STATE
+enum FSM_Mario
 {
-
+	STAND = 0,
+	RUN,
+	JUMP,
+	FALL,
+	SIT,
+	DEAD,
+	STAR
 };
-enum BULLET_STATE
+
+enum ENEMY_STATE
 {
-
+	ES_ACTIVING,
+	ES_IDLE,			//Khi Goomba hoặc Koopa bị dậm
+	ES_MOVE_SHELL_LEFT,		//Khi Koopa di chuyển trong mai rùa.
+	ES_MOVE_SHELL_RIGHT,
+	ES_FALL,				//Khi Goomba hoặc Koopa bị rơi (chuẩn bị chết)
+	ES_DIED
 };
+enum class StatusObject
+{
+	ALIVE,
+	DEAD
+};
+
 #endif

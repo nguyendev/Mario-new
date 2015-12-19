@@ -3,19 +3,25 @@
 #include "Writer.h"
 #include "Brick.h"
 #include "Pipe.h"
+#include "Goomba.h"
+#include "Cloud.h"
+#include "Grass.h"
+#include "Mountain.h"
+#include "BrickQuestion.h"
 Camera*  _camera;
-void DrawTextAdvanced(LPCWSTR text, D3DXVECTOR2 m_Position, int width, int height, D3DXCOLOR color, LPD3DXFONT font)
+void DrawText(wstring text, int x, int y, LPD3DXFONT font)
 {
-	RECT rect;
-	rect.left = m_Position.x;
-	rect.right = m_Position.x + width;
-	rect.top = m_Position.y;
-	rect.bottom = m_Position.y + height;
-	font->DrawTextW(NULL, (LPCWSTR)text, -1, &rect, 0, color);
+	RECT rct;
+	rct.left = x;
+	rct.right = rct.left + 15 * text.length();
+	rct.top = y;
+	rct.bottom = y + 15;
+
+	font->DrawText(NULL,(LPCSTR) (text.c_str()), -1, &rct, 0, D3DCOLOR_XRGB(255, 255, 255));
 }
 void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
 {
-	DrawNumber(sprite, number, x,y, vpx, vpy, ZOOM, ZOOM);
+	DrawNumber(sprite, number, x,y, vpx, vpy, 1, 1);
 }
 LPDIRECT3DSURFACE9 CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
 {
@@ -116,8 +122,9 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	{
 		switch (t[i].id)
 		{
-		case 1:
-			obj = new Mario(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_SMARIO]);
+		case 1010:
+			obj = new Goomba(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GOOMBA]);
+			break;
 		case 14: case 15: case 16:
 			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
 			break;
@@ -126,19 +133,31 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 0);
 			break;
 		case 19:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 8);
+			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 8);
 			break;
 		case 17:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 2);
+			obj = new FloorBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 2);
 			break;
 		case 20:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4);
 			break;
 		case 21:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
+			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
 			break;
 		case 22:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1);
+			break;
+		case 23:
+			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
+			break;
+		case 25: case 26: case 27:
+			obj = new Cloud(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_CLOUD], 0);
+			break;
+		case 11: case 12: case 13:
+			obj = new Grass(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GRASS], 0);
+			break;
+		case 29: case 28:
+			obj = new Mountain(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_MOUNTAIN], 0);
 			break;
 		/*default:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],1);

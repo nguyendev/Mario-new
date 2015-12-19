@@ -19,7 +19,7 @@ void Koopa::Move(float t)
 	_m_Position.x += _m_Velocity.x * t;
 	_m_Position.y += _m_Velocity.y * t;
 }
-void Koopa::Update(float t)
+void Koopa::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
 
 	DWORD now = GetTickCount();

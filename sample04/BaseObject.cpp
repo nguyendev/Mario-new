@@ -1,3 +1,4 @@
+#pragma warning(disable: 4244) // possible loss of data
 #include "BaseObject.h"
 
 
@@ -28,6 +29,8 @@ BaseObject::BaseObject(float x, float y, float cameraX, float cameraY)
 	ResetRect();
 	_widthRect = _width;
 	_heightRect = _height;
+	m_isActive = true;
+	m_status = StatusObject::ALIVE;
 }
 void BaseObject::ResetRect()
 {
@@ -60,5 +63,10 @@ void BaseObject::setVelocity(float vx, float vy)
 {
 	_m_Velocity.x = vx;
 	_m_Velocity.y = vy;
+}
+
+void BaseObject::setStatusObject(StatusObject status)
+{
+	m_status = status;
 }
 

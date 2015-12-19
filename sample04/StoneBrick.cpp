@@ -14,9 +14,9 @@ StoneBrick::StoneBrick(float _x, float _y, float _cameraX, float _cameraY, int I
 	_SpriteIndex = SpriteIndex;
 	ResetRect();
 }
-void StoneBrick::Update()
+void StoneBrick::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
-	_m_Position.x += 10;
+
 }
 void StoneBrick::Render()
 {

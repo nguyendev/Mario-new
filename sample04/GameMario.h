@@ -27,7 +27,7 @@ public:
 	~CGameMario();
 
 	LPD3DXSPRITE _SpriteHandler;
-	CSprite * _sprites[20];
+	CSprite * _sprites[30];
 	BaseObject* _staticObjs[1000];
 	list<BaseObject*> staticObjs;
 	list<BaseObject*> dynamicObjs;
@@ -39,7 +39,7 @@ public:
 	LPD3DXFONT	_fontArial;
 
 	int _countI = 0;
-
+	int _live;
 	CSprite * brick;
 
 	DWORD last_time;		// this is to control the animate rate of kitty
@@ -57,7 +57,7 @@ protected:
 	void RenderBackground(int view_port_x, int view_port_y);
 
 	//Load Resource-----------
-	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin;
+	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin, *_sound_Background;
 	CSound *_sound_Die, *_sound_EnemyFire, *_sound_FireBall, *_sound_Flagpole, *_sound_GameOver, *_sound_Item, *_sound_Warp;
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine;
 	void LoadAudio();

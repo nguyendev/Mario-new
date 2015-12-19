@@ -87,7 +87,7 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 		}
 		else if (dir == DIR::LEFT)  // left
 		{
-			position.x = dynamicBox.x - moveBox.width - 1;
+			//position.x = dynamicBox.x - moveBox.width - 1;
 		}
 		else if (dir == TOP) // top
 		{

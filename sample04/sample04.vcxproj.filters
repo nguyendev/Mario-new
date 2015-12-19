@@ -20,9 +20,6 @@
     <Filter Include="Game\Dynamic">
       <UniqueIdentifier>{ee1eb9ce-7005-4702-9347-1a620ed51b47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Audio">
-      <UniqueIdentifier>{5cf3f960-2d98-46c9-84a7-aa90fdae6f64}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">
@@ -71,12 +68,6 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>Framework\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="dsutil.cpp">
-      <Filter>Framework\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Dynamic</Filter>
     </ClCompile>
@@ -93,6 +84,27 @@
       <Filter>Game\Static</Filter>
     </ClCompile>
     <ClCompile Include="IronBrick.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="dsutil.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Flag.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Mountain.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Grass.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloud.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickQuestion.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,15 +158,6 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Framework\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="dsutil.h">
-      <Filter>Framework\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="dxutil.h">
-      <Filter>Framework\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="SweptAABB.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -174,6 +177,30 @@
       <Filter>Game\Static</Filter>
     </ClInclude>
     <ClInclude Include="IronBrick.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="dsutil.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="dxutil.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Mountain.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Grass.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloud.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickQuestion.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
   </ItemGroup>
