@@ -83,19 +83,19 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 
 		if (dir == DIR::BOTTOM) // bottom
 		{
-			position.y = dynamicBox.y + moveBox.height + 1;
+			position.y = dynamicBox.y + moveBox.height;
 		}
 		else if (dir == DIR::LEFT)  // left
 		{
-			//position.x = dynamicBox.x - moveBox.width - 1;
+			position.x = dynamicBox.x - moveBox.width;
 		}
 		else if (dir == TOP) // top
 		{
-			position.y = dynamicBox.y - moveBox.height - 1;
+			position.y = dynamicBox.y - moveBox.height;
 		}
 		else if (dir == DIR::RIGHT)
 		{
-			position.x = dynamicBox.x + dynamicBox.width + 1;
+			position.x = dynamicBox.x + dynamicBox.width;
 		}
 
 		moveObject->setPosition(position.x, position.y);

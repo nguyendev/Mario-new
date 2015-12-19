@@ -36,7 +36,7 @@ public:
 	Camera * _camera;
 	Audio* _audio;
 	QuadTree* _quadTree;
-	LPD3DXFONT	_fontArial;
+	LPD3DXFONT	_font;
 
 	int _countI = 0;
 	int _live;
@@ -55,6 +55,7 @@ protected:
 	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
 	virtual void UpdateWorld(float TPF);
 	void RenderBackground(int view_port_x, int view_port_y);
+	void DrawScore();
 
 	//Load Resource-----------
 	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin, *_sound_Background;

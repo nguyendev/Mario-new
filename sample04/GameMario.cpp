@@ -1,4 +1,4 @@
-#pragma warning(disable: 4244) // possible loss of data
+﻿#pragma warning(disable: 4244) // possible loss of data
 #include <time.h>
 #include <d3dx9.h>
 #include "GameMario.h"
@@ -36,7 +36,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv, &_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv, &_SpriteHandler);
-	D3DXCreateFont(_d3ddv, 28, 0, FW_BOLD, 0, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("SuperMarioBros"), &_fontArial);
+	D3DXCreateFont(_d3ddv, 25, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("Time New Roman"), &_font);
 	LoadSprite();
 	LoadAudio();
 
@@ -102,8 +102,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		break;
 	case GS_PLAYING:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
-		DrawNumber(_sprites[S_NUMBER], _timeGame, 100, 20, 0, 0);
-		DrawNumber(_sprites[S_NUMBER], _live, 600, 20, 0, 0);
+		DrawScore();
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			obj = *i;
@@ -238,4 +237,35 @@ CGameMario::~CGameMario()
 		delete _quadTree;
 	for (int i = 0; i < 30; i++)
 		if (_sprites[i] != NULL) delete _sprites[i];
+}
+
+void CGameMario::DrawScore()
+{
+	
+	// dòng một
+	DrawTxt(L"MARIO", 24, 8, _font);
+	DrawTxt(L"WORLD", 144, 8, _font);
+	DrawTxt(L"TIME", 200, 8, _font);
+	// dòng hai
+	// draw score
+	/*string text = to_string(m_score);
+	while (text.length() < 6)
+		text = "0" + text;
+	LPCSTR lp = text.c_str;
+	DrawTxt(lp, 24, 18,_font);*/
+
+
+	//m_sprite->setRect(m_frameList[m_currentFrame].rect);
+	//m_sprite->draw(spriteHandler, D3DXVECTOR2(89 + m_width / 2, 210 + m_height / 2), D3DXVECTOR2(1.0f, 1.0f), 0, VIEW_PORT_Y, D3DCOLOR_XRGB(255, 255, 255));
+
+	//// draw score coin
+	//text = to_string(m_countCoin);
+	//while (text.length() < 2)
+	//	text = "0" + text;
+	//text = "x" + text;
+	//DrawText(wstring(text.begin(), text.end()), Vector2(95, 18));
+
+	//// draw time of state
+	//text = to_string(m_timeOfState);
+	//DrawText(wstring(text.begin(), text.end()), Vector2(200, 18));
 }

@@ -9,15 +9,18 @@
 #include "Mountain.h"
 #include "BrickQuestion.h"
 Camera*  _camera;
-void DrawText(wstring text, int x, int y, LPD3DXFONT font)
+void DrawTxt(wstring text, int x, int y, LPD3DXFONT font)
 {
 	RECT rct;
 	rct.left = x;
-	rct.right = rct.left + 15 * text.length();
+	rct.right = rct.left + 25 * text.length();
 	rct.top = y;
-	rct.bottom = y + 15;
-
-	font->DrawText(NULL,(LPCSTR) (text.c_str()), -1, &rct, 0, D3DCOLOR_XRGB(255, 255, 255));
+	rct.bottom = y + 25;
+	string s(text.begin(), text.end());
+	LPCSTR lpMyString = s.c_str();
+	//_text = text.c_str;
+	//font->DrawText(NULL,text.c_str(), -1, &rct, 0, D3DCOLOR_XRGB(255, 255, 255));
+	font->DrawText(NULL, lpMyString, -1, &rct, 0, D3DCOLOR_XRGB(255, 255, 255));
 }
 void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
 {

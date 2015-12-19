@@ -5,7 +5,7 @@
 
 #define PI				3.141592654
 #define G				10000
-#define	VMAX			1000;
+#define	VMAX			100
 #define WIDTH			800
 #define HEIGHT			600
 #define YMENU_MAX		405
@@ -59,7 +59,7 @@
 #define CHANGE_POSY			3
 
 
-#define ANIMATE_RATE 30		//fixed 60->30
+#define ANIMATE_RATE 60		//fixed 60->30
 
 
 enum DIR

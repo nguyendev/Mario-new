@@ -26,7 +26,7 @@ Pipe::Pipe(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sp
 		_heightRect = _height * 3;
 	case 16:
 		_widthRect = _width * 2;
-		_heightRect = _heightRect * 4;
+		_heightRect = _height * 4;
 	}
 	_SpriteIndex = SpriteIndex;
 	ResetRect();
