@@ -61,7 +61,27 @@
 
 #define ANIMATE_RATE 60		//fixed 60->30
 
+struct Box
+{
+	float x, y;
+	float width, height;
 
+	float vx, vy;
+
+	Box(){}
+
+	Box(float x, float y, float w, float h, float vx = 0.0f, float vy = 0.0f)
+	{
+		this->x = x;
+		this->y = y;
+
+		width = w;
+		height = h;
+
+		this->vx = vx;
+		this->vy = vy;
+	}
+};
 enum DIR
 {
 	NONE = 0,

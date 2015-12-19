@@ -46,7 +46,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
-	_mario = new Mario(0, 0, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
+	_mario = new Mario(100, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
 
 
 	//Example about Enemies

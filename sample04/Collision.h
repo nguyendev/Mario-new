@@ -1,21 +1,20 @@
 #pragma once
-#include "SweptAABB.h"
+#include "SwapAABB.h"
 #include "BaseObject.h"
-#include "Global.h"
+
+class BaseObject;
 
 class Collision
 {
-private:
-	D3DXVECTOR2 velocity;
+	float veclocity_vx;
+	float veclocity_vy;
+
 	static Collision* m_instance;
-	Collision(){};
+	float timeCollision;
+	Collision();
 public:
 	static Collision* getInstance();
 	DIR isCollision(BaseObject*, BaseObject*);
-	D3DXVECTOR2		getVelocity(){ return velocity; };
-	~Collision(){};
-	float timeCol;
-	void		setTimeCol(float);
-	float		getTimeCol(){ return timeCol; }
+	D3DXVECTOR2	getVelocity();
+	float getTimeCollision(){ return timeCollision; }
 };
-

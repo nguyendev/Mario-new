@@ -19,6 +19,11 @@ class Mario: public BaseObject
 	float _timejump;
 	bool isCanJump;
 	bool isJumping;
+	float waittime;
+	D3DXVECTOR2		m_MaxVelocity;
+	D3DXVECTOR2		m_MinVelocity;
+	D3DXVECTOR2 maxVelocity;
+	D3DXVECTOR2 minVelocity;
 public:
 	DWORD last_time;
 	Mario(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);

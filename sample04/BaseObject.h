@@ -6,7 +6,7 @@
 #include <fstream>
 #include "KeyBoard.h"
 #include "sprite.h"
-#include "SweptAABB.h"
+#include "SwapAABB.h"
 
 using namespace std;
 class CGameMario;

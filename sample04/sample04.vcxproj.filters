@@ -158,9 +158,6 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="SweptAABB.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Game\Dynamic</Filter>
     </ClInclude>
@@ -202,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="BrickQuestion.h">
       <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapAABB.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

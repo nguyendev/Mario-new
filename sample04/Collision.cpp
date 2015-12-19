@@ -6,28 +6,32 @@ Collision* Collision::getInstance()
 {
 	if (m_instance == NULL)
 		m_instance = new Collision();
+
 	return m_instance;
 }
 
-void Collision::setTimeCol(float time)
+Collision::Collision()
 {
-	timeCol = time;
 }
+
+D3DXVECTOR2 Collision::getVelocity()
+{
+	return D3DXVECTOR2(veclocity_vx, veclocity_vy);
+}
+
 DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 {
-	float timeCollision;
-
 	Box dynamicBox = dynamicObject->getBouding();
 	Box moveBox = moveObject->getBouding();
-
-	velocity = moveObject->getVelocity();
+	veclocity_vx = moveBox.vx;
+	veclocity_vy = moveBox.vy;
 	float normalX = 0, normalY = 0;
 
 	// kiem tra va cham không cần biết vận tốc cua doi tuong
-	DIR dir = AABB(moveBox, dynamicBox);
+	/*DIR dir = AABB(moveBox, dynamicBox);
 	if (dir == DIR::NONE)
-	{
-		// hệ qui chiếu object2
+	{*/
+		// make dynamicBox not move
 		moveBox.vx -= dynamicBox.vx;
 		moveBox.vy -= dynamicBox.vy;
 		dynamicBox.vx = dynamicBox.vy = 0;
@@ -35,17 +39,16 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 		// vật nằm trong không gian của đối tượng 
 		if (AABB(dynamicBox, GetSweptBroadPhaseBox(moveBox)) != DIR::NONE)
 		{
-			timeCollision = SweptAABB(moveBox, dynamicBox, normalX, normalY);
-			if (timeCollision > 0.0f && timeCollision < 1.0f)
+			 timeCollision = SweptAABB(moveBox, dynamicBox, normalX, normalY);
+
+			if (timeCollision > 0.0f && timeCollision <= 1.0f)
 			{
 				// update velocity
-				if (abs(velocity.x) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f);
-					velocity.x = moveBox.vx * timeCollision + normalX;
+				if (abs(veclocity_vx) >= abs(moveBox.vx * timeCollision + normalX) && normalX != 0.0f)
+					veclocity_vx = moveBox.vx * timeCollision + normalX;
+				if (abs(veclocity_vy) >= abs(moveBox.vy * timeCollision + normalY) && normalY != 0.0f)
+					veclocity_vy = moveBox.vy * timeCollision + normalY;
 
-				if (abs(velocity.y) >= abs(moveBox.vy * timeCollision + normalY) && normalY != 0.0f);
-					velocity.y = moveBox.vy * timeCollision + normalY;
-
-				//object1->setVelocity(velocity.x, velocity.y);
 
 				if (normalX != 0.0f)
 				{
@@ -77,30 +80,27 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 			return DIR::NONE;
 		}
 	}
-	else // xảy ra va chạm
-	{
-		D3DXVECTOR2 position = moveObject->getPosition();
 
-		if (dir == DIR::BOTTOM) // bottom
-		{
-			position.y = dynamicBox.y + moveBox.height;
-		}
-		else if (dir == DIR::LEFT)  // left
-		{
-			position.x = dynamicBox.x - moveBox.width;
-		}
-		else if (dir == TOP) // top
-		{
-			position.y = dynamicBox.y - moveBox.height;
-		}
-		else if (dir == DIR::RIGHT)
-		{
-			position.x = dynamicBox.x + dynamicBox.width;
-		}
+	//else // xảy ra va chạm
+	//{
+	//	if (dir == TOP) // top
+	//	{
+	//		moveBox.y = dynamicBox.y + dynamicBox.height + 1;
+	//	}
+	//	else if (dir == DIR::BOTTOM) // bottom
+	//	{
+	//		moveBox.y = dynamicBox.y - moveBox.height - 1;
+	//	}
+	//	else if (dir == DIR::LEFT)  // left
+	//	{
+	//		moveBox.x = dynamicBox.x - moveBox.width - 1;
+	//	}
+	//	else if (dir == DIR::RIGHT)
+	//	{
+	//		moveBox.x = dynamicBox.x + dynamicBox.width + 1;
+	//	}
 
-		moveObject->setPosition(position.x, position.y);
+	//	moveObject->setPosition(moveBox.x, moveBox.y);
 
-		return dir;
-	}
-}
-
+	//	return dir;
+	//}
