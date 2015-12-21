@@ -7,6 +7,7 @@
 #include "Cloud.h"
 #include "Grass.h"
 #include "Mountain.h"
+#include "Koopa.h"
 #include "BrickQuestion.h"
 Camera*  _camera;
 void DrawTxt(wstring text, int x, int y, LPD3DXFONT font)
@@ -59,6 +60,7 @@ typedef struct SRC {
 };
 void ReadMap(char* fileName, bool isBright, CGameMario* game)
 {
+	bool _isStatic;
 	int _count;
 	FILE * pFile;
 	BaseObject* obj = NULL;
@@ -125,42 +127,57 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	{
 		switch (t[i].id)
 		{
-		case 1010:
+		case 53:
+			obj = new Koopa(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_KOOPA]);
+			_isStatic = false;
+			break;
+		case 55:
 			obj = new Goomba(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GOOMBA]);
+			_isStatic = false;
 			break;
 		case 14: case 15: case 16:
 			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
-			break;
-
-		case 18:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 0);
-			break;
-		case 19:
-			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 8);
+			_isStatic = true;
 			break;
 		case 17:
 			obj = new FloorBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 2);
+			_isStatic = true;
+			break;
+		case 18:
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],isBright, 0);
+			_isStatic = true;
+			break;
+		case 19:
+			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 8);
+			_isStatic = true;
 			break;
 		case 20:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4);
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4,isBright);
+			_isStatic = true;
 			break;
 		case 21:
 			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
+			_isStatic = true;
 			break;
 		case 22:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1);
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1,isBright);
+			_isStatic = true;
 			break;
 		case 23:
 			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
+			_isStatic = true;
 			break;
 		case 25: case 26: case 27:
 			obj = new Cloud(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_CLOUD], 0);
+			_isStatic = true;
 			break;
 		case 11: case 12: case 13:
 			obj = new Grass(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GRASS], 0);
+			_isStatic = true;
 			break;
 		case 29: case 28:
 			obj = new Mountain(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_MOUNTAIN], 0);
+			_isStatic = true;
 			break;
 		/*default:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],1);
@@ -170,7 +187,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		if (obj != NULL)
 		{
 			obj->_game = game;
-			game->_quadTree->Add(obj, true);
+			game->_quadTree->Add(obj, _isStatic);
 		}
 		obj = NULL;
 	}

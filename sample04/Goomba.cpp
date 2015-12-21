@@ -9,36 +9,39 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 {
 	_sprite = sprite;
 	_ID = ID;
-	_m_Velocity.x = GOOMBA_SPEED;		// demo, if the game is real, it is 0
-	_m_Velocity.y = +10;
+	_m_Velocity.x = -1;		// demo, if the game is real, it is 0
+	_m_Velocity.y = 1;
 	_width = _sprite->_Width;
-	_height = _sprite->_Height;
+	_height = _sprite->_Height-1;
+	_widthRect = _width;
+	_heightRect = _height;
 	state = ES_ACTIVING;
 	ay = G;
 	ResetRect();
 }
 void Goomba::Move(float t)
 {
-	_m_Position.x += _m_Velocity.y * t;
-	_m_Position.y += _m_Velocity.y* t;
+	_m_Position.x += _m_Velocity.x;
+	_m_Position.y += _m_Velocity.y;
 }
-void Goomba::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
+void Goomba::Collision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
 	list<BaseObject*>::iterator i;
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
 		obj = *i;
 		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		//if (dir != DIR::NONE)
-		//{
-		//	MessageBox(NULL, "d", "s", NULL);
-		//	if (obj->_ID >= 18 && obj->_ID <= 22) //collision with Brick
-		//	{
-				if (dir == DIR::TOP || dir == DIR::BOTTOM)
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y * -1);
-			/*}
-		}*/
+		if (obj->_ID >= 17 && obj->_ID <= 22) //collision with Brick
+		{
+			switch (dir)
+			{
+			case BOTTOM:
+				_m_Velocity = Collision::getInstance()->getVelocity();
+				break;
+			}
+		}
 	}
+	
 }
 void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
@@ -64,7 +67,7 @@ void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* 
 	if (now - last_time > 1000 / ANIMATE_RATE)
 	{
 		Move(TPF);
-		CollisionStatic(TPF, staticObj);
+		Collision(staticObj,dynamicObj);
 		_sprite->Next(0,1);
 		last_time = now;
 	}

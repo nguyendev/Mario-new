@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "GameMario.h"
 
+
 void ReadMap(char* fileName, bool isBright, CGameMario* game);
 void DrawTxt(wstring text, int x, int y, LPD3DXFONT font);
 void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy);

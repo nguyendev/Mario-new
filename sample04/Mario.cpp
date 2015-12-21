@@ -1,15 +1,18 @@
 ﻿#include "Mario.h"
 #include "Global.h"
 #include "Collision.h"
-Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
+#include "Audio.h"
+
+
+Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite, HWND hwnd) :BaseObject(x, y, cameraX, cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_vx_last = 1.0f;
-	_widthRect = _width;
-	_heightRect = _height;
+	_widthRect = _width -2;
+	_heightRect = _height -2;
 	isCanJump = false;
 	_timejump = 0;
 	isJumping = false;
@@ -20,6 +23,8 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	maxVelocity = m_MaxVelocity;
 	minVelocity = m_MinVelocity;
 	_m_Velocity = D3DXVECTOR2(0, 1);
+	LoadAudio();
+	Audio::getInstance()->initialize(hwnd);
 }
 
 
@@ -86,9 +91,12 @@ void Mario::Move(float TPF)
 		_m_Position.x = Camera::_cameraX;
 	if (_m_Position.x > Camera::_cameraX + WIDTH)
 		_m_Position.x = Camera::_cameraX + WIDTH;
+	_PositionX_Old = _m_Position.x;
 }
-void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
+void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
+	
+	//Collision with staticObj
 	list<BaseObject*>::iterator i;
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
@@ -99,25 +107,25 @@ void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
 		{
 			//D3DXVECTOR2 position = this->getPosition();
 
-			if (obj->_ID >= 18 && obj->_ID <= 22) //collision with Brick
+			if (obj->_ID >= 17 && obj->_ID <= 22) //collision with Brick
 			{
 				switch (dir)
 				{
 				case NONE:
 					break;
 				case LEFT:
-					_m_Velocity = Collision::getInstance()->getVelocity();
+					/*_m_Velocity = Collision::getInstance()->getVelocity();
 					_m_Position.x = obj->getPosition().x - this->_width - 1;
+					_m_Position.x = _PositionX_Old;*/
 					break;
 				case RIGHT:
 					break;
 				case TOP:
-					_m_Velocity = Collision::getInstance()->getVelocity();
+					//_m_Velocity = Collision::getInstance()->getVelocity();
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					break;
 				case BOTTOM:
 					_m_Velocity = Collision::getInstance()->getVelocity();
-					_m_Position.y = obj->getPosition().y - this->_height - 1;
 					break;
 				default:
 					break;
@@ -126,83 +134,36 @@ void Mario::CollisionStatic(float TPF, list<BaseObject*>* staticObj)
 
 			if (obj->_ID >= 14 && obj->_ID <= 16) // collision with Pipe
 			{
-				switch (dir)
-				{
-				case NONE:
-					break;
-				case LEFT:
-					MessageBox(NULL, "", "", NULL);
-					_m_Velocity.x = 0;
-					_m_Position.x = obj->getPosition().x - this->_widthRect - 1;
-					this->setVelocity(this->getVelocity().x*-1, this->getVelocity().y);
-					break;
-				case RIGHT:
-					MessageBox(NULL, "", "", NULL);
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					_m_Position.x = obj->getPosition().x + obj->_widthRect;
-					break;
-				case TOP:
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					break;
-				case BOTTOM:
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					_m_Position.y = obj->getPosition().y - this->_height - 1;
-					break;
-				default:
-					break;
-				}
+				Audio::getInstance()->PlaySound(_sound_1up);
 			}
-			//this->setPosition(position.x, position.y);
-				//else if (dir == DIR::TOP)
-				//{
-				//	//if (getFSM() == FSM_Mario::FALL || getFSM() == FSM_Mario::RUN) // fall gặp vật cản
-				//	//	setLocation(Location::LOC_ON_GROUND);
-				//}
-				/*_m_Velocity = Collision::getInstance()->getVelocity();
-				this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);*/
-				//if (dir == DIR::TOP || dir == DIR::BOTTOM)
-				//{
-				//	
-				//	//position.y = obj->getPosition().y - this->_height;
-				//	
-				//	isCanJump = false;		// if collision on top of brick, mario is not Jumping
-				//	//_timejump = 0;			// reset time jumped
-				//}
-
-				//if (dir == DIR::BOTTOM)
-				//{
-				//	//_m_Velocity = Collision::getInstance()->getVelocity();
-				//	isCanJump = false;
-				//	_m_Velocity *= -1;
-				//}
-
-				//if (dir == DIR::LEFT)
-				//	_m_Velocity = Collision::getInstance()->getVelocity();
-			}
-			//else if (obj->_ID >= 14 && obj->_ID <= 16)  //collision with PIPE
-			//{
-			//	if (dir == DIR::LEFT || dir == DIR::RIGHT);
-			//		//this->setVelocity(this->getVelocity().x*-1, this->getVelocity().y);
-			//}
-			
-		
-		
+		}
 	}
+	//------------------------
+
+	//Collision with dynamicObj
+
+	for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
+	{
+		obj = *i;
+		DIR dir = Collision::getInstance()->isCollision(this, obj);
+		if (dir != DIR::NONE){
+			
+			if (obj->_ID == 55)
+			{
+				if (dir == DIR::LEFT || dir == DIR::RIGHT || dir == DIR::TOP || dir == DIR::BOTTOM)
+					_m_Position.x + 100;
+			}
+		}
+	}
+	//--------------------
 }
 void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
-	/*waittime += TPF;
-	if (waittime > 1)
-	{
-		
-		waittime = -1;
-	}*/
 	DWORD now = GetTickCount();
 	if (now - last_time > 1000 / ANIMATE_RATE)
 	{
 		Move(TPF);
-		CollisionStatic(TPF, staticObj);
+		CheckCollision(staticObj, dynamicObj);
 		if (_m_Velocity.x > 0) _sprite->Next();
 		if (_m_Velocity.x < 0) _sprite->Next();
 		last_time = now;
@@ -222,24 +183,14 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 	if (_keyboard->KeyDown(DIK_RIGHT))
 	{
 		_m_Velocity.x = 1;
-		//_vx_last = getVelocity().x;
-		//ax = G / 3;
-		//vMax = VMAX;
 	}
 	else if (_keyboard->KeyDown(DIK_LEFT))
 	{
 		_m_Velocity.x = -1;
-		//_vx_last = getVelocity().x;
-		//ax = -G / 3;
-		//vMax = VMAX;
 	}
 	else
 	{
-		//ax = 0;
-		////ay = 0;
 		_m_Velocity.x = 0;
-		//_m_Velocity.y++;
-		//_sprite->Reset();
 	}
 	if (_keyboard->KeyPress(DIK_SPACE))
 	{
@@ -255,3 +206,29 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 	
 }
 
+void Mario::LoadAudio()
+{
+	_sound_1up = Audio::getInstance()->LoadSound("Sounds\\1up.wav");
+	_sound_Beep = Audio::getInstance()->LoadSound("Sounds\\Beep.wav");
+	_sound_BigJump = Audio::getInstance()->LoadSound("Sounds\\BigJump.wav");
+	_sound_BowserDie = Audio::getInstance()->LoadSound("Sounds\\Bowser.wav");
+	_sound_Break = Audio::getInstance()->LoadSound("Sounds\\Break.wav");
+	_sound_Bump = Audio::getInstance()->LoadSound("Sounds\\Bump.wav");
+	_sound_Coin = Audio::getInstance()->LoadSound("Sounds\\Coin.wav");
+	_sound_Die = Audio::getInstance()->LoadSound("Sounds\\Die.wav");
+	_sound_EnemyFire = Audio::getInstance()->LoadSound("Sounds\\EnemyFire.wav");
+	_sound_FireBall = Audio::getInstance()->LoadSound("Sounds\\FireBall.wav");
+	_sound_Flagpole = Audio::getInstance()->LoadSound("Sounds\\Flagpole.wav");
+	_sound_GameOver = Audio::getInstance()->LoadSound("Sounds\\GameOver.wav");
+	_sound_Item = Audio::getInstance()->LoadSound("Sounds\\Item.wav");
+	_sound_Jump = Audio::getInstance()->LoadSound("Sounds\\Jump.wav");
+	_sound_Kick = Audio::getInstance()->LoadSound("Sounds\\Kick.wav");
+	_sound_Pause = Audio::getInstance()->LoadSound("Sounds\\Pause.wav");
+	_sound_Powerup = Audio::getInstance()->LoadSound("Sounds\\Powerup.wav");
+	_sound_Skid = Audio::getInstance()->LoadSound("Sounds\\Skid.wav");
+	_sound_Squish = Audio::getInstance()->LoadSound("Sounds\\Squish.wav");
+	_sound_Thwomp = Audio::getInstance()->LoadSound("Sounds\\Thwomp.wav");
+	_sound_Vine = Audio::getInstance()->LoadSound("Sounds\\Vine.wav");
+	_sound_Warp = Audio::getInstance()->LoadSound("Sounds\\Warp.wav");
+	_sound_Background = Audio::getInstance()->LoadSound("Sounds\\Background.wav");
+}

@@ -20,6 +20,9 @@
     <Filter Include="Game\Dynamic">
       <UniqueIdentifier>{ee1eb9ce-7005-4702-9347-1a620ed51b47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\iTem">
+      <UniqueIdentifier>{7961f392-002b-4784-80f5-3cf45feae7f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">

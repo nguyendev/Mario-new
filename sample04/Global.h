@@ -161,5 +161,14 @@ enum class StatusObject
 	ALIVE,
 	DEAD
 };
+enum TERRAIN_STATE
+{
+	TS_IDLE,
+	TS_IDLE_2,
+	TS_MOVEUP,
+	TS_BREAKING,
+	TS_BREAKED,
+	TS_ACTIVING
+};
 
 #endif

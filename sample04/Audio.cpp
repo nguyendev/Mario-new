@@ -2,7 +2,16 @@
 
 CSoundManager *dsound;
 
-Audio::Audio(HWND hwnd)
+Audio* Audio::m_instance = 0;
+
+Audio* Audio::getInstance()
+{
+	if (m_instance == NULL)
+		m_instance = new Audio();
+
+	return m_instance;
+}
+void Audio::initialize(HWND hwnd)
 {
 	HRESULT result;
 	bool isInit_Audio;

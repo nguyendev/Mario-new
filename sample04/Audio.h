@@ -9,8 +9,11 @@ extern CSoundManager *dsound;
 //function prototypes
 class Audio
 {
+	static Audio* m_instance;
 public:
-	Audio(HWND);
+	static Audio* getInstance();
+	Audio(){};
+	void initialize(HWND);
 	CSound *LoadSound(char*);
 	void PlaySound(CSound *);
 	void LoopSound(CSound *);

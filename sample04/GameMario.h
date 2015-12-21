@@ -74,5 +74,6 @@ protected:
 	bool isLoad = false;
 	BaseObject* _mario;
 	int _Map;
+	void ChangeState(char* state);
 };
 #endif _GAME_MARIO_H_

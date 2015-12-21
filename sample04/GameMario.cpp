@@ -12,7 +12,7 @@
 #define MENU_MAX 170
 #define MENU_MIN  149
 #define MENU_INCREASE 17
-		 KeyBoard* _keyboard = NULL;
+KeyBoard* _keyboard = NULL;
 
 CGameMario::CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate) :
 CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
@@ -32,7 +32,8 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 {
-	_audio = new Audio(_hWnd);
+	_audio = new Audio();
+	_audio->initialize(_hWnd);
 	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv, &_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv, &_SpriteHandler);
@@ -46,7 +47,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
-	_mario = new Mario(100, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO]);
+	_mario = new Mario(100, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO],_hWnd);
 
 
 	//Example about Enemies
@@ -75,6 +76,14 @@ void CGameMario::UpdateWorld(float TPF)
 			if (_obj->getStatusOBject() == StatusObject::DEAD)
 				_quadTree->DeleteObj(_obj, true);
 		}
+		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
+		{
+			_obj = *i;
+			_obj->Update(TPF, &staticObjs, &dynamicObjs);
+			if (_obj->getStatusOBject() == StatusObject::DEAD)
+				_quadTree->DeleteObj(_obj, true);
+		}
+		
 		staticObjs.clear();
 		dynamicObjs.clear();
 		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
@@ -85,6 +94,12 @@ void CGameMario::UpdateWorld(float TPF)
 	case GS_GAMEOVER:
 		_audio->PlaySound(_sound_GameOver);
 	}
+	if (_timeGame == 0);
+		
+
+}
+void ChangeState(char* state)
+{
 
 }
 void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
@@ -104,6 +119,12 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
 		DrawScore();
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
+		{
+			obj = *i;
+			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
+				obj->Render();
+		}
+		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			obj = *i;
 			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
@@ -222,7 +243,8 @@ void CGameMario::ChangeMap(int Map)
 	switch (_Map)
 	{
 	case 1:
-		ReadMap("Map\\MAP1.ptl", true, this);
+		ReadMap("Map\\MAP1.ptl", false , this);
+		//ReadMap("Map\\MAP1a.ptl", false, this);
 		//ReadMap("Map\\Test.mm",true,this);
 		break;
 

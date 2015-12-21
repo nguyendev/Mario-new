@@ -28,9 +28,9 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 	float normalX = 0, normalY = 0;
 
 	// kiem tra va cham không cần biết vận tốc cua doi tuong
-	/*DIR dir = AABB(moveBox, dynamicBox);
+	DIR dir = AABB(moveBox, dynamicBox);
 	if (dir == DIR::NONE)
-	{*/
+	{
 		// make dynamicBox not move
 		moveBox.vx -= dynamicBox.vx;
 		moveBox.vy -= dynamicBox.vy;
@@ -81,26 +81,27 @@ DIR Collision::isCollision(BaseObject *moveObject, BaseObject* dynamicObject)
 		}
 	}
 
-	//else // xảy ra va chạm
-	//{
-	//	if (dir == TOP) // top
-	//	{
-	//		moveBox.y = dynamicBox.y + dynamicBox.height + 1;
-	//	}
-	//	else if (dir == DIR::BOTTOM) // bottom
-	//	{
-	//		moveBox.y = dynamicBox.y - moveBox.height - 1;
-	//	}
-	//	else if (dir == DIR::LEFT)  // left
-	//	{
-	//		moveBox.x = dynamicBox.x - moveBox.width - 1;
-	//	}
-	//	else if (dir == DIR::RIGHT)
-	//	{
-	//		moveBox.x = dynamicBox.x + dynamicBox.width + 1;
-	//	}
+	else // xảy ra va chạm
+	{
+		if (dir == TOP) // top
+		{
+			moveBox.y = dynamicBox.y + dynamicBox.height + 1;
+		}
+		else if (dir == DIR::BOTTOM) // bottom
+		{
+			moveBox.y = dynamicBox.y - moveBox.height - 1;
+		}
+		else if (dir == DIR::LEFT)  // left
+		{
+			moveBox.x = dynamicBox.x - moveBox.width - 1;
+		}
+		else if (dir == DIR::RIGHT)
+		{
+			moveBox.x = dynamicBox.x + dynamicBox.width + 1;
+		}
 
-	//	moveObject->setPosition(moveBox.x, moveBox.y);
+		moveObject->setPosition(moveBox.x, moveBox.y);
 
-	//	return dir;
-	//}
+		return dir;
+	}
+}
