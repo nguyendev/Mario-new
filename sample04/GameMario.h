@@ -8,8 +8,7 @@
 #include "Global.h"
 // Objects
 #include "BaseObject.h" 
-
-#include "Mario.h"
+//#include "Mario.h"
 #include "Brick.h"
 
 
@@ -19,10 +18,10 @@
 #include "Audio.h"
 #include "QuadTree.h"
 
-
 class CGameMario : public CGame
 {
 public:
+	CGameMario();
 	CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate);
 	~CGameMario();
 
@@ -50,13 +49,13 @@ public:
 
 protected:
 
-	virtual void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF);
-	virtual void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF);
-	virtual void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
-	virtual void UpdateWorld(float TPF);
+	void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF);
+	void ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF);
+	void LoadResources(LPDIRECT3DDEVICE9 d3ddv);
+	void UpdateWorld(float TPF);
 	void RenderBackground(int view_port_x, int view_port_y);
 	void DrawScore();
-
+public:
 	//Load Resource-----------
 	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin, *_sound_Background;
 	CSound *_sound_Die, *_sound_EnemyFire, *_sound_FireBall, *_sound_Flagpole, *_sound_GameOver, *_sound_Item, *_sound_Warp;

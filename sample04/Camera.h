@@ -9,10 +9,10 @@ public:
 	static float _cameraY;
 	float _width;
 	float _height;
-
+	BaseObject*	mario;
 	RECT _rect;
 	Camera(){};
-	void Update(BaseObject* mario, QuadTree* quadTree);
+	void Update(QuadTree* quadTree);
 	~Camera();
 	Camera(float _x, float _y, float _width, float _height);
 	void ResetRect();

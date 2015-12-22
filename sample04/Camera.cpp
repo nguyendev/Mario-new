@@ -16,7 +16,7 @@ Camera::Camera(float x, float y, float width, float height)
 Camera::~Camera()
 {
 }
-void Camera::Update(BaseObject* mario, QuadTree* quadTree)
+void Camera::Update(QuadTree* quadTree)
 {
 	if (_cameraX + _width < quadTree->rect.right)
 	{

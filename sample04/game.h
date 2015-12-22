@@ -96,6 +96,7 @@ public:
 
 	int FrameRate;			// Desired frame rate of game
 	CGame(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullscreen, int FrameRate);
+	CGame(){};
 	~CGame();
 
 	// Initialize the game with set parameters

@@ -126,7 +126,6 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickQuestion.h" />
     <ClInclude Include="Camera.h" />
@@ -155,6 +154,9 @@
     <ClInclude Include="trace.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Writer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

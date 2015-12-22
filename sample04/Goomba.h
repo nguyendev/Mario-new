@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseObject.h"
 #include "Camera.h"
+
+class BaseObject;
 class Goomba:public BaseObject
 {
 private:

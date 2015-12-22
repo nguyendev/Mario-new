@@ -4,14 +4,16 @@
 #include <d3dx9.h>
 #include <list>
 #include <fstream>
+#include "SwapAABB.h"
 #include "KeyBoard.h"
 #include "sprite.h"
-#include "SwapAABB.h"
-
 using namespace std;
-class CGameMario;
-class CSprite;
-class QuadTree;
+
+extern class KeyBoard;
+extern class CGameMario;
+extern class CSprite;
+extern class QuadTree;
+extern class CGame;
 class BaseObject
 {
 protected:
@@ -58,8 +60,7 @@ public:
 	~BaseObject();
 	virtual void	SetState(char* varName, int val){};
 	virtual int		GetState(char* varName){ return -1; };
-	virtual void	ProcessInput(KeyBoard* keyboard){};
-	virtual void	Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj){};
+	virtual void	Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad){};
 	virtual void	Render(){};
 	virtual void	ResetRect();
 };

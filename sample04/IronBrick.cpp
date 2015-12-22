@@ -1,5 +1,5 @@
 #include "IronBrick.h"
-
+#include "BaseObject.h"
 
 
 IronBrick::IronBrick() :BaseObject()

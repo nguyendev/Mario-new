@@ -5,6 +5,7 @@
 #include "Pipe.h"
 #include "Goomba.h"
 #include "Cloud.h"
+#include "Mario.h"
 #include "Grass.h"
 #include "Mountain.h"
 #include "Koopa.h"
@@ -123,10 +124,16 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	int sizeWidth = m *PIXEL*ZOOM;
 	int sizeHeight = n * PIXEL*	ZOOM;
 	game->_quadTree = new QuadTree(0, 0,sizeWidth ,sizeHeight, 0);
+	Mario*	mario;
 	for (int i = 0; i < _count; i++)
 	{
 		switch (t[i].id)
 		{
+		case 1:
+			obj = new Mario(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_SMARIO], game);
+			game->_camera->mario = obj;
+			_isStatic = false;
+			break;
 		case 53:
 			obj = new Koopa(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_KOOPA]);
 			_isStatic = false;

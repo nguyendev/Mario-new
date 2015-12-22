@@ -1,18 +1,19 @@
 ﻿#include "Mario.h"
 #include "Global.h"
 #include "Collision.h"
-#include "Audio.h"
+#include "GameMario.h"
 
-
-Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite, HWND hwnd) :BaseObject(x, y, cameraX, cameraY)
+Mario::Mario() :BaseObject(){};
+Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite, CGameMario* game) :BaseObject(x, y, cameraX, cameraY)
 {
+	_game = game;
 	_sprite = sprite;
 	_ID = ID;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_vx_last = 1.0f;
-	_widthRect = _width -2;
-	_heightRect = _height -2;
+	_widthRect = _width - 2;
+	_heightRect = _height - 2;
 	isCanJump = false;
 	_timejump = 0;
 	isJumping = false;
@@ -23,8 +24,9 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	maxVelocity = m_MaxVelocity;
 	minVelocity = m_MinVelocity;
 	_m_Velocity = D3DXVECTOR2(0, 1);
-	LoadAudio();
-	Audio::getInstance()->initialize(hwnd);
+	//Audio::getInstance()->initialize(hwnd);
+
+
 }
 
 
@@ -134,7 +136,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 
 			if (obj->_ID >= 14 && obj->_ID <= 16) // collision with Pipe
 			{
-				Audio::getInstance()->PlaySound(_sound_1up);
+				_game->_audio->PlaySound(_game->_sound_Warp);
 			}
 		}
 	}
@@ -157,17 +159,19 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	}
 	//--------------------
 }
-void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
 {
 	DWORD now = GetTickCount();
 	if (now - last_time > 1000 / ANIMATE_RATE)
 	{
 		Move(TPF);
 		CheckCollision(staticObj, dynamicObj);
+		ProcessInput(keyborad);
 		if (_m_Velocity.x > 0) _sprite->Next();
 		if (_m_Velocity.x < 0) _sprite->Next();
 		last_time = now;
 	}
+
 }
 
 void Mario::Render()
@@ -206,29 +210,3 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 	
 }
 
-void Mario::LoadAudio()
-{
-	_sound_1up = Audio::getInstance()->LoadSound("Sounds\\1up.wav");
-	_sound_Beep = Audio::getInstance()->LoadSound("Sounds\\Beep.wav");
-	_sound_BigJump = Audio::getInstance()->LoadSound("Sounds\\BigJump.wav");
-	_sound_BowserDie = Audio::getInstance()->LoadSound("Sounds\\Bowser.wav");
-	_sound_Break = Audio::getInstance()->LoadSound("Sounds\\Break.wav");
-	_sound_Bump = Audio::getInstance()->LoadSound("Sounds\\Bump.wav");
-	_sound_Coin = Audio::getInstance()->LoadSound("Sounds\\Coin.wav");
-	_sound_Die = Audio::getInstance()->LoadSound("Sounds\\Die.wav");
-	_sound_EnemyFire = Audio::getInstance()->LoadSound("Sounds\\EnemyFire.wav");
-	_sound_FireBall = Audio::getInstance()->LoadSound("Sounds\\FireBall.wav");
-	_sound_Flagpole = Audio::getInstance()->LoadSound("Sounds\\Flagpole.wav");
-	_sound_GameOver = Audio::getInstance()->LoadSound("Sounds\\GameOver.wav");
-	_sound_Item = Audio::getInstance()->LoadSound("Sounds\\Item.wav");
-	_sound_Jump = Audio::getInstance()->LoadSound("Sounds\\Jump.wav");
-	_sound_Kick = Audio::getInstance()->LoadSound("Sounds\\Kick.wav");
-	_sound_Pause = Audio::getInstance()->LoadSound("Sounds\\Pause.wav");
-	_sound_Powerup = Audio::getInstance()->LoadSound("Sounds\\Powerup.wav");
-	_sound_Skid = Audio::getInstance()->LoadSound("Sounds\\Skid.wav");
-	_sound_Squish = Audio::getInstance()->LoadSound("Sounds\\Squish.wav");
-	_sound_Thwomp = Audio::getInstance()->LoadSound("Sounds\\Thwomp.wav");
-	_sound_Vine = Audio::getInstance()->LoadSound("Sounds\\Vine.wav");
-	_sound_Warp = Audio::getInstance()->LoadSound("Sounds\\Warp.wav");
-	_sound_Background = Audio::getInstance()->LoadSound("Sounds\\Background.wav");
-}

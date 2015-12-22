@@ -13,7 +13,7 @@
 #define MENU_MIN  149
 #define MENU_INCREASE 17
 KeyBoard* _keyboard = NULL;
-
+CGameMario::CGameMario():CGame(){};
 CGameMario::CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate) :
 CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 {
@@ -47,7 +47,6 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
-	_mario = new Mario(100, 150, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_SMARIO],_hWnd);
 
 
 	//Example about Enemies
@@ -72,14 +71,14 @@ void CGameMario::UpdateWorld(float TPF)
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			_obj = *i;
-			_obj->Update(TPF, &staticObjs, &dynamicObjs);
+			_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 			if (_obj->getStatusOBject() == StatusObject::DEAD)
 				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			_obj->Update(TPF, &staticObjs, &dynamicObjs);
+			_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 			if (_obj->getStatusOBject() == StatusObject::DEAD)
 				_quadTree->DeleteObj(_obj, true);
 		}
@@ -87,8 +86,8 @@ void CGameMario::UpdateWorld(float TPF)
 		staticObjs.clear();
 		dynamicObjs.clear();
 		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
-		_camera->Update(_mario, _quadTree);
-		_mario->Update(TPF, &staticObjs,&dynamicObjs);
+		_camera->Update(_quadTree);
+		//_mario->Update(TPF, &staticObjs,&dynamicObjs);
 		
 		break;
 	case GS_GAMEOVER:
@@ -130,10 +129,6 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
 				obj->Render();
 		}
-		//Render things
-		//_dynamicObjs[0]->Render();
-		//_dynamicObjs[1]->Render();
-		_mario->Render();
 		break;
 	case GS_GAMEOVER:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
@@ -175,7 +170,7 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		break;
 
 	case GS_PLAYING:
-		_mario->ProcessInput(_keyboard);
+		//_mario->ProcessInput(_keyboard);
 		if (_keyboard->KeyPress(DIK_Q))
 			PostQuitMessage(0);
 		break;

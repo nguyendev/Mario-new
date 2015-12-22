@@ -23,12 +23,21 @@
     <Filter Include="Game\iTem">
       <UniqueIdentifier>{7961f392-002b-4784-80f5-3cf45feae7f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{efa68abe-832c-4ca5-a118-53b0514b6fc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{9106c4ff-319f-4b8a-bba9-1836bd26aa15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QuadTree">
+      <UniqueIdentifier>{da61dd56-bc31-4c6f-b8e5-faa21b2f8674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{d1e2221b-1d0f-471b-a9e9-dcf0a05529c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
@@ -49,9 +58,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="KeyBoard.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -63,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="GameMario.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTree.cpp">
-      <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="TimeManager.cpp">
@@ -89,12 +92,6 @@
     <ClCompile Include="IronBrick.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Audio.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="dsutil.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Flag.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
@@ -110,15 +107,27 @@
     <ClCompile Include="BrickQuestion.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="dsutil.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="BaseObject.h">
@@ -136,9 +145,6 @@
     <ClInclude Include="Brick.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="KeyBoard.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -150,12 +156,6 @@
     </ClInclude>
     <ClInclude Include="GameMario.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="QuadTree.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="TimeManager.h">
@@ -179,15 +179,6 @@
     <ClInclude Include="IronBrick.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="dsutil.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="dxutil.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Flag.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
@@ -203,8 +194,29 @@
     <ClInclude Include="BrickQuestion.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="SwapAABB.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="Audio.h">
+      <Filter>Audio</Filter>
     </ClInclude>
+    <ClInclude Include="dsutil.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="dxutil.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapAABB.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

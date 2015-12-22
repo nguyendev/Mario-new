@@ -1,4 +1,5 @@
 #include "Koopa.h"
+#include "BaseObject.h"
 #define KOOPA_SPEED 100.0f
 
 Koopa::Koopa()
