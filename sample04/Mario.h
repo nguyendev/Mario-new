@@ -22,6 +22,8 @@ class Mario: public BaseObject
 	bool isCanJump;
 	bool isJumping;
 	float waittime;
+	float ax;
+	float ay;
 	D3DXVECTOR2		m_MaxVelocity;
 	D3DXVECTOR2		m_MinVelocity;
 	D3DXVECTOR2 maxVelocity;

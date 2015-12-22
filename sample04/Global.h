@@ -4,8 +4,8 @@
 #define _GLOBAL_
 
 #define PI				3.141592654
-#define G				10000
-#define	VMAX			100
+#define G				0.3f	// G must smaller than 0.5
+#define	VMAX			5.0f
 #define WIDTH			800
 #define HEIGHT			600
 #define YMENU_MAX		405
@@ -13,6 +13,7 @@
 #define YMENU			40
 #define PIXEL 4
 #define ZOOM			2.5
+#define MAX_TIME_JUMP	6		// the high which mario can reach
 #define MARIO_VOID    "MARIO VOID"
 
 

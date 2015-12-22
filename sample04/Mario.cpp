@@ -19,11 +19,12 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	isJumping = false;
 	m_MaxVelocity = D3DXVECTOR2(4.0f, 10.0f);
 	m_MinVelocity = D3DXVECTOR2(-4.0f, -10.0f);
-	_m_Velocity = D3DXVECTOR2(0,0);
-	waittime = 0; 
+	_m_Velocity = D3DXVECTOR2(0, 0);
+	waittime = 0;
 	maxVelocity = m_MaxVelocity;
 	minVelocity = m_MinVelocity;
-	_m_Velocity = D3DXVECTOR2(0, 1);
+	ax = ay = 0;
+	vMax = VMAX;
 	//Audio::getInstance()->initialize(hwnd);
 
 
@@ -35,13 +36,6 @@ Mario::~Mario()
 }
 void Mario::Move(float TPF)
 {
-	if (isCanJump)
-	{
-		if (_m_Position.y < 150)
-			isCanJump = false;
-	}
-	if (_m_Position.y < 120)
-		_m_Velocity.y *= -1;
 	////Theo phương y
 	//ay = G;
 	//
@@ -87,8 +81,38 @@ void Mario::Move(float TPF)
 	else if (_m_Velocity.y <= minVelocity.y)
 		_m_Velocity.y = minVelocity.y;*/
 
-	_m_Position.x += _m_Velocity.x;
-	_m_Position.y += _m_Velocity.y;
+	_m_Velocity.x += ax;
+
+	// velocity is limited
+	if (_m_Velocity.x > vMax)
+		_m_Velocity.x = vMax;
+	else if (_m_Velocity.x < -vMax)
+		_m_Velocity.x = -vMax;
+	_m_Position.x += _m_Velocity.x + 0.5*ax*ax;
+
+	// pretend mario comeback.
+	if (_m_Velocity.x*ax < 0){
+		if (_m_Velocity.x>-0.5 && _m_Velocity.x < 0.5){	// G must smaller than 0.5
+			_m_Velocity.x = 0;
+			ax = 0;
+		}
+	}
+	// tao quan tinh
+	if (_m_Velocity.x>0){
+		ax = -G / 2;
+	}
+	else if (_m_Velocity.x < 0){
+		ax = G / 2;
+	}
+	// y direction
+	ay = G;
+	_m_Velocity.y += ay;
+	_m_Position.y += _m_Velocity.y + 0.5*ay*ay;
+	if (isOnTheGround){
+		_timejump = 0;
+		isJumping = false;
+	}
+
 	if (_m_Position.x < Camera::_cameraX)									//Không cho đi quá Camera
 		_m_Position.x = Camera::_cameraX;
 	if (_m_Position.x > Camera::_cameraX + WIDTH)
@@ -186,27 +210,26 @@ void Mario::ProcessInput(KeyBoard* _keyboard)
 {
 	if (_keyboard->KeyDown(DIK_RIGHT))
 	{
-		_m_Velocity.x = 1;
+		ax = G;
 	}
-	else if (_keyboard->KeyDown(DIK_LEFT))
+	if (_keyboard->KeyDown(DIK_LEFT))
 	{
-		_m_Velocity.x = -1;
+		ax = -G;
+	}
+
+	if (_keyboard->KeyDown(DIK_SPACE))
+	{
+		_timejump++;
+		if (_timejump < 6){
+			_m_Velocity.y = -5;
+			isJumping = true;
+		}
 	}
 	else
 	{
-		_m_Velocity.x = 0;
+		isJumping = false;
+
 	}
-	if (_keyboard->KeyPress(DIK_SPACE))
-	{
-		_m_Velocity.y = -4;
-		isCanJump = true;
-	}
-	else
-	{
-		//isJumping = false;
-		//_sprite->Reset();
-	}
-	
 	
 }
 
