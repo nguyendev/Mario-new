@@ -17,7 +17,7 @@ public:
 	Goomba(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
 	void Move(float t);
 	void Collision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
-	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
+	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad);
 	void Render();
 	void CollisionTemp(BaseObject *obj);
 	~Goomba(){};

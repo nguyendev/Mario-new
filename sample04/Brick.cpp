@@ -18,7 +18,7 @@ Brick::Brick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	_SpriteIndex = SpriteIndex;
 	_widthRect = _width;
 	_heightRect = _height;
-	_state = TS_ACTIVING;
+	_state = TS_IDLE;
 	_isBright = isBright;
 }
 void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
@@ -39,6 +39,7 @@ void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (_angle<2 * PI)
 			_angle += 0.2;
 		else _angle = 0;
+		break;
 	}
 }
 void Brick::Render()
@@ -63,7 +64,7 @@ void Brick::Render()
 				_sprite->Render(_xBreak2, _yBreak2, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 				_sprite->Render(2 * _m_Position.x - _xBreak1, _yBreak1, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 				_sprite->Render(2 * _m_Position.x - _xBreak2,_yBreak2, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-				_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+//				_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 		}
 		
 		break;
@@ -88,31 +89,31 @@ void Brick::Render()
 }
 void Brick::SetState(char* Name, int val)
 {
-	if (strcmp(Name, "isChanged") == 0)
+	if (strcmp(Name, "_isChanged") == 0)
 	{
 		if (val == 0)
 			_isChanged = false;
 		else _isChanged = true;
 		return;
 	}
-	if (strcmp(Name, "state") == 0)
+	if (strcmp(Name, "_state") == 0)
 	{
 		ChangeState(val);
 		return;
 	}
-	if (strcmp(Name, "isContainCoin") == 0)
+	if (strcmp(Name, "_isContainCoin") == 0)
 		_isContainCoin = val;
 }
 
 int Brick::GetState(char* Name)
 {
-	if (strcmp(Name, "isChanged") == 0)
+	if (strcmp(Name, "_isChanged") == 0)
 		return _isChanged;
-	if (strcmp(Name, "state") == 0)
+	if (strcmp(Name, "_state") == 0)
 		return _state;
-	if (strcmp(Name, "isNeedDelete") == 0)
+	if (strcmp(Name, "_isNeedDelete") == 0)
 		return _isNeedDelete;
-	if (strcmp(Name, "isContainCoin") == 0)
+	if (strcmp(Name, "_isContainCoin") == 0)
 		return _isContainCoin;
 	return -1;
 }
@@ -132,7 +133,7 @@ void Brick::ChangeState(char state)
 		_vyBreak2 = -600;
 		_vxBreak1 = 150;
 		_vxBreak2 = 100;
-		_ayBreak = G;
+		_ayBreak = Gy;
 		break;
 	case TS_BREAKED:
 		_isNeedDelete = true;

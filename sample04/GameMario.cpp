@@ -26,7 +26,7 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	_quadTree = NULL;
 	_marioMenuY = MENU_MIN;
 	_marioMenuX = 100;
-	_timeGame = 300;
+	_timeGame = 10;
 	_live = 3;
 }
 
@@ -265,11 +265,11 @@ void CGameMario::DrawScore()
 	DrawTxt(L"TIME", 200, 8, _font);
 	// dòng hai
 	// draw score
-	/*string text = to_string(m_score);
+	/*string text = to_string(_timeGame);
 	while (text.length() < 6)
 		text = "0" + text;
 	LPCSTR lp = text.c_str;
-	DrawTxt(lp, 24, 18,_font);*/
+	DrawTxt(text, 24, 18,_font);*/
 
 
 	//m_sprite->setRect(m_frameList[m_currentFrame].rect);

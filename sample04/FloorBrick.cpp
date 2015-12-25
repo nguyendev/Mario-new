@@ -14,7 +14,6 @@ FloorBrick::FloorBrick(float _x, float _y, float _cameraX, float _cameraY, int I
 	_SpriteIndex = SpriteIndex;
 	_widthRect = _width;
 	_heightRect = _height;
-	ResetRect();
 }
 
 void FloorBrick::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)

@@ -24,6 +24,7 @@ class Mario: public BaseObject
 	float waittime;
 	float ax;
 	float ay;
+	int _state;
 	D3DXVECTOR2		m_MaxVelocity;
 	D3DXVECTOR2		m_MinVelocity;
 	D3DXVECTOR2 maxVelocity;
@@ -33,7 +34,7 @@ public:
 	Camera* _camera;
 	DWORD last_time;
 	Mario();
-	Mario(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite, CGameMario* game);
+	Mario(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sBig,CSprite* _small, CGameMario* game);
 	void Move(float t);
 	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void Render();
@@ -42,6 +43,10 @@ public:
 
 	void	ResetRect(){};
 	~Mario();
+
+
+
+	void ChangeState(int _state);
 };
 
 #endif _MARIO_H_

@@ -16,8 +16,7 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_widthRect = _width;
 	_heightRect = _height;
 	state = ES_ACTIVING;
-	ay = G;
-	ResetRect();
+	ay = Gy;
 }
 void Goomba::Move(float t)
 {
@@ -43,12 +42,11 @@ void Goomba::Collision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicO
 	}
 	
 }
-void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
 {
 	switch (state)
 	{
 	case ES_ACTIVING:
-		
 		break;
 	case ES_IDLE:
 		waitIdle += TPF;
@@ -59,7 +57,6 @@ void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* 
 		_m_Position.x += _m_Velocity.x*TPF;
 		_m_Velocity.y += ay*TPF;
 		_m_Position.y += _m_Velocity.y*TPF + 0.5*ay*TPF*TPF;
-		ResetRect();
 		if (_m_Position.y>HEIGHT)
 			this->setStatusObject(StatusObject::DEAD);
 	}

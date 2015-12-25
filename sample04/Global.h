@@ -4,8 +4,9 @@
 #define _GLOBAL_
 
 #define PI				3.141592654
-#define G				0.3f	// G must smaller than 0.5
-#define	VMAX			5.0f
+#define Gx				0.05f	// G must smaller than 0.5
+#define Gy				1
+#define	VMAX			1.0f
 #define WIDTH			800
 #define HEIGHT			600
 #define YMENU_MAX		405
@@ -55,7 +56,7 @@
 #define CASTLE_DEEP			0.5
 #define CLOUD_DEEP			0.5
 #define GRASS_DEEP			0.4
-#define MOUNTAIN_DEEP		0.5
+#define MOUNTAIN_DEEP		0.45
 #define KEYBOARD_BUFFER_SIZE	1024
 #define CHANGE_POSY			3
 
@@ -171,5 +172,17 @@ enum TERRAIN_STATE
 	TS_BREAKED,
 	TS_ACTIVING
 };
-
+enum MARIO_STATE
+{
+	M_NORMAL,
+	M_SIT,
+	M_PULL_FLAG,
+	M_AUTO_TO_CASTLE,				//Khi kéo xong cờ.
+	M_DIEING,
+	M_DIED,
+	M_AUTO_RIGHT_PIPE,				//Khi chui vào ống ngang
+	M_EAT_FLOWER,			//H
+	M_ZOOM_IN,
+	M_ZOOM_OUT
+};
 #endif

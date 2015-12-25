@@ -9,7 +9,6 @@ BaseObject::BaseObject()
 {
 	_sprite = NULL;
 	_oldNode = NULL;
-	ResetRect();
 }
 BaseObject::~BaseObject()
 {
@@ -26,18 +25,10 @@ BaseObject::BaseObject(float x, float y, float cameraX, float cameraY)
 	_cameraY = cameraY;
 	_sprite = NULL;
 	_oldNode = NULL;
-	ResetRect();
 	_widthRect = _width;
 	_heightRect = _height;
 	m_isActive = true;
 	m_status = StatusObject::ALIVE;
-}
-void BaseObject::ResetRect()
-{
-	_rect.left = _m_Position.x;
-	_rect.top = _m_Position.y;
-	_rect.right = _rect.left + _width;
-	_rect.bottom = _rect.top + _height;
 }
 
 void BaseObject::setPosition(float x, float y)

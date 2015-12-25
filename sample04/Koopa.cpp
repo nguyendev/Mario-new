@@ -13,7 +13,6 @@ Koopa::Koopa(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	_m_Velocity.y = 0;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
-	ResetRect();
 }
 void Koopa::Move(float t)
 {

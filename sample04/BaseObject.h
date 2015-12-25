@@ -62,7 +62,6 @@ public:
 	virtual int		GetState(char* varName){ return -1; };
 	virtual void	Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad){};
 	virtual void	Render(){};
-	virtual void	ResetRect();
 };
 
 #endif

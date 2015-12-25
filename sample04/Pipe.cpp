@@ -29,7 +29,6 @@ Pipe::Pipe(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sp
 		_heightRect = _height * 4;
 	}
 	_SpriteIndex = SpriteIndex;
-	ResetRect();
 }
 
 

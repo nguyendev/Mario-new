@@ -5,9 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Framework">
-      <UniqueIdentifier>{5659c67a-d8a8-478e-9150-fa3043e9d507}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{dbcd08cb-530f-477f-8cf9-e7c208767d6a}</UniqueIdentifier>
     </Filter>
@@ -35,34 +32,16 @@
     <Filter Include="Collision">
       <UniqueIdentifier>{d1e2221b-1d0f-471b-a9e9-dcf0a05529c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Keyboard">
+      <UniqueIdentifier>{f9e0791b-01e8-4e71-a785-c505f85d4833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{dcddd881-6270-4bc7-8fd5-986699d51c55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseObject.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="sprite.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="trace.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyBoard.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Writer.cpp">
-      <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Game</Filter>
@@ -71,9 +50,6 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp" />
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Game\Dynamic</Filter>
     </ClCompile>
@@ -122,34 +98,37 @@
     <ClCompile Include="Collision.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="KeyBoard.cpp">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="trace.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Writer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseObject.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="trace.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="sprite.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyBoard.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Writer.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Game</Filter>
@@ -158,9 +137,6 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h" />
-    <ClInclude Include="TimeManager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Game\Dynamic</Filter>
     </ClInclude>
@@ -214,6 +190,33 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyBoard.h">
+      <Filter>Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="trace.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Writer.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

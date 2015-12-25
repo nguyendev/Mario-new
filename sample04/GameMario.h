@@ -46,6 +46,7 @@ public:
 	int _curState;
 	float wait1Sec;
 	int _timeGame;
+	int _life;
 
 protected:
 
