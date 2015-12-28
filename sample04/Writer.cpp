@@ -10,6 +10,11 @@
 #include "Mountain.h"
 #include "Koopa.h"
 #include "BrickQuestion.h"
+#include "Coin.h"
+#include "MushRoom.h"
+#include "GreenMushroom.h"
+#include "Star.h"
+#include "Flower.h"
 Camera*  _camera;
 void DrawTxt(wstring text, int x, int y, LPD3DXFONT font)
 {
@@ -67,6 +72,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	BaseObject* obj = NULL;
 	int m = 0;
 	int i = 0, j = 0;
+	int Count_Item = 0;
 
 	pFile = fopen(fileName, "r");
 	long a[200][1000];
@@ -191,6 +197,47 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			break;*/
 		}
 		
+		if (obj != NULL)
+		{
+			obj->_game = game;
+			game->_quadTree->Add(obj, _isStatic);
+		}
+		obj = NULL;
+	}
+	// duyet item.
+	for (int i = 0; i < _count; i++)
+	{
+		if (t[i].id == 19)				// neu la questionbrick
+		{
+			SRC s;
+			s.id = Count_Item;
+			s.srcX = t[i].srcX;
+			s.srcY = t[i].srcY;
+			if (s.id == 0 || s.id == 1 || s.id == 3 || s.id == 4 || s.id == 5 || s.id == 7
+				|| s.id == 10 || s.id == 11 || s.id == 12 || s.id == 13)
+			{
+				obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY]);
+				_isStatic = true;
+			}
+			if (s.id == 6)
+			{
+				obj = new MushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 33, game->_sprites[S_FUNGI]);
+				_isStatic = true;
+			}
+			if (s.id == 2 || s.id == 8)
+			{
+				obj = new Flower(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 34, game->_sprites[S_FLOWER]);
+				_isStatic = true;
+			}
+			if (s.id == 9)
+			{
+				obj = new Star(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 39, game->_sprites[S_STAR]);
+				_isStatic = false;
+			}
+
+			Count_Item++;
+		}
+		// them item vao quadtree.
 		if (obj != NULL)
 		{
 			obj->_game = game;

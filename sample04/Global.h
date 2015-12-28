@@ -4,7 +4,7 @@
 #define _GLOBAL_
 
 #define PI				3.141592654
-#define Gx				0.05f	// G must smaller than 0.5
+#define Gx				1000.0f	// G must smaller than 0.5
 #define Gy				1
 #define	VMAX			1.0f
 #define WIDTH			800
@@ -50,13 +50,14 @@
 #define KOOPA_DEEP			0.5
 #define MONEY_DEEP			0.5	
 #define NUMBER_DEEP			0.5
-#define PIPE_DEEP			0.5
+#define PIPE_DEEP			0.45
 #define PIRHANA_DEEP		0.5
 #define MARIO_DEEP			0.3
 #define CASTLE_DEEP			0.5
 #define CLOUD_DEEP			0.5
 #define GRASS_DEEP			0.4
-#define MOUNTAIN_DEEP		0.45
+#define MOUNTAIN_DEEP		0.46
+#define ITEM_DEEP			0.7
 #define KEYBOARD_BUFFER_SIZE	1024
 #define CHANGE_POSY			3
 
@@ -174,6 +175,15 @@ enum TERRAIN_STATE
 };
 enum MARIO_STATE
 {
+	start,
+	reborn,
+	stand,
+	Move,
+	alive,
+	jumping,
+	beforedead,
+	beforedead2,
+	dead,
 	M_NORMAL,
 	M_SIT,
 	M_PULL_FLAG,

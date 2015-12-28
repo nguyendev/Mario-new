@@ -1,4 +1,4 @@
-#ifndef _MARIO_H_
+﻿#ifndef _MARIO_H_
 #define _MARIO_H_
 #include "Camera.h"
 #include "BaseObject.h"
@@ -22,24 +22,33 @@ class Mario: public BaseObject
 	bool isCanJump;
 	bool isJumping;
 	float waittime;
+	bool	isChangeDirectionL;		//Đổi hướng 
+	bool	isChangeDirectionR;
+	float waitChangeDir;
 	float ax;
 	float ay;
 	int _state;
 	D3DXVECTOR2		m_MaxVelocity;
 	D3DXVECTOR2		m_MinVelocity;
-	D3DXVECTOR2 maxVelocity;
-	D3DXVECTOR2 minVelocity;
+	D3DXVECTOR2		maxVelocity;
+	D3DXVECTOR2		minVelocity;
 	LPD3DXFONT	_font;
 public:
 	Camera* _camera;
 	DWORD last_time;
+	
 	Mario();
 	Mario(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sBig,CSprite* _small, CGameMario* game);
 	void Move(float t);
 	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void Render();
-	void ProcessInput(KeyBoard* _keyboard);
+	void ProcessInput(KeyBoard* _keyboard, float Time);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
+
+	void TurnLeft(float Time);
+	void TurnRight(float Time);
+	void Jump(float Time);
+	void Stand(float Time);
 
 	void	ResetRect(){};
 	~Mario();

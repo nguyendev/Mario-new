@@ -125,6 +125,19 @@
     <ClCompile Include="Writer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Game\iTem</Filter>
+    </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <Filter>Game\iTem</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenMushroom.cpp">
+      <Filter>Game\iTem</Filter>
+    </ClCompile>
+    <ClCompile Include="MushRoom.cpp">
+      <Filter>Game\iTem</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -218,6 +231,19 @@
     <ClInclude Include="Writer.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Game\iTem</Filter>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
+      <Filter>Game\iTem</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenMushroom.h">
+      <Filter>Game\iTem</Filter>
+    </ClInclude>
+    <ClInclude Include="MushRoom.h">
+      <Filter>Game\iTem</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
