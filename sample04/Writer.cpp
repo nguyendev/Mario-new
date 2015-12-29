@@ -136,7 +136,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		switch (t[i].id)
 		{
 		case 1:
-			obj = new Mario(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id,game->_sprites[S_BMARIO], game->_sprites[S_SMARIO], game);
+			obj = new Mario(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BMARIO_RIGHT],game->_sprites[S_BMARIO_LEFT], game->_sprites[S_SMARIO_RIGHT], game->_sprites[S_SMARIO_LEFT], game->_sprites[S_FIREBULLET], game->_sprites[S_EXPLOSION], game);
 			game->_camera->mario = obj;
 			_isStatic = false;
 			break;

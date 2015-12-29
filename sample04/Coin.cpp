@@ -14,29 +14,23 @@ Coin::Coin(float x, float y, float cameraX, float cameraY, int ID, CSprite* spri
 	_height = _sprite->_Height;
 	timeFly = 0;
 }
-void Coin::Activate()
+void Coin::Activate(float TPF)
 {
-	DWORD now = GetTickCount();
-	if (now - last_time > 1000 / ANIMATE_RATE)
-	{
 		if (timeFly < 8){	// flying up
 
 			Render();
 			_m_Position.y -= 8;
-			_sprite->Next();
-			last_time = now;
+			_sprite->Next(TPF);
 			timeFly++;
 		}
 		if (timeFly >= 8 && timeFly < 16){	// falling down
 			Render();
-			_sprite->Next();
+			_sprite->Next(TPF);
 			_m_Position.y += 8;
-			last_time = now;
 			timeFly++;
 		}
 		if (timeFly == 16)
 			_sprite->setIndex(7);
-	}
 }
 void Coin::Render()
 {

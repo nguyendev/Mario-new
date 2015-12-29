@@ -60,14 +60,9 @@ void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* 
 		if (_m_Position.y>HEIGHT)
 			this->setStatusObject(StatusObject::DEAD);
 	}
-	DWORD now = GetTickCount();
-	if (now - last_time > 1000 / ANIMATE_RATE)
-	{
-		Move(TPF);
-		Collision(staticObj,dynamicObj);
-		_sprite->Next(0,1);
-		last_time = now;
-	}
+	Move(TPF);
+	Collision(staticObj,dynamicObj);
+	_sprite->Next(0,1, TPF);
 }
 void Goomba::Render()
 {

@@ -18,18 +18,13 @@ Flower::Flower(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 }
 void Flower::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
-	DWORD now = GetTickCount();
-	if (now - last_time > 1000 / ANIMATE_RATE)
-	{
 		if (Activated)
 		{
 			Move();
 			CheckCollision(staticObj, dynamicObj);
 			Render();
-			_sprite->Next();
-			last_time = now;
+			_sprite->Next(TPF);
 		}
-	}
 }
 void Flower::Move()
 {

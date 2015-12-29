@@ -17,11 +17,13 @@ public:
 	
 	float _Width;								// Sprite width
 	float _Height;
+	float _waitNextImage;
+	float _timePerImage;
 	void setIndex(int Index);
-	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow);
-	void Next();
+	CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow, float timePerImage);
+	void Next(float time);
 	void Reset();
-	void Next(int start, int end);
+	void Next(int start, int end, float time);
 	// Render current sprite at location (X,Y)
 	void Render(float x, float y, int vpx, int vpy, float deep);
 	void Render(float x, float y, int vpx, int vpy, int zoomX, int zoomY, RECT rSrc, float deep);

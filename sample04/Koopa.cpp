@@ -19,16 +19,10 @@ void Koopa::Move(float t)
 	_m_Position.x += _m_Velocity.x * t;
 	_m_Position.y += _m_Velocity.y * t;
 }
-void Koopa::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void Koopa::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
-
-	DWORD now = GetTickCount();
-	if (now - last_time > 1000 / ANIMATE_RATE)
-	{
-		Move(t);
-		_sprite->Next(0, 1);
-		last_time = now;
-	}
+	Move(TPF);
+	_sprite->Next(0, 1, TPF);
 }
 void Koopa::Render()
 {

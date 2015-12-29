@@ -20,7 +20,6 @@
 
 //Load image
 #define GOOMBA_IMAGE		"Image\\imgGoomba.bmp"
-#define BMARIO_IMAGE		"Image\\imgBigMario.png"
 #define BRICK_IMAGE			"Image\\imgBrick.png"
 #define S_EXPLOSION_IMAGE	"Image\\ImgExplosion.png"
 #define FIREBULLET_IMAGE	"Image\\ImgFireBullet.png"
@@ -32,7 +31,10 @@
 #define NUMBER_IMAGE		"Image\\imgNumber.bmp"
 #define PIPE_IMAGE			"Image\\imgPipe.bmp"
 #define PIRHANA_IMAGE		"Image\\imgPirhana.png"
-#define SMARIO__IMAGE		"Image\\imgSmallMario.png"
+#define SMARIO_IMAGE_RIGHT	"Image\\imgSmallMario_Right.png"
+#define SMARIO_IMAGE_LEFT	"Image\\imgSmallMario_Left.png"
+#define BMARIO_IMAGE_LEFT	"Image\\imgBigMario_Left.png"
+#define BMARIO_IMAGE_RIGHT	"Image\\imgBigMario_Right.png"
 #define STAR_IMAGE			"Image\\imgStar.png"
 #define CASTLE_IMAGE		"Image\\imgCastle.png"
 #define CLOUD_IMAGE			"Image\\imgCloud.png"
@@ -104,7 +106,6 @@ enum _COL
 enum _SPRITE
 {
 	S_GOOMBA,
-	S_BMARIO,
 	S_BRICK,
 	S_EXPLOSION,
 	S_FIREBULLET,
@@ -116,7 +117,10 @@ enum _SPRITE
 	S_NUMBER,
 	S_PIPE,
 	S_PIRHANA,
-	S_SMARIO,
+	S_SMARIO_LEFT,
+	S_SMARIO_RIGHT,
+	S_BMARIO_LEFT,
+	S_BMARIO_RIGHT,
 	S_STAR,
 	S_CASTLE,
 	S_CLOUD,

@@ -9,7 +9,7 @@ public:
 	DWORD last_time;
 	Coin();
 	Coin(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
-	void Activate();
+	void Activate(float Time);
 	void Render();
 
 	~Coin();

@@ -45,7 +45,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	wait1Sec = 0;
 
 	//MenuGame
-	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1);
+	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1, 0.2);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
 
 
@@ -207,29 +207,31 @@ void CGameMario::LoadAudio()
 void CGameMario::LoadSprite()
 {
 	// Mario
-	_sprites[S_BMARIO] = new CSprite(_SpriteHandler, BMARIO_IMAGE, 16, 32, 32, 8); // fixed
-	_sprites[S_SMARIO] = new CSprite(_SpriteHandler, SMARIO__IMAGE, 17, 16, 8, 8);
-	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3);
-	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4);
+	_sprites[S_BMARIO_LEFT] = new CSprite(_SpriteHandler, BMARIO_IMAGE_LEFT, 16, 32, 32, 8, 0.1); // fixed
+	_sprites[S_BMARIO_RIGHT] = new CSprite(_SpriteHandler, BMARIO_IMAGE_RIGHT, 16, 32, 32, 8, 0.1);
+	_sprites[S_SMARIO_RIGHT] = new CSprite(_SpriteHandler, SMARIO_IMAGE_RIGHT, 17, 16, 8, 8, 0.1);
+	_sprites[S_SMARIO_LEFT] = new CSprite(_SpriteHandler, SMARIO_IMAGE_LEFT, 17, 16, 8, 8, 0.1);
+	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3, 0.2);
+	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4, 0.2);
 	//Static Object
-	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 16, 16, 4, 2);
-	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 16, 4);
-	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 8, 4);
-	_sprites[S_CASTLE] = new CSprite(_SpriteHandler, CASTLE_IMAGE, 80, 80, 1, 1);
-	_sprites[S_CLOUD] = new CSprite(_SpriteHandler, CLOUD_IMAGE, 8, 24, 4, 4);
-	_sprites[S_GRASS] = new CSprite(_SpriteHandler, GRASS_IMAGE, 8, 16, 8, 4);
-	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2);
+	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 16, 16, 4, 2, 0.2);
+	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 16, 4, 0.2);
+	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 8, 4, 0.2);
+	_sprites[S_CASTLE] = new CSprite(_SpriteHandler, CASTLE_IMAGE, 80, 80, 1, 1, 0.2);
+	_sprites[S_CLOUD] = new CSprite(_SpriteHandler, CLOUD_IMAGE, 8, 24, 4, 4, 0.2);
+	_sprites[S_GRASS] = new CSprite(_SpriteHandler, GRASS_IMAGE, 8, 16, 8, 4, 0.2);
+	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, 0.2);
 	//Enemies
-	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6);
-	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4);
-	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2);
+	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, 0.2);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4, 0.2);
+	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2, 0.2);
 	//Items
-	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4);
-	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2);
-	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7);
-	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10);
+	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, 0.2);
+	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2, 0.2);
+	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, 0.2);
+	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10, 0.2);
 	//Others
-	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4);
+	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4, 0.2);
 }
 void CGameMario::ChangeMap(int Map)
 {

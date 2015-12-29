@@ -4,7 +4,7 @@
 #include "Global.h"
 #include <d3dx9.h>
 
-CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow) 
+CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Height, int Count, int SpritePerRow, float timePerImage)
 {
 	D3DXIMAGE_INFO info; 
 	HRESULT result; 
@@ -17,7 +17,8 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Heig
 	_Count = Count;
 	_SpritePerRow = SpritePerRow;
 	_Index = 0;
-
+	_waitNextImage = 0;
+	_timePerImage = timePerImage;
 	result = D3DXGetImageInfoFromFile(FilePath,&info);
 	if (result!=D3D_OK)
 	{
@@ -120,15 +121,28 @@ void CSprite::setIndex(int Index)
 	_Index = Index;
 }
 
-void CSprite::Next() 
+void CSprite::Next(float time) 
 {
-	_Index = (_Index + _Count -1) % _Count;
+	_waitNextImage += time;
+	if (_waitNextImage >= _timePerImage)
+	{
+		_Index = (_Index + _Count - 1) % _Count;
+		_waitNextImage = 0;
+	}
 }
-void CSprite::Next(int _start, int _end)
+void CSprite::Next(int _start, int _end, float time)
 {
-	_Index++;
-	if (_Index > _end)
-		_Index = _start;
+	if (_Index<_start || _Index>_end)
+		setIndex(_start);
+	_waitNextImage += time;
+	if (_waitNextImage >= _timePerImage)
+	{
+		if (_Index<_end)
+			setIndex(_Index + 1);
+		else
+			setIndex(_start);
+		_waitNextImage = 0;
+	}
 }
 //void CSprite::A(int start, int end)
 //{

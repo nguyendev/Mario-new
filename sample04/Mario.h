@@ -10,11 +10,15 @@
 #define FALLDOWN_VELOCITY_DECREASE 200.0f
 #define MARIO_SPEED 1000.0f
 
-class Sprite;
+class CSprite;
 class Mario: public BaseObject
 {
-	
-	Sprite* sBig;
+private:
+	CSprite* _sBig_left;
+	CSprite* _sBig_right;
+	CSprite* _sSmall_right;
+	CSprite* _sBullet;
+	CSprite* _sExplosion;
 	float _PositionX_Old;
 	float vMax;
 	bool isOnTheGround;
@@ -24,6 +28,7 @@ class Mario: public BaseObject
 	float waittime;
 	bool	isChangeDirectionL;		//Đổi hướng 
 	bool	isChangeDirectionR;
+	bool	isBig;
 	float waitChangeDir;
 	float ax;
 	float ay;
@@ -38,12 +43,13 @@ public:
 	DWORD last_time;
 	
 	Mario();
-	Mario(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sBig,CSprite* _small, CGameMario* game);
+	Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sBig_right, CSprite* sBig_left, CSprite* small_right, CSprite* small_left, CSprite* bullet, CSprite* sExplosion, CGameMario* game);
 	void Move(float t);
 	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void Render();
 	void ProcessInput(KeyBoard* _keyboard, float Time);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
+
 
 	void TurnLeft(float Time);
 	void TurnRight(float Time);
