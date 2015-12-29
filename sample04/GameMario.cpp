@@ -28,6 +28,7 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	_marioMenuX = 100;
 	_timeGame = 10;
 	_live = 3;
+	_coin = 120;
 }
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)

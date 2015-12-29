@@ -2,11 +2,11 @@
 #include "Global.h"
 #include "Collision.h"
 #include "GameMario.h"
-#define MARIO_VX	100.0f	//velocity of mario
-#define MARIO_VY	20.2f
+#define MARIO_VX	100.0f	//velocity X of mario
+#define MARIO_VY	2.5f	//velocity Y of mario
 #define MAX_MARIO_VX 2.0f	//max velocity of mario
 #define MAX_MARIO_VY 2.0f
-#define GRAVITY		4.0f	//gravity ratio
+#define GRAVITY		1.0f	//gravity ratio
 #define FRICTION_X	2.5f   //friction of mario
 #define ACCEL_X		1.5f //1.5 //accelerator of mario
 Mario::Mario() :BaseObject(){};
@@ -26,11 +26,13 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_widthRect = _width - 2;
 	_heightRect = _height - 1;
 	isCanJump = false;
-	_timejump = 0;
+	timeJumped = 0;
 	isJumping = false;
 	_m_Velocity = D3DXVECTOR2(0,0);
 	waittime = 0; 
+	waitIncreaseVecY = 0;
 	maxVelocity = m_MaxVelocity;
+	isJumming = false;
 	isChangeDirectionL = false;
 	isChangeDirectionR = true;
 }
@@ -57,6 +59,7 @@ void Mario::TurnRight(float TPF)
 		_m_Velocity.x = MAX_MARIO_VX;
 	isChangeDirectionR = true;
 	isChangeDirectionL = false;
+	
 }
 void Mario::Stand(float TPF)
 {
@@ -73,12 +76,25 @@ void Mario::Stand(float TPF)
 }
 void Mario::Jump(float TPF)
 {
-	_m_Velocity.y = -MARIO_VY;
+	if (timeJumped < 0.2)
+	{
+		_m_Velocity.y = -MARIO_VY;
+		isJumming = true;
+		_sprite->setIndex(1);
+		_sSmall_right->setIndex(6);
+		_game->_audio->PlaySound(_game->_sound_Jump);
+	}
 }
 void Mario::Move(float TPF)
 {
-	_m_Position.x += _m_Velocity.x;
+	waitIncreaseVecY += TPF;
+	if (waitIncreaseVecY > 0.2)
+	{
+		_m_Velocity.y += 1;
+		waitIncreaseVecY = 0;
+	}
 	_m_Position.y += _m_Velocity.y;
+	_m_Position.x += _m_Velocity.x;
 	if (_m_Position.x < Camera::_cameraX)									//Không cho đi quá Camera
 		_m_Position.x = Camera::_cameraX;
 	if (_m_Position.x > Camera::_cameraX + WIDTH)
@@ -95,7 +111,6 @@ void Mario::Move(float TPF)
 		_sSmall_right->setIndex(0);
 		_sprite->setIndex(7);
 	}
-	
 }
 void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
@@ -135,9 +150,11 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					break;
 				case BOTTOM:
 					//_m_Position.y = obj->getPosition().y - this->_height - 1;
-					_m_Velocity = Collision::getInstance()->getVelocity();
+					//_m_Velocity = Collision::getInstance()->getVelocity();
+					_m_Velocity.y = 0;
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					_m_Position.x = (int) _m_Position.x;
+					//_m_Position.x = (int) _m_Position.x;
+					timeJumped = 0;
 					break;
 				default:
 					break;
@@ -171,11 +188,24 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 }
 void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
 {
-	_m_Velocity.y += 1;
 	Move(TPF);
 	CheckCollision(staticObj, dynamicObj);
 	ProcessInput(keyborad, TPF);
-	
+	if (_game->_coin >= 100)
+	{
+		_game->_coin = 0;
+		_game->_life++;
+		_game->_audio->PlaySound(_game->_sound_1up);
+	}
+	if (isJumming == true)
+	{
+		timeJumped += TPF;
+	}
+	if (_m_Velocity.y > 0)
+	{
+		isJumming = true;
+		timeJumped = 10;
+	}
 }
 void Mario::Render()
 {		
@@ -186,6 +216,8 @@ void Mario::Render()
 }
 void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 {
+	if (_keyboard->KeyDown(DIK_SPACE))
+		Jump(TPF);
 	if (_keyboard->KeyDown(DIK_DOWN))		//Ngồi
 	{
 	}
@@ -197,9 +229,6 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 	{
 		TurnLeft(TPF);
 	}
-	
-	else if (_keyboard->KeyPress(DIK_SPACE))
-		Jump(TPF);
 	else
 	{
 		Stand(TPF);

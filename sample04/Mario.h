@@ -22,7 +22,8 @@ private:
 	float _PositionX_Old;
 	float vMax;
 	bool isOnTheGround;
-	float _timejump;
+	float timeJumped;
+	bool isJumming;
 	bool isCanJump;
 	bool isJumping;
 	float waittime;
@@ -30,6 +31,7 @@ private:
 	bool	isChangeDirectionR;
 	bool	isBig;
 	float waitChangeDir;
+	float waitIncreaseVecY;			//doi de tang toc do trong luc
 	float ax;
 	float ay;
 	int _state;
