@@ -15,7 +15,7 @@ public:
 	MushRoom();
 	MushRoom(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
 	void Move();
-	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
+	void Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);		// need to fix.
 	void Render();
 	~MushRoom();

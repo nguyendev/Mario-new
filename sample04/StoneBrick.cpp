@@ -14,7 +14,7 @@ StoneBrick::StoneBrick(float _x, float _y, float _cameraX, float _cameraY, int I
 	_height = _sprite->_Height;
 	_SpriteIndex = SpriteIndex;
 }
-void StoneBrick::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void StoneBrick::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 
 }

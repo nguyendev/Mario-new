@@ -19,7 +19,7 @@ MushRoom::MushRoom(float x, float y, float cameraX, float cameraY, int ID, CSpri
 	Activated = false;
 	timeRised = 0;
 }
-void MushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void MushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	if (Activated)
 	{

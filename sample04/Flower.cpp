@@ -16,14 +16,14 @@ Flower::Flower(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	Activated = false;
 	timeRised = 0;
 }
-void Flower::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void Flower::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 		if (Activated)
 		{
 			Move();
 			CheckCollision(staticObj, dynamicObj);
 			Render();
-			_sprite->Next(TPF);
+			_sprite->Next(Time);
 		}
 }
 void Flower::Move()

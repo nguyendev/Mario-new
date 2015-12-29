@@ -71,24 +71,23 @@ void CGameMario::UpdateWorld(float TPF)
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			_obj = *i;
+			//if (_obj->getPosition().x->x - 10 && obj->x<camera->x + WIDTH + 10)
 			_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
-			if (_obj->getStatusOBject() == StatusObject::DEAD)
-				_quadTree->DeleteObj(_obj, true);
+			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
+				_quadTree->DeleteObj(_obj, true);*/
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
 			_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
-			if (_obj->getStatusOBject() == StatusObject::DEAD)
-				_quadTree->DeleteObj(_obj, true);
+			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
+				_quadTree->DeleteObj(_obj, true);*/
 		}
 		
 		staticObjs.clear();
 		dynamicObjs.clear();
 		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
 		_camera->Update(_quadTree);
-		//_mario->Update(TPF, &staticObjs,&dynamicObjs);
-		
 		break;
 	case GS_GAMEOVER:
 		_audio->PlaySound(_sound_GameOver);

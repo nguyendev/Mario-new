@@ -15,7 +15,7 @@ BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, i
 	_widthRect = _width;
 	_heightRect = _height;
 }
-void BrickQuestion::Update()
+void BrickQuestion::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 }
 void BrickQuestion::Render()

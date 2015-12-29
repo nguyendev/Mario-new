@@ -29,6 +29,7 @@ BaseObject::BaseObject(float x, float y, float cameraX, float cameraY)
 	_heightRect = _height;
 	m_isActive = true;
 	m_status = StatusObject::ALIVE;
+	_isNeedDelete = false;
 }
 
 void BaseObject::setPosition(float x, float y)

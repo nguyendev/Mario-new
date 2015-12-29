@@ -13,7 +13,7 @@ IronBrick::IronBrick(float _x, float _y, float _cameraX, float _cameraY, int ID,
 	_height = _sprite->_Height;
 	_SpriteIndex = SpriteIndex;
 }
-void IronBrick::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void IronBrick::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 }
 void IronBrick::Render()

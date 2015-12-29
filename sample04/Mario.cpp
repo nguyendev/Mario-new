@@ -130,7 +130,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					if (obj->GetState("_state") == TS_IDLE)
 					{
- 						obj->SetState("_state", TS_BREAKING);
+     						obj->SetState("_state", TS_BREAKING);
 					}
 					break;
 				case BOTTOM:

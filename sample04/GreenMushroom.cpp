@@ -18,7 +18,7 @@ GreenMushRoom::GreenMushRoom(float x, float y, float cameraX, float cameraY, int
 	Activated = false;
 	timeRised = 0;
 }
-void GreenMushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void GreenMushRoom::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 		if (Activated)
 		{
@@ -26,7 +26,7 @@ void GreenMushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 			Move();
 			CheckCollision(staticObj, dynamicObj);
 			Render();
-			_sprite->Next(TPF);
+			_sprite->Next(Time);
 		}
 
 }

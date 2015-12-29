@@ -16,7 +16,7 @@ FloorBrick::FloorBrick(float _x, float _y, float _cameraX, float _cameraY, int I
 	_heightRect = _height;
 }
 
-void FloorBrick::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void FloorBrick::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 }
 void FloorBrick::Render()

@@ -21,7 +21,7 @@ Brick::Brick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	_state = TS_IDLE;
 	_isBright = isBright;
 }
-void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
+void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	switch (_state)
 	{
