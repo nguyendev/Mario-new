@@ -27,7 +27,7 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	_marioMenuY = MENU_MIN;
 	_marioMenuX = 100;
 	_timeGame = 10;
-	_live = 3;
+	_life = 3;
 	_coin = 120;
 }
 
@@ -257,33 +257,41 @@ CGameMario::~CGameMario()
 	for (int i = 0; i < 30; i++)
 		if (_sprites[i] != NULL) delete _sprites[i];
 }
+int StringToWString(std::wstring &ws, const std::string &s)
+{
+	std::wstring wsTmp(s.begin(), s.end());
 
+	ws = wsTmp;
+
+	return 0;
+}
 void CGameMario::DrawScore()
 {
 	
 	// dòng một
+	wstring ws;
+	string text;
 	DrawTxt(L"MARIO", 24, 8, _font);
-	DrawTxt(L"WORLD", 144, 8, _font);
-	DrawTxt(L"TIME", 200, 8, _font);
+	DrawTxt(L"WORLD", 400, 8, _font);
+	DrawTxt(L"TIME", 600, 8, _font);
 	// dòng hai
-	// draw score
-	/*string text = to_string(_timeGame);
-	while (text.length() < 6)
-		text = "0" + text;
-	LPCSTR lp = text.c_str;
-	DrawTxt(text, 24, 18,_font);*/
-
-
-	//m_sprite->setRect(m_frameList[m_currentFrame].rect);
-	//m_sprite->draw(spriteHandler, D3DXVECTOR2(89 + m_width / 2, 210 + m_height / 2), D3DXVECTOR2(1.0f, 1.0f), 0, VIEW_PORT_Y, D3DCOLOR_XRGB(255, 255, 255));
+	// draw Time
+	text = to_string(_timeGame);
+	StringToWString(ws, text);
+	DrawTxt(ws, 606, 30, _font);
 
 	//// draw score coin
-	//text = to_string(m_countCoin);
+	text = to_string(_coin);
+	StringToWString(ws, text);
+	DrawTxt(ws, 224, 30, _font);
+
+	text = to_string(_life);
+	StringToWString(ws, text);
+	DrawTxt(ws, 30, 30, _font);
 	//while (text.length() < 2)
 	//	text = "0" + text;
 	//text = "x" + text;
 	//DrawText(wstring(text.begin(), text.end()), Vector2(95, 18));
-
 	//// draw time of state
 	//text = to_string(m_timeOfState);
 	//DrawText(wstring(text.begin(), text.end()), Vector2(200, 18));
