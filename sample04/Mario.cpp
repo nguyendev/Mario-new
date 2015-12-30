@@ -35,6 +35,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	isJumming = false;
 	isChangeDirectionL = false;
 	isChangeDirectionR = true;
+	waitRenderFirst = 0;
 }
 Mario::~Mario()
 {
@@ -50,6 +51,7 @@ void Mario::TurnLeft(float TPF)
 		_m_Velocity.x = -MAX_MARIO_VX;
 	isChangeDirectionL = true;
 	isChangeDirectionR = false;
+	waitRenderFirst += TPF;
 }
 void Mario::TurnRight(float TPF)
 {
@@ -59,7 +61,7 @@ void Mario::TurnRight(float TPF)
 		_m_Velocity.x = MAX_MARIO_VX;
 	isChangeDirectionR = true;
 	isChangeDirectionL = false;
-	
+	waitRenderFirst += TPF;
 }
 void Mario::Stand(float TPF)
 {
@@ -68,11 +70,11 @@ void Mario::Stand(float TPF)
 		_m_Velocity.x += FRICTION_X / 2 * TPF;
 	else if (_m_Velocity.x > 0.0f)
 		_m_Velocity.x -= FRICTION_X / 2 * TPF;
-
 	if ((_m_Velocity.x <= 1.5f) && (_m_Velocity.x >= -1.5f))
 		_m_Velocity.x = 0.0f;
 	//isChangeDirectionL = false;
 	//isChangeDirectionR = true;
+	waitRenderFirst = 0;
 }
 void Mario::Jump(float TPF)
 {
@@ -80,10 +82,10 @@ void Mario::Jump(float TPF)
 	{
 		_m_Velocity.y = -MARIO_VY;
 		isJumming = true;
-		_sprite->setIndex(1);
-		_sSmall_right->setIndex(6);
 		_game->_audio->PlaySound(_game->_sound_Jump);
 	}
+	_sprite->setIndex(1);
+	_sSmall_right->setIndex(6);
 }
 void Mario::Move(float TPF)
 {
@@ -101,10 +103,18 @@ void Mario::Move(float TPF)
 		_m_Position.x = Camera::_cameraX + WIDTH;
 	if (_m_Velocity.x != 0)
 	{
-		if (isChangeDirectionL)
-			_sprite->Next(TPF);
-		else if (isChangeDirectionR)
-			_sSmall_right->Next(TPF);
+		if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
+		{
+			_sprite->setIndex(5);
+			_sSmall_right->setIndex(2);
+		}
+		else{
+			if (isChangeDirectionL)
+				_sprite->Next(1,4,TPF);
+			else if (isChangeDirectionR)
+				_sSmall_right->Next(2,5,TPF);
+		}
+		
 	}
 	else
 	{

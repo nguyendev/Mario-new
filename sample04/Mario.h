@@ -27,6 +27,7 @@ private:
 	bool isCanJump;
 	bool isJumping;
 	float waittime;
+	float waitRenderFirst;          // Ve khi Mario vua di chuyen
 	bool	isChangeDirectionL;		//Đổi hướng 
 	bool	isChangeDirectionR;
 	bool	isBig;
