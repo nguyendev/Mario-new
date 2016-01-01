@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Audio" Collapsed="true">
+    <Position X="33.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAEAAAgIAAAAAAQIAAAAAAAAAIA=</HashCode>
+      <FileName>Audio.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseObject" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CiQAJMAEAgCAJQAoEQAgQAICABEAgAAAABFAAAAEAAQ=</HashCode>
+      <FileName>BaseObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="35.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQCAAAAAACAAQAAQAAAAAAAABEAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Collision" Collapsed="true">
+    <Position X="38.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAIAAAAAAAACAAAAAAAAAAAQIAABAAAAAAAE=</HashCode>
+      <FileName>Collision.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSoundManager" Collapsed="true">
+    <Position X="33.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAQEQAAAAEAAAAAAAAEAgABAAAAACAAI=</HashCode>
+      <FileName>dsutil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSound" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEyGAABAAAAIDAAAAACAAAAAAQAEAAAAoAAAgEAAAAA=</HashCode>
+      <FileName>dsutil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStreamingSound" Collapsed="true">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAABAAABgAgAAAEAAAAEAAAAAAAAAAAACE=</HashCode>
+      <FileName>dsutil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWaveFile" Collapsed="true">
+    <Position X="37" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EggAACAARAAAIAiAAAAEAAgwAgABAAgIAAAAAIGIAAA=</HashCode>
+      <FileName>dsutil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CArrayList" Collapsed="true">
+    <Position X="37" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgIAAAAAAAAAABAAAAIABAQEAAAAAAAAAIAAAABRAAA=</HashCode>
+      <FileName>dxutil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGame" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AmIIAAECJIQCAAQAEUDBIAiiECSgAQgCSChCAEIAEoY=</HashCode>
+      <FileName>game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeyBoard" Collapsed="true">
+    <Position X="38.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkAAIAAGAgABAAAgAAARAAAIAAAQCAAAAAgAAAAA=</HashCode>
+      <FileName>KeyBoard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuadTree" Collapsed="true">
+    <Position X="33.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>Ag4AADAAACAAAAAAgAAAIAABAEEAAAAEAAQAAAOAEwA=</HashCode>
+      <FileName>QuadTree.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSprite" Collapsed="true">
+    <Position X="35.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgAAAAAAAABCAAAAAAAAABAAAAAAQAABIQAoAAABA=</HashCode>
+      <FileName>sprite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeManager" Collapsed="true">
+    <Position X="35.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAgAgEQAAYAAgCAAAAAAgAAAAA=</HashCode>
+      <FileName>TimeManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mario" Collapsed="true">
+    <Position X="26.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QoQAEoAQQJBCIAAQAAgigwACECLgIADQABAOADAQCGA=</HashCode>
+      <FileName>Mario.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGameMario" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIIAEgEAQJBCJCAAEFwmGwgGUaPgYADQBCIGgCJgCGI=</HashCode>
+      <FileName>GameMario.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brick" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgwABWAYAAAAJAEEAAAhCAAAAAAEACAAABAAAAAAAAQ=</HashCode>
+      <FileName>Brick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BrickQuestion" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAAgAAAAAAAAAAAAAAAABAAAABAAAAAAAAA=</HashCode>
+      <FileName>BrickQuestion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cloud" Collapsed="true">
+    <Position X="13" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAAAAAAAACAAAAAQAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Cloud.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flag" Collapsed="true">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAAAAAAAAAAAAADAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Flag.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FloorBrick" Collapsed="true">
+    <Position X="22" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAAAAAAAAAAAAACAAAAAAAAAABAAQAAAAAA=</HashCode>
+      <FileName>FloorBrick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grass" Collapsed="true">
+    <Position X="28.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAAAgAAIAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Grass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronBrick" Collapsed="true">
+    <Position X="1.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAIAAAAAAAAAAAAAAAAAAAAAABAAAAAAABA=</HashCode>
+      <FileName>IronBrick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mountain" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAQ=</HashCode>
+      <FileName>Mountain.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pipe" Collapsed="true">
+    <Position X="10.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAQAAAAAAAAABAAAAAAAAAAAAAAABAAAAAAAAg=</HashCode>
+      <FileName>Pipe.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StoneBrick" Collapsed="true">
+    <Position X="15.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQBQAAAAAAAAAAAAAAAAAAAAAAAAABAAAEAAAAA=</HashCode>
+      <FileName>StoneBrick.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Goomba" Collapsed="true">
+    <Position X="19.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAEQBIAAAAAAAgABAAAAAAAAAgAEABAAAAAAAEA=</HashCode>
+      <FileName>Goomba.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Koopa" Collapsed="true">
+    <Position X="24.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAIAAAAAAAAAAAAAAAAAAAAAAABAAAAAMAEA=</HashCode>
+      <FileName>Koopa.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BackGround" Collapsed="true">
+    <Position X="31" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQAAAAAAAAAAAgAgAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>BackGround.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SRC" Collapsed="true">
+    <Position X="35.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Writer.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Box" Collapsed="true">
+    <Position X="33.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAgAAAAAAAAIAAAAAQAhgAAAAAAA=</HashCode>
+      <FileName>Box.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="TIMER_COMMAND" Collapsed="true">
+    <Position X="35.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAKAAAAAAAAAAAAgAAAYAAAAAEAAAAAAA=</HashCode>
+      <FileName>dxutil.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ArrayListType" Collapsed="true">
+    <Position X="37" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAEAAAAAAAAA=</HashCode>
+      <FileName>dxutil.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DIR" Collapsed="true">
+    <Position X="38.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAgAAARAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="_COL" Collapsed="true">
+    <Position X="33.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAEAAEAAAAAAQCAAAAAAA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="_SPRITE" Collapsed="true">
+    <Position X="35.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAAACCAAAEAAACAAIEwAIEgBACAAAAAEAAAAACAAA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GAME_STATE" Collapsed="true">
+    <Position X="37" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAEAAIACABAASAAQAQAAAQQI=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="FSM_Mario" Collapsed="true">
+    <Position X="35.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAgAAAAAAAgAAAAACgAAAAAAAAAABAACA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ENEMY_STATE" Collapsed="true">
+    <Position X="33.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAQAACAACAAAAAABAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="StatusObject" Collapsed="true">
+    <Position X="38.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TERRAIN_STATE" Collapsed="true">
+    <Position X="33.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAIAAAAAIAAAAAAAAAAAAAQIAIA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TYPE_RECT" Collapsed="true">
+    <Position X="37" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAEBAAAAAAAAABAABAAAAAAAAA=</HashCode>
+      <FileName>QuadTree.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
