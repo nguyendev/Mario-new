@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{1e920b9a-2fda-4f98-a5d9-5125db43a31b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Eneme">
+      <UniqueIdentifier>{65022dc8-31fc-4015-9f20-08048ea934db}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="background.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Global.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="background.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
