@@ -1,0 +1,36 @@
+﻿Build started 04-Dec-15 19:23:42.
+     1>Project "C:\Users\Dao\Desktop\Mario-new\MarioBros\MarioBros.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Mario.cpp
+         Mario.cpp
+     1>c:\users\dao\desktop\mario-new\mariobros\game.h(16): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\dao\desktop\mario-new\mariobros\game.h(17): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(9): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(51): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(53): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(54): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(142): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(142): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(144): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dao\desktop\mario-new\mariobros\mario.cpp(144): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Dao\Desktop\Mario-new\Debug\MarioBros.exe" /INCREMENTAL /NOLOGO d3d9.lib d3dx9.lib dinput8.lib dxguid.lib winmm.lib dsound.lib dxerr.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Dao\Desktop\Mario-new\Debug\MarioBros.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Dao\Desktop\Mario-new\Debug\MarioBros.lib" /MACHINE:X86 /SAFESEH Debug\Animation.obj
+         Debug\background.obj
+         Debug\BaseObject.obj
+         Debug\Camera.obj
+         Debug\Map.obj
+         Debug\Mario.obj
+         Debug\Pipe.obj
+         Debug\Graphic.obj
+         Debug\Input.obj
+         Debug\Sprite.obj
+         Debug\TimeManager.obj
+         Debug\WinMain.obj
+         Debug\Game.obj
+     1>Animation.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+         MarioBros.vcxproj -> C:\Users\Dao\Desktop\Mario-new\Debug\MarioBros.exe
+     1>Done Building Project "C:\Users\Dao\Desktop\Mario-new\MarioBros\MarioBros.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.19
