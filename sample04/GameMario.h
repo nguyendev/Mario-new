@@ -72,10 +72,11 @@ public:
 	LPDIRECT3DSURFACE9 _title;
 	int _marioMenuX;
 	int _marioMenuY;
+	float _replay;
 	CSprite* _marioMenu;
 	bool isLoad = false;
 	BaseObject* _mario;
 	int _Map;
-	void ChangeState(char* state);
+	void ChangeState(char state);
 };
 #endif _GAME_MARIO_H_

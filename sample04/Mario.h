@@ -19,6 +19,7 @@ private:
 	CSprite* _sSmall_right;
 	CSprite* _sBullet;
 	CSprite* _sExplosion;
+	CSprite* _current;
 	float _PositionX_Old;
 	float vMax;
 	bool isOnTheGround;
@@ -27,6 +28,7 @@ private:
 	bool isCanJump;
 	bool isJumping;
 	float waittime;
+	float waitDieing;
 	float waitRenderFirst;          // Ve khi Mario vua di chuyen
 	bool	isChangeDirectionL;		//Đổi hướng 
 	bool	isChangeDirectionR;
@@ -35,15 +37,18 @@ private:
 	float waitIncreaseVecY;			//doi de tang toc do trong luc
 	float ax;
 	float ay;
-	int _state;
+	char _state;
 	D3DXVECTOR2		m_MaxVelocity;
 	D3DXVECTOR2		m_MinVelocity;
 	D3DXVECTOR2		maxVelocity;
 	D3DXVECTOR2		minVelocity;
 	LPD3DXFONT	_font;
 public:
+	
+	bool _isVisiableKeyboard;
 	Camera* _camera;
 	DWORD last_time;
+	bool died;
 	
 	Mario();
 	Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sBig_right, CSprite* sBig_left, CSprite* small_right, CSprite* small_left, CSprite* bullet, CSprite* sExplosion, CGameMario* game);
@@ -53,18 +58,16 @@ public:
 	void ProcessInput(KeyBoard* _keyboard, float Time);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
 
-
 	void TurnLeft(float Time);
 	void TurnRight(float Time);
 	void Jump(float Time);
 	void Stand(float Time);
 
-	void	ResetRect(){};
 	~Mario();
 
 
 
-	void ChangeState(int _state);
+	void ChangeState(char state);
 };
 
 #endif _MARIO_H_

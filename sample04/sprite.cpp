@@ -78,6 +78,44 @@ void CSprite::Render(float X, float Y,int vpx,int vpy, int zoomX, int zoomY, REC
 		D3DCOLOR_XRGB(255, 255, 255)
 		);
 }
+void CSprite::Render(float X, float Y, int vpx, int vpy, float deep, bool Rotation)
+{
+	RECT srect;
+	// remove +1 in each index l,t,r,b
+	srect.left = (_Index % _SpritePerRow)*(_Width);
+	srect.top = (_Index / _SpritePerRow)*(_Height);
+	srect.right = srect.left + _Width;
+	srect.bottom = srect.top + _Height;
+
+	D3DXVECTOR3 position((float)X, (float)Y, 0);
+
+	//
+	// WORLD TO VIEWPORT TRANSFORM USING MATRIX
+	//
+
+	D3DXMATRIX mt;
+	D3DXMatrixIdentity(&mt);
+	mt._22 = 1.0f;
+	mt._41 = -vpx;
+	mt._42 = vpy;
+	D3DXVECTOR4 vp_pos;
+	D3DXVec3Transform(&vp_pos, &position, &mt);
+
+	D3DXVECTOR3 p(vp_pos.x, vp_pos.y, deep);
+	D3DXVECTOR3 center((float)_Width / 2, (float)_Height / 2, 0);
+
+	D3DXMATRIX mt1;
+	D3DXMatrixScaling(&mt1, ZOOM, ZOOM, 1);
+	_SpriteHandler->SetTransform(&mt1);
+
+	_SpriteHandler->Draw(
+		_Image,
+		&srect,
+		&center,
+		&p,
+		D3DCOLOR_XRGB(255, 255, 255)
+		);
+}
 void CSprite::Render(float X, float Y, int vpx, int vpy, float deep)
 {
 	RECT srect;

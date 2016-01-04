@@ -26,9 +26,9 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	_quadTree = NULL;
 	_marioMenuY = MENU_MIN;
 	_marioMenuX = 100;
-	_timeGame = 10;
 	_life = 3;
 	_coin = 120;
+	_replay = 0;
 }
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
@@ -90,6 +90,18 @@ void CGameMario::UpdateWorld(float TPF)
 		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
 		_camera->Update(_quadTree);
 		break;
+	case GS_NEXT_STAGE:				//Khi đổi màn
+		ChangeMap(_Map + 1);
+		break;
+	case GS_REPLAY:	
+		_replay += TPF;
+		if (_replay > 2)
+		{
+			_replay = 0;
+			
+			ChangeMap(_Map);
+		}
+		break;
 	case GS_GAMEOVER:
 		_audio->PlaySound(_sound_GameOver);
 	}
@@ -97,10 +109,7 @@ void CGameMario::UpdateWorld(float TPF)
 		
 
 }
-void ChangeState(char* state)
-{
 
-}
 void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	BaseObject* obj;
@@ -129,6 +138,16 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
 				obj->Render();
 		}
+		break;
+	case GS_REPLAY:
+		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
+		DrawScore();
+		if (_Map == 1)
+			DrawTxt(L"WORLD 1.1", 360, 300, _font);
+		else if (_Map == 2)
+			DrawTxt(L"WORLD 1.2", 360, 300, _font);
+		else
+			DrawTxt(L"WORLD", 360, 300, _font);
 		break;
 	case GS_GAMEOVER:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
@@ -235,17 +254,20 @@ void CGameMario::LoadSprite()
 }
 void CGameMario::ChangeMap(int Map)
 {
-	_timeGame = 300;
+	_timeGame = 10;
 	_Map = Map;
 	switch (_Map)
 	{
 	case 1:
 		ReadMap("Map\\MAP1.ptl", false , this);
-		//ReadMap("Map\\MAP1a.ptl", false, this);
-		//ReadMap("Map\\Test.mm",true,this);
 		break;
-
+	case 2:
+		ReadMap("Map\\MAP2.ptl", false, this);
+		break;
 	}
+	if (_Map<4)
+		ChangeState(GS_PLAYING);
+	else ChangeState(GS_WIN);
 }
 
 CGameMario::~CGameMario()
@@ -276,7 +298,10 @@ void CGameMario::DrawScore()
 	DrawTxt(L"TIME", 600, 8, _font);
 	// dòng hai
 	// draw Time
-	text = to_string(_timeGame);
+	if (_timeGame > 0)
+		text = to_string(_timeGame);
+	else
+		text = "0";
 	StringToWString(ws, text);
 	DrawTxt(ws, 606, 30, _font);
 
@@ -295,4 +320,20 @@ void CGameMario::DrawScore()
 	//// draw time of state
 	//text = to_string(m_timeOfState);
 	//DrawText(wstring(text.begin(), text.end()), Vector2(200, 18));
+}
+void CGameMario::ChangeState(char state)
+{
+	_state = state;
+	switch (state)
+	{
+	case GS_PLAYING:
+		//a->PlaySound(sBackground); 
+		_camera->_cameraX = 0;
+		staticObjs.clear();
+		dynamicObjs.clear();
+		break;
+	case GS_WIN:
+		//a->PlaySound(sWinState);
+		break;
+	}
 }

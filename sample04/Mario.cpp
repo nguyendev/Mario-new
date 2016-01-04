@@ -36,6 +36,9 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	isChangeDirectionL = false;
 	isChangeDirectionR = true;
 	waitRenderFirst = 0;
+	_state = M_NORMAL;
+	_isVisiableKeyboard = true;
+	died = false;
 }
 Mario::~Mario()
 {
@@ -118,8 +121,18 @@ void Mario::Move(float TPF)
 	}
 	else
 	{
-		_sSmall_right->setIndex(0);
-		_sprite->setIndex(7);
+		
+		if (died)
+		{
+			_sprite->setIndex(1);
+			_sSmall_right->setIndex(1);
+		}
+		else
+		{
+			_sSmall_right->setIndex(0);
+			_sprite->setIndex(7);
+		}
+
 	}
 }
 void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
@@ -199,13 +212,20 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
 {
 	Move(TPF);
-	CheckCollision(staticObj, dynamicObj);
+	if (_state != M_DIEING && _state != M_DIED)
+		CheckCollision(staticObj, dynamicObj);
 	ProcessInput(keyborad, TPF);
 	if (_game->_coin >= 100)
 	{
 		_game->_coin = 0;
 		_game->_life++;
 		_game->_audio->PlaySound(_game->_sound_1up);
+	}
+	// het thoi gian thi chet
+	if (_game->_timeGame == 0)
+	{
+		
+		ChangeState(M_DIEING);
 	}
 	if (isJumming == true)
 	{
@@ -215,6 +235,19 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 	{
 		isJumming = true;
 		timeJumped = 10;
+	}
+	switch (_state)
+	{
+		
+	case M_DIED:
+		if (_m_Position.y > 500)
+		{
+			_game->_life--;
+			_game->ChangeState(GS_REPLAY);
+		}
+			
+		
+		break;
 	}
 }
 void Mario::Render()
@@ -226,23 +259,42 @@ void Mario::Render()
 }
 void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 {
-	if (_keyboard->KeyDown(DIK_SPACE))
-		Jump(TPF);
-	if (_keyboard->KeyDown(DIK_DOWN))		//Ngồi
-	{
+	if (_isVisiableKeyboard){
+		if (_keyboard->KeyDown(DIK_SPACE))
+			Jump(TPF);
+		if (_keyboard->KeyDown(DIK_DOWN))		//Ngồi
+		{
+		}
+		else if (_keyboard->KeyDown(DIK_RIGHT))
+		{
+			TurnRight(TPF);
+		}
+		else if (_keyboard->KeyDown(DIK_LEFT))
+		{
+			TurnLeft(TPF);
+		}
+		else
+		{
+			Stand(TPF);
+		}
 	}
-	else if (_keyboard->KeyDown(DIK_RIGHT))
-	{
-		TurnRight(TPF);
-	}
-	else if (_keyboard->KeyDown(DIK_LEFT))
-	{
-		TurnLeft(TPF);
-	}
-	else
-	{
-		Stand(TPF);
-	}
-	
 }
 
+void Mario::ChangeState(char state)
+{
+	_state = state;
+	switch (_state)
+	{
+	case M_DIEING:
+		_m_Velocity.x = 0;
+		_m_Velocity.y = -2;
+		_game->_audio->StopSound(_game->_sound_Background);
+
+		_game->_audio->PlaySound(_game->_sound_Die);
+		ChangeState(M_DIED);
+		died = true;
+		_isVisiableKeyboard = false; //vo hieu ban phim khi sap chet
+		break;
+	
+	}
+}

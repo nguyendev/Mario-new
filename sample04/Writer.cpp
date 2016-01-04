@@ -127,9 +127,14 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		}
 	}
 	if (game->_quadTree != NULL) delete game->_quadTree;
-	int sizeWidth = m *PIXEL*ZOOM;
-	int sizeHeight = n * PIXEL*	ZOOM;
-	game->_quadTree = new QuadTree(0, 0,sizeWidth ,sizeHeight, 0);
+	int sizeWidth;
+	int sizeHeight;
+	if (fileName == "Map\\MAP1.ptl")
+	{
+		sizeWidth = 3865;
+		sizeHeight = n * PIXEL*	ZOOM;
+	}
+	game->_quadTree = new QuadTree(0, 0, sizeWidth, sizeHeight, 0);
 	Mario*	mario;
 	for (int i = 0; i < _count; i++)
 	{
@@ -161,7 +166,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = true;
 			break;
 		case 19:
-			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 8);
+			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
 			break;
 		case 20:
