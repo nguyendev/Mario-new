@@ -24,9 +24,8 @@ private:
 	float vMax;
 	bool isOnTheGround;
 	float timeJumped;
-	bool isJumming;
-	bool isCanJump;
 	bool isJumping;
+	bool isCanJump;
 	float waittime;
 	float waitDieing;
 	float waitRenderFirst;          // Ve khi Mario vua di chuyen

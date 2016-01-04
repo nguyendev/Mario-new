@@ -12,6 +12,7 @@
 #define MENU_MAX 170
 #define MENU_MIN  149
 #define MENU_INCREASE 17
+
 KeyBoard* _keyboard = NULL;
 CGameMario::CGameMario():CGame(){};
 CGameMario::CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScreen, int FrameRate) :
@@ -27,8 +28,9 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	_marioMenuY = MENU_MIN;
 	_marioMenuX = 100;
 	_life = 3;
-	_coin = 120;
+	_coin = 0;
 	_replay = 0;
+
 }
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
@@ -47,12 +49,10 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 
 	//MenuGame
 	_marioMenu = new CSprite(_SpriteHandler, "Image\\imgOptionCursor.png", 8, 8, 1, 1, 0.2);
+	_marioReplay = new CSprite(_SpriteHandler, "Image\\imgSmallMario_Left.png", 16, 16, 8, 4, 0.2);
 	_title = CreateSurface("Image\\imgbgMenu.png", d3ddv);
 
 
-	//Example about Enemies
-	//_dynamicObjs[0] = new Goomba(200, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_GOOMBA]);
-	//_dynamicObjs[1] = new Koopa(300, 180, _camera->_cameraX, _camera->_cameraY, 0, _sprites[S_KOOPA]);
 }
 
 void CGameMario::UpdateWorld(float TPF)
@@ -64,7 +64,7 @@ void CGameMario::UpdateWorld(float TPF)
 	case GS_PLAYING:
 		_audio->PlaySoundA(_sound_Background);
 		wait1Sec += TPF;
-		if (wait1Sec>1)
+		if (wait1Sec > 1)
 		{
 			wait1Sec -= 1;
 			_timeGame--;
@@ -84,7 +84,7 @@ void CGameMario::UpdateWorld(float TPF)
 			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
 				_quadTree->DeleteObj(_obj, true);*/
 		}
-		
+
 		staticObjs.clear();
 		dynamicObjs.clear();
 		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
@@ -93,21 +93,21 @@ void CGameMario::UpdateWorld(float TPF)
 	case GS_NEXT_STAGE:				//Khi đổi màn
 		ChangeMap(_Map + 1);
 		break;
-	case GS_REPLAY:	
+	case GS_REPLAY:
 		_replay += TPF;
 		if (_replay > 2)
 		{
 			_replay = 0;
-			
+
 			ChangeMap(_Map);
 		}
 		break;
 	case GS_GAMEOVER:
 		_audio->PlaySound(_sound_GameOver);
+		break;
+	case GS_WIN:
+		break;
 	}
-	if (_timeGame == 0);
-		
-
 }
 
 void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
@@ -115,11 +115,12 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 	BaseObject* obj;
 	list<BaseObject*>::iterator i;
 	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK);
+	///_SpriteHandler->Begin(D3DXSPRITE_SORT_DEPTH_FRONTTOBACK | D3DXSPRITE_OBJECTSPACE);
 	switch (_state)
 	{
 	case GS_MENU:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
-		_marioMenu->Render(_marioMenuX, _marioMenuY, _camera->_cameraX, _camera->_cameraY, 1);
+		_marioMenu->Render(_marioMenuX, _marioMenuY,_camera->_cameraX,_camera->_cameraY,0.1);
 		staticObjs.clear();
 		d3ddv->StretchRect(_title, NULL, _BackBuffer, NULL, D3DTEXF_NONE);
 		break;
@@ -143,14 +144,28 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
 		if (_Map == 1)
-			DrawTxt(L"WORLD 1.1", 360, 300, _font);
+			DrawTxt(L"WORLD 1.1", 355, 250, _font);
 		else if (_Map == 2)
-			DrawTxt(L"WORLD 1.2", 360, 300, _font);
+			DrawTxt(L"WORLD 1.2", 355, 250, _font);
 		else
-			DrawTxt(L"WORLD", 360, 300, _font);
+			DrawTxt(L"WORLD", 355, 250, _font);
+		_marioReplay->setIndex(0);
+		_marioReplay->Render(370 / ZOOM, 310 / ZOOM);
+		
+		DrawTxt(L"X", 420, 300, _font);
+		text = to_string(_life);
+		StringToWString(ws, text);
+		DrawTxt(ws, 455, 300, _font);
 		break;
 	case GS_GAMEOVER:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
+		DrawScore();
+		DrawTxt(L"GAME OVER", 355, 250, _font);
+		break;
+	case GS_WIN:
+		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
+		DrawScore();
+		DrawTxt(L"YOU WIN", 355, 250, _font);
 		break;
 	}
 	_SpriteHandler->End();
@@ -179,12 +194,14 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		}
 		else if (_keyboard->KeyPress(DIK_RETURN))
 		{
-			_audio->PlaySound(_sound_Squish);
-			ChangeMap(1);
-			if (_marioMenuY = MENU_MIN)
-				_state = GS_PLAYING;
-			else if (_marioMenuY = MENU_MAX)
-				_state = GS_PLAYING;
+			if (_marioMenuY == MENU_MIN)
+			{
+				_audio->PlaySound(_sound_Squish);
+				ChangeMap(1);
+				ChangeState(GS_REPLAY);
+			}
+			else
+				ChangeState(GS_WIN);
 		}
 		break;
 
@@ -254,7 +271,7 @@ void CGameMario::LoadSprite()
 }
 void CGameMario::ChangeMap(int Map)
 {
-	_timeGame = 10;
+	_timeGame = 300;
 	_Map = Map;
 	switch (_Map)
 	{
@@ -279,47 +296,34 @@ CGameMario::~CGameMario()
 	for (int i = 0; i < 30; i++)
 		if (_sprites[i] != NULL) delete _sprites[i];
 }
-int StringToWString(std::wstring &ws, const std::string &s)
-{
-	std::wstring wsTmp(s.begin(), s.end());
 
-	ws = wsTmp;
-
-	return 0;
-}
 void CGameMario::DrawScore()
 {
-	
-	// dòng một
-	wstring ws;
-	string text;
-	DrawTxt(L"MARIO", 24, 8, _font);
-	DrawTxt(L"WORLD", 400, 8, _font);
-	DrawTxt(L"TIME", 600, 8, _font);
-	// dòng hai
+	// Draw money
+	DrawTxt(L"WORLD 1.", 450, 20, _font);
+	text = to_string(_Map);
+	StringToWString(ws, text);
+	DrawTxt(ws, 552, 20, _font);
+	DrawTxt(L"MONEY", 224, 20, _font);
 	// draw Time
 	if (_timeGame > 0)
 		text = to_string(_timeGame);
 	else
 		text = "0";
 	StringToWString(ws, text);
-	DrawTxt(ws, 606, 30, _font);
-
-	//// draw score coin
+	DrawTxt(ws, 730, 20, _font);
+	DrawTxt(L"TIME", 650, 20, _font);
+	// draw score coin
 	text = to_string(_coin);
 	StringToWString(ws, text);
-	DrawTxt(ws, 224, 30, _font);
+	DrawTxt(ws, 330, 20, _font);
+	DrawTxt(L"MONEY", 224, 20, _font);
 
+	// Draw life
 	text = to_string(_life);
 	StringToWString(ws, text);
-	DrawTxt(ws, 30, 30, _font);
-	//while (text.length() < 2)
-	//	text = "0" + text;
-	//text = "x" + text;
-	//DrawText(wstring(text.begin(), text.end()), Vector2(95, 18));
-	//// draw time of state
-	//text = to_string(m_timeOfState);
-	//DrawText(wstring(text.begin(), text.end()), Vector2(200, 18));
+	DrawTxt(ws, 95, 20, _font);
+	DrawTxt(L"LIFE x", 24, 20, _font);
 }
 void CGameMario::ChangeState(char state)
 {
@@ -336,4 +340,15 @@ void CGameMario::ChangeState(char state)
 		//a->PlaySound(sWinState);
 		break;
 	}
+}
+void CGameMario::ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv)
+{
+	d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
+	DrawScore();
+	if (_Map == 1)
+		DrawTxt(L"WORLD 1.1", 360, 300, _font);
+	else if (_Map == 2)
+		DrawTxt(L"WORLD 1.2", 360, 300, _font);
+	else
+		DrawTxt(L"WORLD", 360, 300, _font);
 }

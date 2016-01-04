@@ -32,7 +32,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	waittime = 0; 
 	waitIncreaseVecY = 0;
 	maxVelocity = m_MaxVelocity;
-	isJumming = false;
+	isJumping = false;
 	isChangeDirectionL = false;
 	isChangeDirectionR = true;
 	waitRenderFirst = 0;
@@ -84,11 +84,9 @@ void Mario::Jump(float TPF)
 	if (timeJumped < 0.2)
 	{
 		_m_Velocity.y = -MARIO_VY;
-		isJumming = true;
+		isJumping = true;
 		_game->_audio->PlaySound(_game->_sound_Jump);
 	}
-	_sprite->setIndex(1);
-	_sSmall_right->setIndex(6);
 }
 void Mario::Move(float TPF)
 {
@@ -113,9 +111,9 @@ void Mario::Move(float TPF)
 		}
 		else{
 			if (isChangeDirectionL)
-				_sprite->Next(1,4,TPF);
+				_sprite->Next(2,4,TPF);
 			else if (isChangeDirectionR)
-				_sSmall_right->Next(2,5,TPF);
+				_sSmall_right->Next(3,5,TPF);
 		}
 		
 	}
@@ -126,6 +124,11 @@ void Mario::Move(float TPF)
 		{
 			_sprite->setIndex(1);
 			_sSmall_right->setIndex(1);
+		}
+		else if (isJumping)
+		{
+			_sprite->setIndex(1);
+			_sSmall_right->setIndex(6);
 		}
 		else
 		{
@@ -177,6 +180,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					_m_Velocity.y = 0;
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					//_m_Position.x = (int) _m_Position.x;
+					isJumping = false;
 					timeJumped = 0;
 					break;
 				default:
@@ -227,13 +231,13 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		
 		ChangeState(M_DIEING);
 	}
-	if (isJumming == true)
+	if (isJumping == true)
 	{
 		timeJumped += TPF;
 	}
 	if (_m_Velocity.y > 0)
 	{
-		isJumming = true;
+		isJumping = true;
 		timeJumped = 10;
 	}
 	switch (_state)

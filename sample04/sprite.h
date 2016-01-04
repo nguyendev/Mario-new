@@ -26,6 +26,7 @@ public:
 	void Next(int start, int end, float time);
 	// Render current sprite at location (X,Y)
 	void Render(float x, float y, int vpx, int vpy, float deep);
+	void Render(float x, float y);
 	void Render(float x, float y, int vpx, int vpy, int zoomX, int zoomY, RECT rSrc, float deep);
 	void Render(float X, float Y, int vpx, int vpy, float deep, bool Rotation);
 	~CSprite();

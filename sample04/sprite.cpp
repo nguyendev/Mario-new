@@ -116,6 +116,26 @@ void CSprite::Render(float X, float Y, int vpx, int vpy, float deep, bool Rotati
 		D3DCOLOR_XRGB(255, 255, 255)
 		);
 }
+void CSprite::Render(float X, float Y)
+{
+	RECT srect;
+	// remove +1 in each index l,t,r,b
+	srect.left = (_Index % _SpritePerRow)*(_Width);
+	srect.top = (_Index / _SpritePerRow)*(_Height);
+	srect.right = srect.left + _Width;
+	srect.bottom = srect.top + _Height;
+
+	D3DXVECTOR3 position((float)X, (float)Y, 0);
+
+	D3DXVECTOR3 center((float)_Width / 2, (float)_Height / 2, 0);
+	_SpriteHandler->Draw(
+		_Image,
+		&srect,
+		&center,
+		&position,
+		D3DCOLOR_XRGB(255, 255, 255)
+		);
+}
 void CSprite::Render(float X, float Y, int vpx, int vpy, float deep)
 {
 	RECT srect;

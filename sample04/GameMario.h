@@ -27,11 +27,8 @@ public:
 
 	LPD3DXSPRITE _SpriteHandler;
 	CSprite * _sprites[30];
-	BaseObject* _staticObjs[1000];
 	list<BaseObject*> staticObjs;
 	list<BaseObject*> dynamicObjs;
-	BaseObject* _dynamicObjs[40];
-	BaseObject* _test;
 	Camera * _camera;
 	Audio* _audio;
 	QuadTree* _quadTree;
@@ -58,6 +55,7 @@ protected:
 	void UpdateWorld(float TPF);
 	void RenderBackground(int view_port_x, int view_port_y);
 	void DrawScore();
+	void ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv);
 public:
 	//Load Resource-----------
 	CSound *_sound_1up, *_sound_Beep, *_sound_BigJump, *_sound_BowserDie, *_sound_Break, *_sound_Bump, *_sound_Coin, *_sound_Background;
@@ -74,9 +72,11 @@ public:
 	int _marioMenuY;
 	float _replay;
 	CSprite* _marioMenu;
+	CSprite* _marioReplay;
 	bool isLoad = false;
-	BaseObject* _mario;
 	int _Map;
 	void ChangeState(char state);
+	wstring ws;
+	string text;
 };
 #endif _GAME_MARIO_H_

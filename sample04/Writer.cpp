@@ -252,3 +252,11 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	}
 	fclose(pFile);
 }
+int StringToWString(std::wstring &ws, const std::string &s)
+{
+	std::wstring wsTmp(s.begin(), s.end());
+
+	ws = wsTmp;
+
+	return 0;
+}
