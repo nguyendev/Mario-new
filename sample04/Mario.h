@@ -5,10 +5,7 @@
 #include "Collision.h"
 #include "Audio.h"
 #include "sprite.h"
-#define GROUND_Y 180
-#define JUMP_VELOCITY_BOOST 400.0f
-#define FALLDOWN_VELOCITY_DECREASE 200.0f
-#define MARIO_SPEED 1000.0f
+
 
 class CSprite;
 class Mario: public BaseObject
@@ -26,6 +23,10 @@ private:
 	float timeJumped;
 	bool isJumping;
 	bool isCanJump;
+	bool isShotable;
+	float waitbullet;
+	bool isShotting;
+	float waitShotting;
 	float waittime;
 	float waitDieing;
 	float waitRenderFirst;          // Ve khi Mario vua di chuyen
@@ -57,11 +58,11 @@ public:
 	void ProcessInput(KeyBoard* _keyboard, float Time);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
 
-	void TurnLeft(float Time);
-	void TurnRight(float Time);
+	void TurnLeft(float Time, float Max);
+	void TurnRight(float Time, float Max);
 	void Jump(float Time);
 	void Stand(float Time);
-
+	void Bullet(float Time);
 	~Mario();
 
 

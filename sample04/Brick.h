@@ -25,6 +25,12 @@ private:
 	float	_vxBreak2;
 	float	_ayBreak;
 	float	_angle;
+	// biến xử lý độ nảy viên gạch
+	float	_moveupTime;	// thời gian đi lên của viên gạch
+	bool	isFalling;
+	// lưu vị trí cố định của gạch
+	const float Recent_X = _m_Position.x;	
+	const float Recent_Y = _m_Position.y;
 public:
 	bool	_isBright;
 	bool	_isNeedDelete;

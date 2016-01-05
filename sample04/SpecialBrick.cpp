@@ -1,12 +1,12 @@
-﻿#include "BrickQuestion.h"
+﻿#include "SpecialBrick.h"
 #include "Global.h"
 
 
 
-BrickQuestion::BrickQuestion() :BaseObject()
+SpecialBrick::SpecialBrick() :BaseObject()
 {
 }
-BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sprite) : BaseObject(x, y, _cameraX, _cameraY)
+SpecialBrick::SpecialBrick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sprite) : BaseObject(x, y, _cameraX, _cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;
@@ -20,14 +20,12 @@ BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, i
 	_state = TS_IDLE;
 	_moveupTime = 0.1;
 	isFalling = false;
-	_currentSprite = 0;
-	//coin = new Coin(x, y, _cameraX, _cameraY, 32, _sprite[S_MONEY]);
 }
-void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
+void SpecialBrick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	switch (_state)
 	{
-	case TS_IDLE:				// trạng thái chờ thì nhấp nháy
+	case TS_IDLE:				
 		break;
 	case TS_MOVEUP:
 		if (_moveupTime > 0 && !isFalling){
@@ -53,26 +51,23 @@ void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 		break;
 	}
 }
-void BrickQuestion::Render()
+void SpecialBrick::Render()
 {
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ thì nhấp nháy
-		_currentSprite++;
-		if (_currentSprite < 8 || _currentSprite >10)
-			_currentSprite = 8;
+		_sprite->setIndex(0);
 		break;
 	case TS_MOVEUP:
-		_currentSprite = 3;
+		_sprite->setIndex(0);
 		break;
 	case TS_BREAKED:							// gạch bị đụng rồi
-		_currentSprite = 3;
+		_sprite->setIndex(3);
 		break;
 	}
-	_sprite->setIndex(_currentSprite);
 	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 }
-void BrickQuestion::SetState(char* Name, int val)
+void SpecialBrick::SetState(char* Name, int val)
 {
 	if (strcmp(Name, "_isChanged") == 0)
 	{
@@ -90,7 +85,7 @@ void BrickQuestion::SetState(char* Name, int val)
 		_isContainCoin = val;
 }
 
-int BrickQuestion::GetState(char* Name)
+int SpecialBrick::GetState(char* Name)
 {
 	if (strcmp(Name, "_isChanged") == 0)
 		return _isChanged;
@@ -103,7 +98,7 @@ int BrickQuestion::GetState(char* Name)
 	return -1;
 }
 
-void BrickQuestion::ChangeState(char state)
+void SpecialBrick::ChangeState(char state)
 {
 	_state = state;
 	switch (_state)

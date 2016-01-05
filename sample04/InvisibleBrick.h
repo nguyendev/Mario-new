@@ -2,18 +2,15 @@
 #include "Global.h"
 #include "Sprite.h"
 #include "Camera.h"
-#include "Coin.h"
+#include "BaseObject.h"
 #include <list>
 
 using namespace std;
 
-class BrickQuestion :public BaseObject
+class InvisibleBrick :public BaseObject
 {
-
 private:
 	char	_state;
-	bool	_isContainCoin;
-	// xử lý sprite của từng viên gạch
 	int		_currentSprite;
 	// biến xử lý độ nảy viên gạch
 	float	_moveupTime;	// thời gian đi lên của viên gạch
@@ -25,9 +22,9 @@ public:
 	bool	_isBright;
 	bool	_isNeedDelete;
 	bool	_isChanged;
-	BrickQuestion();
-	BrickQuestion(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
-	~BrickQuestion();
+	InvisibleBrick();
+	InvisibleBrick(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite, int _SpriteIndex);
+	~InvisibleBrick();
 	void Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void Render();
 	void CollisionTemp(BaseObject *){};

@@ -12,7 +12,7 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_m_Velocity.x = -1;		// demo, if the game is real, it is 0
 	_m_Velocity.y = 1;
 	_width = _sprite->_Width;
-	_height = _sprite->_Height-1;
+	_height = _sprite->_Height;
 	_widthRect = _width;
 	_heightRect = _height;
 	state = ES_ACTIVING;

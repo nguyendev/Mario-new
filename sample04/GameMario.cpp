@@ -40,7 +40,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv, &_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv, &_SpriteHandler);
-	D3DXCreateFont(_d3ddv, 25, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, TEXT("Time New Roman"), &_font);
+	D3DXCreateFont(_d3ddv, 25, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Time New Roman"), &_font);
 	LoadSprite();
 	LoadAudio();
 
@@ -72,23 +72,37 @@ void CGameMario::UpdateWorld(float TPF)
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			_obj = *i;
-			//if (_obj->getPosition().x->x - 10 && obj->x<camera->x + WIDTH + 10)
-			_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
-			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
-				_quadTree->DeleteObj(_obj, true);*/
+			if (_obj->getPosition().x>_camera->_cameraX - 10 && _obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
+				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+			if (_obj->GetState("_isNeedDelete") == 1)
+				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
+				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
-				_quadTree->DeleteObj(_obj, true);*/
+			_quadTree->DeleteObj(_obj, true);*/
 		}
-
 		staticObjs.clear();
 		dynamicObjs.clear();
 		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
 		_camera->Update(_quadTree);
+		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
+		{
+			_obj = *i;
+			if (_obj->getPosition().x>_camera->_cameraX - 10 && _obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
+				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+		}
+		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
+		{
+			_obj = *i;
+			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
+				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+		}
+
+		
 		break;
 	case GS_NEXT_STAGE:				//Khi đổi màn
 		ChangeMap(_Map + 1);
@@ -243,31 +257,31 @@ void CGameMario::LoadAudio()
 void CGameMario::LoadSprite()
 {
 	// Mario
-	_sprites[S_BMARIO_LEFT] = new CSprite(_SpriteHandler, BMARIO_IMAGE_LEFT, 16, 32, 32, 8, 0.1); // fixed
-	_sprites[S_BMARIO_RIGHT] = new CSprite(_SpriteHandler, BMARIO_IMAGE_RIGHT, 16, 32, 32, 8, 0.1);
-	_sprites[S_SMARIO_RIGHT] = new CSprite(_SpriteHandler, SMARIO_IMAGE_RIGHT, 17, 16, 8, 8, 0.1);
-	_sprites[S_SMARIO_LEFT] = new CSprite(_SpriteHandler, SMARIO_IMAGE_LEFT, 17, 16, 8, 8, 0.1);
-	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3, 0.2);
-	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4, 0.2);
+	_sprites[S_BMARIO_LEFT] = new CSprite(_SpriteHandler, BMARIO_IMAGE_LEFT, 16, 32, 32, 8, TIMEPERIMAGE); // fixed
+	_sprites[S_BMARIO_RIGHT] = new CSprite(_SpriteHandler, BMARIO_IMAGE_RIGHT, 16, 32, 32, 8, TIMEPERIMAGE);
+	_sprites[S_SMARIO_RIGHT] = new CSprite(_SpriteHandler, SMARIO_IMAGE_RIGHT, 17, 16, 8, 8, TIMEPERIMAGE);
+	_sprites[S_SMARIO_LEFT] = new CSprite(_SpriteHandler, SMARIO_IMAGE_LEFT, 17, 16, 8, 8, TIMEPERIMAGE);
+	_sprites[S_EXPLOSION] = new CSprite(_SpriteHandler, S_EXPLOSION_IMAGE, 16, 16, 3, 3, TIMEPERIMAGE);
+	_sprites[S_FIREBULLET] = new CSprite(_SpriteHandler, FIREBULLET_IMAGE, 8, 8, 4, 4, TIMEPERIMAGE);
 	//Static Object
-	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 16, 16, 4, 2, 0.2);
-	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 16, 4, 0.2);
-	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 8, 4, 0.2);
-	_sprites[S_CASTLE] = new CSprite(_SpriteHandler, CASTLE_IMAGE, 80, 80, 1, 1, 0.2);
-	_sprites[S_CLOUD] = new CSprite(_SpriteHandler, CLOUD_IMAGE, 8, 24, 4, 4, 0.2);
-	_sprites[S_GRASS] = new CSprite(_SpriteHandler, GRASS_IMAGE, 8, 16, 8, 4, 0.2);
-	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, 0.2);
+	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 16, 16, 4, 2, TIMEPERIMAGE);
+	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 16, 4, TIMEPERIMAGE);
+	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 8, 4, TIMEPERIMAGE);
+	_sprites[S_CASTLE] = new CSprite(_SpriteHandler, CASTLE_IMAGE, 40, 40, 4, 2, TIMEPERIMAGE);
+	_sprites[S_CLOUD] = new CSprite(_SpriteHandler, CLOUD_IMAGE, 8, 24, 4, 4, TIMEPERIMAGE);
+	_sprites[S_GRASS] = new CSprite(_SpriteHandler, GRASS_IMAGE, 8, 16, 8, 4, TIMEPERIMAGE);
+	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, TIMEPERIMAGE);
 	//Enemies
-	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, 0.2);
-	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4, 0.2);
-	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2, 0.2);
+	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, TIMEPERIMAGE);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4, TIMEPERIMAGE);
+	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2, TIMEPERIMAGE);
 	//Items
-	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, 0.2);
-	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2, 0.2);
-	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, 0.2);
-	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10, 0.2);
+	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, TIMEPERIMAGE);
+	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2, TIMEPERIMAGE);
+	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, TIMEPERIMAGE);
+	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10, TIMEPERIMAGE);
 	//Others
-	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4, 0.2);
+	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4, 1);
 }
 void CGameMario::ChangeMap(int Map)
 {

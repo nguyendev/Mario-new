@@ -16,6 +16,7 @@
 #define ZOOM			2.5
 #define MAX_TIME_JUMP	6		// the high which mario can reach
 #define MARIO_VOID    "MARIO VOID"
+#define TIMEPERIMAGE	0.2
 
 
 //Load image

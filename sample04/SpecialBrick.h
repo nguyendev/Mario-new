@@ -7,14 +7,12 @@
 
 using namespace std;
 
-class BrickQuestion :public BaseObject
+class SpecialBrick :public BaseObject
 {
 
 private:
 	char	_state;
 	bool	_isContainCoin;
-	// xử lý sprite của từng viên gạch
-	int		_currentSprite;
 	// biến xử lý độ nảy viên gạch
 	float	_moveupTime;	// thời gian đi lên của viên gạch
 	bool	isFalling;
@@ -25,9 +23,9 @@ public:
 	bool	_isBright;
 	bool	_isNeedDelete;
 	bool	_isChanged;
-	BrickQuestion();
-	BrickQuestion(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
-	~BrickQuestion();
+	SpecialBrick();
+	SpecialBrick(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
+	~SpecialBrick();
 	void Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void Render();
 	void CollisionTemp(BaseObject *){};

@@ -55,7 +55,6 @@ public:
 	StatusObject		getStatusOBject(){ return m_status; }
 
 	Box					getBouding();
-
 	BaseObject();
 	BaseObject(float x, float y, float cameraX, float cameraY);
 	~BaseObject();

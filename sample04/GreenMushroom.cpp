@@ -15,20 +15,25 @@ GreenMushRoom::GreenMushRoom(float x, float y, float cameraX, float cameraY, int
 	_m_Velocity.y = 0;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
-	Activated = false;
+	_widthRect = _width;
+	_heightRect = _height+2;
+	_state = TS_IDLE;
 	timeRised = 0;
 }
 void GreenMushRoom::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
-		if (Activated)
-		{
-
-			Move();
-			CheckCollision(staticObj, dynamicObj);
-			Render();
-			_sprite->Next(Time);
-		}
-
+	switch (_state)
+	{
+	case TS_IDLE:				// trạng thái chờ 
+		break;
+	case TS_MOVEUP:				// đang đi lên
+		Move();
+		
+		break;
+	case TS_BREAKED:							// đã bị ăn
+		Move();
+		break;
+	}
 }
 void GreenMushRoom::Move()
 {
@@ -82,14 +87,61 @@ void GreenMushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject
 					break;
 				}
 			}
+			if (obj->_ID == 1){			// va chạm với mario
+				// xử lý ở đây
+				return;
+			}
 		}
 	}
 }
 void GreenMushRoom::Render()
 {
-	_sprite->setIndex(1);			// green mushroom
-	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+	switch (_state)
+	{
+	case TS_IDLE:				// trạng thái chờ 
+		_sprite->setIndex(0);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		break;
+	case TS_MOVEUP:				// đang đi lên
+		_sprite->setIndex(0);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		break;
+	case TS_BREAKED:							// đã bị ăn
+		_sprite->setIndex(0);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		break;
+	}
+	
 }
+void GreenMushRoom::SetState(char* Name, int val)
+{
+	if (strcmp(Name, "_state") == 0)
+	{
+		ChangeState(val);
+		return;
+	}
+}
+
+int GreenMushRoom::GetState(char* Name)
+{
+	if (strcmp(Name, "_state") == 0)
+		return _state;
+	if (strcmp(Name, "_isNeedDelete") == 0)
+		return _isNeedDelete;
+	return -1;
+}
+
+void GreenMushRoom::ChangeState(char state)
+{
+	_state = state;
+	switch (_state)
+	{
+	case TS_IDLE:
+	case TS_MOVEUP:
+		break;
+	}
+}
+
 GreenMushRoom::~GreenMushRoom()
 {
 }

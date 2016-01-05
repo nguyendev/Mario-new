@@ -1,4 +1,4 @@
-#include "Star.h"
+﻿#include "Star.h"
 
 
 Star::Star()
@@ -15,16 +15,23 @@ Star::Star(float x, float y, float cameraX, float cameraY, int ID, CSprite* spri
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	timeJump = 10;				// max high the star can go
-	Activated = false;
+	_state = TS_IDLE;
 }
 void Star::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
-	if (Activated)
+	switch (_state)
 	{
+	case TS_IDLE:				// trạng thái chờ 
 		Move();
-		CheckCollision(staticObj, dynamicObj);
-		Render();
+		break;
+	case TS_MOVEUP:				// đang đi lên
 		_sprite->Next(TPF);
+		Move();
+		CheckCollision(staticObj,dynamicObj);
+		break;
+	case TS_BREAKED:							// đã bị ăn
+		
+		break;
 	}
 }
 void Star::Move()
@@ -80,8 +87,47 @@ void Star::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynam
 }
 void Star::Render()
 {
-	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+	switch (_state)
+	{
+	case TS_IDLE:				// trạng thái chờ 
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		break;
+	case TS_MOVEUP:				// đang đi lên
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		break;
+	case TS_BREAKED:							// đã bị ăn
+		break;
+	}
 }
+void Star::SetState(char* Name, int val)
+{
+	if (strcmp(Name, "_state") == 0)
+	{
+		ChangeState(val);
+		return;
+	}
+}
+
+int Star::GetState(char* Name)
+{
+	if (strcmp(Name, "_state") == 0)
+		return _state;
+	if (strcmp(Name, "_isNeedDelete") == 0)
+		return _isNeedDelete;
+	return -1;
+}
+
+void Star::ChangeState(char state)
+{
+	_state = state;
+	switch (_state)
+	{
+	case TS_IDLE:
+	case TS_MOVEUP:
+		break;
+	}
+}
+
 Star::~Star()
 {
 }

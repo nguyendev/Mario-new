@@ -13,6 +13,9 @@
 #include "Coin.h"
 #include "MushRoom.h"
 #include "GreenMushroom.h"
+#include "MuchMoneyBrick.h"
+#include "Flag.h"
+#include "Castle.h"
 #include "Star.h"
 #include "Flower.h"
 Camera*  _camera;
@@ -141,7 +144,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		switch (t[i].id)
 		{
 		case 1:
-			obj = new Mario(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BMARIO_RIGHT],game->_sprites[S_BMARIO_LEFT], game->_sprites[S_SMARIO_RIGHT], game->_sprites[S_SMARIO_LEFT], game->_sprites[S_FIREBULLET], game->_sprites[S_EXPLOSION], game);
+			obj = new Mario(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BMARIO_RIGHT], game->_sprites[S_BMARIO_LEFT], game->_sprites[S_SMARIO_RIGHT], game->_sprites[S_SMARIO_LEFT], game->_sprites[S_FIREBULLET], game->_sprites[S_EXPLOSION], game);
 			game->_camera->mario = obj;
 			_isStatic = false;
 			break;
@@ -162,15 +165,16 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = true;
 			break;
 		case 18:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],isBright, 0);
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], isBright, 0);
 			_isStatic = true;
 			break;
 		case 19:
 			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
+
 			break;
 		case 20:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4,isBright);
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4, isBright);
 			_isStatic = true;
 			break;
 		case 21:
@@ -178,11 +182,11 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = true;
 			break;
 		case 22:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1,isBright);
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1, isBright);
 			_isStatic = true;
 			break;
 		case 23:
-			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
+			obj = new Castle(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_CASTLE], 0);
 			_isStatic = true;
 			break;
 		case 25: case 26: case 27:
@@ -197,11 +201,27 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Mountain(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_MOUNTAIN], 0);
 			_isStatic = true;
 			break;
-		/*default:
+		case 58:
+			obj = new Flag(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_FLAG], 0);
+			_isStatic = true;
+			break;
+			/*case 50:
+			obj = new InvisibleBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],11);
+			_isStatic = true;
+			break;*/
+		case 51:
+			obj = new MuchMoneyBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			_isStatic = true;
+			break;
+			/*case 52:
+			obj = new SpecialBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			_isStatic = true;
+			break;*/
+			/*default:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],1);
 			break;*/
 		}
-		
+		// them doi tuong tinh vao quadtree.
 		if (obj != NULL)
 		{
 			obj->_game = game;
@@ -219,29 +239,16 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			s.srcX = t[i].srcX;
 			s.srcY = t[i].srcY;
 			if (s.id == 0 || s.id == 1 || s.id == 3 || s.id == 4 || s.id == 5 || s.id == 7
-				|| s.id == 10 || s.id == 11 || s.id == 12 || s.id == 13)
-			{
+				|| s.id == 10 || s.id == 11 || s.id == 12 || s.id == 13 || s.id == 9)
 				obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY]);
-				_isStatic = true;
-			}
 			if (s.id == 6)
-			{
 				obj = new MushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 33, game->_sprites[S_FUNGI]);
-				_isStatic = true;
-			}
 			if (s.id == 2 || s.id == 8)
-			{
 				obj = new Flower(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 34, game->_sprites[S_FLOWER]);
-				_isStatic = true;
-			}
-			if (s.id == 9)
-			{
-				obj = new Star(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 39, game->_sprites[S_STAR]);
-				_isStatic = false;
-			}
-
+			_isStatic = true;
 			Count_Item++;
 		}
+
 		// them item vao quadtree.
 		if (obj != NULL)
 		{
@@ -249,7 +256,33 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			game->_quadTree->Add(obj, _isStatic);
 		}
 		obj = NULL;
+		// them item dac biet
+		SRC s;
+		switch (t[i].id){
+		case 52:
+			s.srcX = t[i].srcX;
+			s.srcY = t[i].srcY;
+			obj = new Star(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 35, game->_sprites[S_STAR]);
+			break;
+		case 51:
+			s.srcX = t[i].srcX;
+			s.srcY = t[i].srcY;
+			obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY]);
+			break;
+		case 50:
+			s.srcX = t[i].srcX;
+			s.srcY = t[i].srcY;
+			obj = new GreenMushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 36, game->_sprites[S_FUNGI]);
+			break;
+		}
+		if (obj != NULL)
+		{
+			obj->_game = game;
+			game->_quadTree->Add(obj, _isStatic);
+		}
+		obj = NULL;
 	}
+
 	fclose(pFile);
 }
 int StringToWString(std::wstring &ws, const std::string &s)

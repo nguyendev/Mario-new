@@ -93,11 +93,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Castle.cpp" />
     <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -116,6 +116,7 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="GameMario.cpp" />
     <ClCompile Include="Mountain.cpp" />
+    <ClCompile Include="MuchMoneyBrick.cpp" />
     <ClCompile Include="MushRoom.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="QuadTree.cpp" />
@@ -129,11 +130,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
-    <ClInclude Include="BackGround.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickQuestion.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Castle.h" />
     <ClInclude Include="Cloud.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="GameMario.h" />
     <ClInclude Include="Mountain.h" />
+    <ClInclude Include="MuchMoneyBrick.h" />
     <ClInclude Include="MushRoom.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="QuadTree.h" />
