@@ -200,4 +200,11 @@ enum MARIO_STATE
 	M_ZOOM_IN,
 	M_ZOOM_OUT
 };
+enum BULLET_STATE
+{
+	BS_IDLE,
+	BS_ACTIVING,
+	BS_BLOW,
+	BS_BLOWED
+};
 #endif

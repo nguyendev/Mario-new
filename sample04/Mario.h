@@ -5,6 +5,7 @@
 #include "Collision.h"
 #include "Audio.h"
 #include "sprite.h"
+#include "Bullet.h"
 
 
 class CSprite;
@@ -62,7 +63,7 @@ public:
 	void TurnRight(float Time, float Max);
 	void Jump(float Time);
 	void Stand(float Time);
-	void Bullet(float Time);
+	void sExplosion(float Time);
 	~Mario();
 
 

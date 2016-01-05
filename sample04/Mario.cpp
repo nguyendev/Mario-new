@@ -1,6 +1,7 @@
 ﻿#include "Mario.h"
 #include "Global.h"
 #include "Collision.h"
+
 #include "GameMario.h"
 #define MARIO_VY	2.6f	//velocity Y of mario
 #define _MARIO_VX_NORMAL 1.0f	//max velocity of mario
@@ -20,7 +21,6 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_ID = ID;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
-	_vx_last = 1.0f;
 	_widthRect = _width;
 	_heightRect = _height-2;
 	isCanJump = false;
@@ -37,7 +37,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_state = M_NORMAL;
 	_isVisiableKeyboard = true;
 	died = false;
-	isShotable = false;
+	isShotable = true;
 	waitbullet = 0;
 	isShotting = false;
 	waitShotting = 0;
@@ -88,15 +88,15 @@ void Mario::Jump(float TPF)
 		_game->_audio->PlaySound(_game->_sound_Jump);
 	}
 }
-void Mario::Bullet(float TPF)
+void Mario::sExplosion(float TPF)
 {
 	if (isShotable == true)
 	{
 		if (waitbullet>0.35)
 		{
 			isShotting = true;
-			/*BaseObject* obj = new Bullet(isFaceRight ? x + TILE_SIZE : x, y + 20, 8, 8, isFaceRight ? 500 : -500, bullet1, bullet2);
-			obj->GetState("state", BS_ACTIVING);*/
+			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 11 : _m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?50:-50, _sBullet, _sExplosion);
+			obj->SetState("_state", BS_ACTIVING);
 			_game->_quadTree->Add(obj, false);
 			_game->_audio->PlaySound(_game->_sound_FireBall);
 			waitbullet = 0;
@@ -354,7 +354,7 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 			Jump(TPF);
 
 		if (_keyboard->KeyDown(DIK_F))
-			Bullet(TPF);
+			sExplosion(TPF);
 		if (_keyboard->KeyDown(DIK_DOWN))		//Ngồi
 		{
 		}

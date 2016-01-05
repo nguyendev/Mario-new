@@ -145,6 +145,7 @@
     <ClCompile Include="Star.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -258,6 +259,7 @@
     <ClInclude Include="Star.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
