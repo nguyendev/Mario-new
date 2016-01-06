@@ -171,7 +171,6 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		case 19:
 			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
-
 			break;
 		case 20:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4, isBright);

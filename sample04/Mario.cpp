@@ -92,15 +92,16 @@ void Mario::sExplosion(float TPF)
 {
 	if (isShotable == true)
 	{
-		if (waitbullet>0.35)
+		if (waitbullet>1)
 		{
 			isShotting = true;
-			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 11 : _m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?50:-50, _sBullet, _sExplosion);
+			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?80:-80, _sBullet, _sExplosion,_game);
 			obj->SetState("_state", BS_ACTIVING);
 			_game->_quadTree->Add(obj, false);
 			_game->_audio->PlaySound(_game->_sound_FireBall);
 			waitbullet = 0;
 		}
+		
 	}
 }
 void Mario::Move(float TPF)
@@ -273,13 +274,16 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
 	{
 		obj = *i;
-		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		if (dir != DIR::NONE){
-			
-			if (obj->_ID == 55)
-			{
+		if (obj->_ID != 99)
+		{
+			DIR dir = Collision::getInstance()->isCollision(this, obj);
+			if (dir != DIR::NONE){
+
+				if (obj->_ID == 55)
+				{
 				if (dir == DIR::LEFT || dir == DIR::RIGHT || dir == DIR::TOP || dir == DIR::BOTTOM)
-					_m_Position.x + 100;
+				_m_Position.x + 100;
+				}
 			}
 		}
 	}

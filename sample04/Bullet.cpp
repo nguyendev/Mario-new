@@ -4,9 +4,11 @@
 #include "Global.h"
 #include "Sprite.h"
 #include "Mario.h"
+#include "GameMario.h"
 Bullet::Bullet() :BaseObject(){}
-Bullet::Bullet(float x, float y, float _cameraX, float _cameraY, float vx, CSprite *sprite, CSprite* sprite1) : BaseObject(x, y, _cameraX, _cameraY)
+Bullet::Bullet(float x, float y, float _cameraX, float _cameraY, float vx, CSprite *sprite, CSprite* sprite1, CGameMario* game) : BaseObject(x, y, _cameraX, _cameraY)
 {
+	_game = game;
 	_sprite = sprite;
 	_sprite1 = sprite1;
 	_isNeedDelete = false;
@@ -16,11 +18,13 @@ Bullet::Bullet(float x, float y, float _cameraX, float _cameraY, float vx, CSpri
 	_height = _sprite->_Height;
 	_widthRect = _width;
 	_heightRect = _height;
-	_m_Velocity.x = vx;
+	_m_Velocity.x = 0;
+	ax = vx;
 	_m_Velocity.y = ay = 0;
 	_state = BS_IDLE;
 	waitIncreaseVecY = 0;
-	_sprite->setIndex(1);
+	_sprite->setIndex(0);
+	_ID = 99;
 }
 
 Bullet::~Bullet(void)
@@ -31,79 +35,72 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 {
 	BaseObject* _obj;
 	//theo phuong x
-	_m_Position.x += _m_Velocity.x*TPF;
+	_m_Velocity.x = ax *TPF;
+	_m_Position.x += _m_Velocity.x; 
 	list<BaseObject*>::iterator i;
 	for (i = staObjs->begin(); i != staObjs->end(); i++)
 	{
 		_obj = *i;
 		DIR dir = Collision::getInstance()->isCollision(this, _obj);
-		float timeCollision = Collision::getInstance()->getTimeCollision();
 		if (dir != DIR::NONE)
 		{
-			if (_obj->_ID >= 17 && _obj->_ID <= 22 || _obj->_ID == 52) //collision with Brick and special brick
+			if (_obj->_ID >= 14 && _obj->_ID <= 16) //collision with Brick and special brick
 			{
-				/*_m_Velocity.x = 0;
-				SetState("_state", BS_BLOW);*/
-			}
-
-		}
-		/*if (_obj->_ID >= 20 && _obj->_ID <= 28)
-		{
-			if (Collision::RectVsRect(rect, obj->rect) == true)
-			{
-				vx = 0;
-				x = xOld;
-				SetVar("state", BS_BLOW);///				
+				_m_Velocity.x = 0;
+				SetState("_state", BS_BLOW);
+				_game->_audio->PlaySound(_game->_sound_Bump);
 			}
 		}
-		else if (obj->ID == 29)
-		{
-			if (x >= obj->x + 30)
-				SetVar("state", BS_BLOW);
-		}*/
+		//else if (_obj->_ID == 29)
+		//{
+		//	if (_m_Position.x >= _obj->getPosition().x + 30)
+		//		SetState("_state", BS_BLOW);
+		//}
 	}
 	//Theo phương y
 	if (_state != BS_BLOW)
 	{
-		/*waitIncreaseVecY += TPF;
-		if (waitIncreaseVecY > 0.3)
+		waitIncreaseVecY += TPF;
+		if (waitIncreaseVecY > 0.05)
 		{
-			_m_Velocity.y += 1;
+			_m_Velocity.y += 0.2;
 			waitIncreaseVecY = 0;
 		}
-		_m_Position.y += _m_Velocity.y;*/
-		//for (i = staObjs->begin(); i != staObjs->end(); i++)
-		//{
-		//	obj = *i;
-		//	if (obj->ID >= 20 && obj->ID <= 29)				//Nếu là thùng, đá , gạch...
-		//	if (Collision::RectVsRect(rect, obj->rect) == true)
-		//		collisionList->push_back(obj);
-		//}
+		_m_Position.y += _m_Velocity.y;
+		for (i = staObjs->begin(); i != staObjs->end(); i++)
+		{
+			_obj = *i;
+			DIR dir = Collision::getInstance()->isCollision(this, _obj);
+			if (dir != DIR::NONE)
+			{		
+				if (_obj->_ID >= 14 && _obj->_ID <= 22) //collision with Brick and special brick
+				{
+					if (dir == BOTTOM)
+					{
+						_m_Velocity.y = -1.5;
+					}
+				}
+			}
+		}
 
-		////Xét va chạm để không bị rơi
-		//if (collisionList->size()>0)
-		//{
-		//	Object* obj;
-		//	list<Object*>::iterator i;
-		//	for (i = collisionList->begin(); i != collisionList->end(); i++)
-		//	{
-		//		obj = *i;
-		//		if (oldRect.bottom<obj->rect.bottom)
-		//		if (obj->y - height<y)
-		//		{
-		//			y = obj->y - height;
-		//			vy = -400;
-		//		}
-		//	}
-		//	ResetRect();
-		//}
 
-		////xet va cham doi tuong dong
-		//for (i = dynObjs->begin(); i != dynObjs->end(); i++)
-		//{
-		//	obj = *i;
-		//	if (Collision::RectVsRect(rect, obj->rect) == true)
-		//	{
+
+		// check collision with dynamicObject
+		for (i = dynObjs->begin(); i != dynObjs->end(); i++)
+		{
+			_obj = *i;
+			if (_obj->_ID == 53 || _obj->_ID == 55)
+			{
+				DIR dir = Collision::getInstance()->isCollision(this, _obj);
+				if (dir != DIR::NONE)
+				{
+					if (_obj->_ID == 53);
+					
+					if (_obj->_ID = 55);
+						
+				}
+			}
+		}
 		//		switch (obj->ID)
 		//		{
 		//		case 42:
@@ -134,6 +131,9 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 		//	}
 		
 	}
+	// delete bullet when out camera
+	if (getPosition().x > Camera::_cameraX + WIDTH + 100|| getPosition().x < Camera::_cameraX - 20)
+		SetState("_state", BS_BLOW);
 	//xOld = x;
 	//yOld = y;
 
@@ -144,8 +144,7 @@ void Bullet::ChangeState(char state)
 	switch (_state)
 	{
 	case BS_ACTIVING:
-		//_m_Velocity.y = 100;/////thay doi van toc y 
-		//_m_Velocity.x = 200;
+		_m_Velocity.y = 1.5;
 		break;
 	case BS_BLOWED:
 		_isNeedDelete = true;
@@ -176,7 +175,7 @@ void Bullet::Render()
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, 0.3);
 		break;
 	case BS_BLOW:
-		_sprite1->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, 0.3);
+		_sprite1->Render(_m_Position.x + 3, _m_Position.y, Camera::_cameraX, Camera::_cameraY, 0.3);
 		break;
 	}
 }
