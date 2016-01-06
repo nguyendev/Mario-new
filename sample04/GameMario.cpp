@@ -101,8 +101,6 @@ void CGameMario::UpdateWorld(float TPF)
 			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 		}
-
-		
 		break;
 	case GS_NEXT_STAGE:				//Khi đổi màn
 		ChangeMap(_Map + 1);
@@ -301,16 +299,6 @@ void CGameMario::ChangeMap(int Map)
 	else ChangeState(GS_WIN);
 }
 
-CGameMario::~CGameMario()
-{
-	delete _audio;
-	delete _camera;
-	if (_quadTree != NULL)
-		delete _quadTree;
-	for (int i = 0; i < 30; i++)
-		if (_sprites[i] != NULL) delete _sprites[i];
-}
-
 void CGameMario::DrawScore()
 {
 	// Draw money
@@ -365,4 +353,13 @@ void CGameMario::ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv)
 		DrawTxt(L"WORLD 1.2", 360, 300, _font);
 	else
 		DrawTxt(L"WORLD", 360, 300, _font);
+}
+CGameMario::~CGameMario()
+{
+	delete _audio;
+	delete _camera;
+	if (_quadTree != NULL)
+		delete _quadTree;
+	for (int i = 0; i < 30; i++)
+	if (_sprites[i] != NULL) delete _sprites[i];
 }

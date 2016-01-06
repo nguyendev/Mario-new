@@ -22,7 +22,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_widthRect = _width;
-	_heightRect = _height-2;
+	_heightRect = _height-1;
 	isCanJump = false;
 	timeJumped = 0;
 	isJumping = false;
@@ -166,21 +166,10 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 		float timeCollision = Collision::getInstance()->getTimeCollision();
 		if (dir != DIR::NONE)
 		{
-			//D3DXVECTOR2 position = this->getPosition();
-
 			if (obj->_ID >= 17 && obj->_ID <= 22||obj->_ID==52) //collision with Brick and special brick
 			{
 				switch (dir)
 				{
-				case NONE:
-					break;
-				case LEFT:
-					/*_m_Velocity = Collision::getInstance()->getVelocity();
-					_m_Position.x = obj->getPosition().x - this->_width - 1;
-					_m_Position.x = _PositionX_Old;*/
-					break;
-				case RIGHT:
-					break;
 				case TOP:
 					//_m_Position.y = obj->getPosition().y + obj->_heightRect + 1;
 					_m_Velocity = Collision::getInstance()->getVelocity();
@@ -191,28 +180,23 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					}
 					break;
 				case BOTTOM:
-					//_m_Position.y = obj->getPosition().y - this->_height - 1;
-					//_m_Velocity = Collision::getInstance()->getVelocity();
 					_m_Velocity.y = 0;
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					//_m_Position.x = (int) _m_Position.x;
 					isJumping = false;
 					timeJumped = 0;
 					break;
-				default:
-					break;
 				}
 			}
-			
+			if (obj->_ID >= 14 && obj->_ID <= 16)
+			{
+				_m_Velocity.y = 0;
+				isJumping = false;
+				timeJumped = 0;
+			}
 			if (obj->_ID == 51){
 				switch (dir)
 				{
-				case NONE:
-					break;
-				case LEFT:
-					break;
-				case RIGHT:
-					break;
 				case TOP:
 					_m_Velocity = Collision::getInstance()->getVelocity();
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);

@@ -8,9 +8,6 @@
     <Filter Include="Game">
       <UniqueIdentifier>{dbcd08cb-530f-477f-8cf9-e7c208767d6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\State">
-      <UniqueIdentifier>{cdb2376c-3c92-4eaa-a856-2a18998a5dc9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Static">
       <UniqueIdentifier>{009b07c0-6939-47df-b8e4-2bafb1924bb3}</UniqueIdentifier>
     </Filter>
