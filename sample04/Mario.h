@@ -39,10 +39,13 @@ private:
 	float ax;
 	float ay;
 	char _state;
-	D3DXVECTOR2		m_MaxVelocity;
-	D3DXVECTOR2		m_MinVelocity;
-	D3DXVECTOR2		maxVelocity;
-	D3DXVECTOR2		minVelocity;
+	bool isProtected;
+	bool isProtectedHidden;
+	float waitProtect;
+	float waitProtectHidden;
+	float waitRender;
+	bool isRender;
+	D3DXVECTOR2		_m_PostionOld;
 	LPD3DXFONT	_font;
 public:
 	

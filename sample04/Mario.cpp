@@ -29,7 +29,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_m_Velocity = D3DXVECTOR2(0,0);
 	waittime = 0; 
 	waitIncreaseVecY = 0;
-	maxVelocity = m_MaxVelocity;
+	_m_PostionOld = _m_Position;
 	isJumping = false;
 	isChangeDirectionL = false;
 	isChangeDirectionR = true;
@@ -41,6 +41,14 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	waitbullet = 0;
 	isShotting = false;
 	waitShotting = 0;
+
+	//trang thai bao ve
+	isProtected = true;
+	isProtectedHidden = false;
+	waitRender = 0;
+	waitProtectHidden = 0;
+	waitProtect = 0;
+	isRender = true;
 }
 Mario::~Mario()
 {
@@ -95,7 +103,7 @@ void Mario::sExplosion(float TPF)
 		if (waitbullet>1)
 		{
 			isShotting = true;
-			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?80:-80, _sBullet, _sExplosion,_game);
+			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?160:-160, _sBullet, _sExplosion,_game);
 			obj->SetState("_state", BS_ACTIVING);
 			_game->_quadTree->Add(obj, false);
 			_game->_audio->PlaySound(_game->_sound_FireBall);
@@ -120,18 +128,26 @@ void Mario::Move(float TPF)
 		_m_Position.x = Camera::_cameraX + WIDTH;
 	if (_m_Velocity.x != 0)
 	{
-		if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
+		if (!isJumping)
 		{
-			_sprite->setIndex(5);
-			_sSmall_right->setIndex(2);
+			if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
+			{
+				_sprite->setIndex(5);
+				_sSmall_right->setIndex(2);
+			}
+			else 
+			{
+				if (isChangeDirectionL)
+					_sprite->Next(2, 4, TPF);
+				else if (isChangeDirectionR)
+					_sSmall_right->Next(3, 5, TPF);
+			}
 		}
-		else{
-			if (isChangeDirectionL)
-				_sprite->Next(2,4,TPF);
-			else if (isChangeDirectionR)
-				_sSmall_right->Next(3,5,TPF);
+		else
+		{
+			_sprite->setIndex(1);
+			_sSmall_right->setIndex(6);
 		}
-		
 	}
 	else
 	{
@@ -151,13 +167,13 @@ void Mario::Move(float TPF)
 			_sSmall_right->setIndex(0);
 			_sprite->setIndex(7);
 		}
-
 	}
 }
 void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
 	
 	//Collision with staticObj
+	
 	list<BaseObject*>::iterator i;
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
@@ -313,6 +329,35 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		isJumping = true;
 		timeJumped = 10;
 	}
+	//Thời gian bảo vệ khi bị thu nhỏ.
+	if (isProtected == true)
+	{
+		waitProtect += TPF;
+		if (waitProtect>2)
+		{
+			isProtected = false;
+			isRender = true;
+		}
+	}
+	if (isProtectedHidden == true)
+	{
+		waitProtectHidden += TPF;
+		if (waitProtectHidden>0.5)
+		{
+			isProtectedHidden = false;
+			waitProtectHidden -= 0.5;
+		}
+	}
+	//Tạo sự nhấp nháy khi được bảo vệ.
+	if (isProtected == true)
+	{
+		waitRender += TPF;
+		if (waitRender>0.05)
+		{
+			waitRender -= 0.05;
+			isRender = !isRender;
+		}
+	}
 	switch (_state)
 	{
 		
@@ -329,10 +374,12 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 }
 void Mario::Render()
 {		
+	if (isRender == false) return;
 	if (isChangeDirectionL)
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
 	else if (isChangeDirectionR)
 		_sSmall_right->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+	
 }
 void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 {

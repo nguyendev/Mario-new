@@ -71,19 +71,16 @@ void CGameMario::UpdateWorld(float TPF)
 		}
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
-			_obj = *i;
-			if (_obj->getPosition().x>_camera->_cameraX - 10 && _obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
-				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+			
+			_obj = *i; 
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
-				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
-			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
-			_quadTree->DeleteObj(_obj, true);*/
+			if (_obj->GetState("_isNeedDelete") == 1)
+				_quadTree->DeleteObj(_obj, false);
 		}
 		staticObjs.clear();
 		dynamicObjs.clear();
