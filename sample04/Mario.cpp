@@ -49,6 +49,9 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	waitProtectHidden = 0;
 	waitProtect = 0;
 	isRender = true;
+
+	//Co
+	waitInFlag = 0;
 }
 Mario::~Mario()
 {
@@ -168,6 +171,7 @@ void Mario::Move(float TPF)
 			_sprite->setIndex(7);
 		}
 	}
+	_m_PostionOld = _m_Position;
 }
 void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
@@ -187,7 +191,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 				switch (dir)
 				{
 				case TOP:
-					//_m_Position.y = obj->getPosition().y + obj->_heightRect + 1;
 					_m_Velocity = Collision::getInstance()->getVelocity();
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					if (obj->GetState("_state") == TS_IDLE)
@@ -222,11 +225,8 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					}
 					break;
 				case BOTTOM:
-					//_m_Position.y = obj->getPosition().y - this->_height - 1;
-					//_m_Velocity = Collision::getInstance()->getVelocity();
 					_m_Velocity.y = 0;
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					//_m_Position.x = (int) _m_Position.x;
 					isJumping = false;
 					timeJumped = 0;
 					break;
@@ -255,11 +255,18 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			}
 			if (obj->_ID == 32)				// collision with coin
 			{
-				/*if (dir == TOP)
-				{*/
+				if (dir == TOP)
+				{
 					if (obj->GetState("_state") == TS_IDLE)
 						obj->SetState("_state", TS_ACTIVING);
-				/*}*/
+				}
+			}
+			if (obj->_ID == 58)
+			{
+				obj->SetState("_state", TS_ACTIVING);
+				_m_Position.x = obj->getPosition().x;
+				yTemp = obj->getPosition().y + obj->_heightRect;
+				ChangeState(M_PULL_FLAG);
 			}
 			if (obj->_ID >= 14 && obj->_ID <= 16) // collision with Pipe
 			{
@@ -291,76 +298,108 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 }
 void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
 {
-	Move(TPF);
-	if (_state != M_DIEING && _state != M_DIED)
-		CheckCollision(staticObj, dynamicObj);
-	ProcessInput(keyborad, TPF);
-	if (_game->_coin >= 100)
-	{
-		_game->_coin = 0;
-		_game->_life++;
-		_game->_audio->PlaySound(_game->_sound_1up);
-	}
-	if (isShotable == true)
-	{
-		waitbullet += TPF;
-	}
-	if (isShotting == true)
-	{
-		waitShotting += TPF;
-		if (waitShotting>0.2)
-		{
-			waitShotting -= 0.2;
-			isShotting = false;
-		}
-	}
-	// het thoi gian thi chet
-	if (_game->_timeGame == 0)
-	{
-		
-		ChangeState(M_DIEING);
-	}
-	if (isJumping == true)
-	{
-		timeJumped += TPF;
-	}
-	if (_m_Velocity.y > 0)
-	{
-		isJumping = true;
-		timeJumped = 10;
-	}
-	//Thời gian bảo vệ khi bị thu nhỏ.
-	if (isProtected == true)
-	{
-		waitProtect += TPF;
-		if (waitProtect>2)
-		{
-			isProtected = false;
-			isRender = true;
-		}
-	}
-	if (isProtectedHidden == true)
-	{
-		waitProtectHidden += TPF;
-		if (waitProtectHidden>0.5)
-		{
-			isProtectedHidden = false;
-			waitProtectHidden -= 0.5;
-		}
-	}
-	//Tạo sự nhấp nháy khi được bảo vệ.
-	if (isProtected == true)
-	{
-		waitRender += TPF;
-		if (waitRender>0.05)
-		{
-			waitRender -= 0.05;
-			isRender = !isRender;
-		}
-	}
+	list<BaseObject*>::iterator i;
 	switch (_state)
 	{
-		
+	case M_NORMAL:
+		Move(TPF);
+		//if (_state != M_DIEING && _state != M_DIED)
+		CheckCollision(staticObj, dynamicObj);
+		ProcessInput(keyborad, TPF);
+		if (_game->_coin >= 100)
+		{
+			_game->_coin = 0;
+			_game->_life++;
+			_game->_audio->PlaySound(_game->_sound_1up);
+		}
+		if (isShotable == true)
+		{
+			waitbullet += TPF;
+		}
+		if (isShotting == true)
+		{
+			waitShotting += TPF;
+			if (waitShotting>0.2)
+			{
+				waitShotting -= 0.2;
+				isShotting = false;
+			}
+		}
+		// het thoi gian thi chet
+		if (_game->_timeGame == 0)
+		{
+
+			ChangeState(M_DIEING);
+		}
+		if (isJumping == true)
+		{
+			timeJumped += TPF;
+		}
+		if (_m_Velocity.y > 0)
+		{
+			isJumping = true;
+			timeJumped = 10;
+		}
+		//Thời gian bảo vệ khi bị thu nhỏ.
+		if (isProtected == true)
+		{
+			waitProtect += TPF;
+			if (waitProtect>2)
+			{
+				isProtected = false;
+				isRender = true;
+			}
+		}
+		if (isProtectedHidden == true)
+		{
+			waitProtectHidden += TPF;
+			if (waitProtectHidden>0.5)
+			{
+				isProtectedHidden = false;
+				waitProtectHidden -= 0.5;
+			}
+		}
+		//Tạo sự nhấp nháy khi được bảo vệ.
+		if (isProtected == true)
+		{
+			waitRender += TPF;
+			if (waitRender>0.05)
+			{
+				waitRender -= 0.05;
+				isRender = !isRender;
+			}
+		}
+		break;
+	case M_PULL_FLAG:
+		for (i = staticObj->begin(); i != staticObj->end(); i++)
+		{
+			obj = *i;
+			char flagState;
+			switch (obj->_ID)
+			{
+			case 58:
+				flagState = obj->GetState("_state");
+				if (flagState == TS_ACTIVING)						//Khi cờ đang xuống...
+				{
+					_m_Velocity.x = 0;
+					if (_m_Position.y>yTemp)			//... nếu Mario đã xuống tới nơi
+						_m_Position.y = 0;
+				}
+				else if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
+				{
+					//isFaceRight = false;
+					_m_Position.x = obj->getPosition().x;
+					waitInFlag += TPF;							//Chờ để di chuyển tiếp
+				/*	if (waitInFlag>0.5)
+					{
+						waitInFlag = 0;
+						ChangeState(MS_AUTO_TO_CASTLE);
+					}*/
+				}
+				break;
+			}
+		}
+		break;
 	case M_DIED:
 		if (_m_Position.y > 500)
 		{

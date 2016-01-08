@@ -14,6 +14,7 @@ private:
 	char	_state;
 	bool	_isContainCoin;
 	int		_NumberOfCoin;
+	int		_currentSpriteIndex; 
 	// biến xử lý độ nảy viên gạch
 	float	_moveupTime;	// thời gian đi lên của viên gạch
 	bool	isFalling;

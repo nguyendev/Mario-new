@@ -105,7 +105,6 @@
     <ClCompile Include="dsutil.cpp" />
     <ClCompile Include="Flag.cpp" />
     <ClCompile Include="FloorBrick.cpp" />
-    <ClCompile Include="Flower.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Grass.cpp" />
@@ -144,7 +143,6 @@
     <ClInclude Include="dxutil.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="FloorBrick.h" />
-    <ClInclude Include="Flower.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Goomba.h" />

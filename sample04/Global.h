@@ -59,8 +59,8 @@
 #define CASTLE_DEEP			0.5
 #define CLOUD_DEEP			0.5
 #define GRASS_DEEP			0.4
-#define MOUNTAIN_DEEP		0.46
-#define ITEM_DEEP			0.7
+#define MOUNTAIN_DEEP		0.47
+#define ITEM_DEEP			0.46
 #define KEYBOARD_BUFFER_SIZE	1024
 #define CHANGE_POSY			3
 
@@ -157,12 +157,13 @@ enum FSM_Mario
 
 enum ENEMY_STATE
 {
-	ES_ACTIVING,
-	ES_IDLE,			//Khi Goomba hoặc Koopa bị dậm
-	ES_MOVE_SHELL_LEFT,		//Khi Koopa di chuyển trong mai rùa.
-	ES_MOVE_SHELL_RIGHT,
-	ES_FALL,				//Khi Goomba hoặc Koopa bị rơi (chuẩn bị chết)
-	ES_DIED
+	ES_CRASHED,				// khi bị dậm
+	ES_ACTIVING,			// được kích hoạt
+	ES_IDLE,				// đang chờ ở vị trí ban đầu
+	ES_MOVE_SHELL_LEFT,		// Khi Koopa di chuyển về bên trái trong mai rùa.
+	ES_MOVE_SHELL_RIGHT,	// koopa di chuyển về bên phải
+	ES_FALL,				// Khi Goomba hoặc Koopa bị rơi (chuẩn bị chết)
+	ES_DIED					// khi toi.
 };
 enum class StatusObject
 {

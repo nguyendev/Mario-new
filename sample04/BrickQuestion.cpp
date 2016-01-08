@@ -21,6 +21,7 @@ BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, i
 	_moveupTime = 0.1;
 	isFalling = false;
 	_currentSprite = 0;
+	_timeToFlicker = TIME_FLICKER;
 	//coin = new Coin(x, y, _cameraX, _cameraY, 32, _sprite[S_MONEY]);
 }
 void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
@@ -28,6 +29,15 @@ void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ thì nhấp nháy
+		_timeToFlicker -= TPF;
+		if (_timeToFlicker<0)	
+		{
+			_currentSprite++;
+			if (_currentSprite < 8 || _currentSprite >10)
+				_currentSprite = 8;
+			_timeToFlicker = TIME_FLICKER;	// reset thời gian nhấp nháy
+		}
+
 		break;
 	case TS_MOVEUP:
 		if (_moveupTime > 0 && !isFalling){
@@ -58,9 +68,6 @@ void BrickQuestion::Render()
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ thì nhấp nháy
-		_currentSprite++;
-		if (_currentSprite < 8 || _currentSprite >10)
-			_currentSprite = 8;
 		break;
 	case TS_MOVEUP:
 		_currentSprite = 3;

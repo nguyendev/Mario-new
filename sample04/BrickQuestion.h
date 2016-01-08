@@ -4,15 +4,16 @@
 #include "Camera.h"
 #include "Coin.h"
 #include <list>
+#define TIME_FLICKER 0.3		// thời gian nhấp nháy
 
 using namespace std;
 
 class BrickQuestion :public BaseObject
 {
-
 private:
 	char	_state;
 	bool	_isContainCoin;
+	float	_timeToFlicker;
 	// xử lý sprite của từng viên gạch
 	int		_currentSprite;
 	// biến xử lý độ nảy viên gạch
