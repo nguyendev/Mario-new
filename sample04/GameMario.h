@@ -78,5 +78,6 @@ public:
 	void ChangeState(char state);
 	wstring ws;
 	string text;
+	void test();
 };
 #endif _GAME_MARIO_H_

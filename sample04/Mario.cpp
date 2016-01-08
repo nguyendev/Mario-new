@@ -371,6 +371,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		}
 		break;
 	case M_PULL_FLAG:
+		_isVisiableKeyboard = false;
 		for (i = staticObj->begin(); i != staticObj->end(); i++)
 		{
 			obj = *i;
@@ -382,19 +383,44 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 				if (flagState == TS_ACTIVING)						//Khi cờ đang xuống...
 				{
 					_m_Velocity.x = 0;
-					if (_m_Position.y>yTemp)			//... nếu Mario đã xuống tới nơi
-						_m_Position.y = 0;
+					if (_m_Position.y > yTemp)			//... nếu Mario đã xuống tới nơi
+						_m_Velocity.y = 0;
+					else
+						_m_Velocity.y = 0.1;
+					
 				}
 				else if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
 				{
 					//isFaceRight = false;
-					_m_Position.x = obj->getPosition().x;
+					_m_Position.x = obj->getPosition().x + obj->_width + 1;
+					_m_Position.y = yTemp;
 					waitInFlag += TPF;							//Chờ để di chuyển tiếp
-				/*	if (waitInFlag>0.5)
+					if (waitInFlag>0.5)
 					{
 						waitInFlag = 0;
-						ChangeState(MS_AUTO_TO_CASTLE);
-					}*/
+						ChangeState(M_AUTO_TO_CASTLE);
+					}
+				}
+				
+				break;
+			}
+			_m_Position.y += _m_Velocity.y;
+		}
+		
+		break;
+	case M_AUTO_TO_CASTLE:
+		CheckCollision(staticObj, dynamicObj);
+		_m_Velocity.x = 1;
+		Move(TPF);
+		for (i = staticObj->begin(); i != staticObj->end(); i++)
+		{
+			BaseObject *obj = *i;
+			switch (obj->_ID)
+			{
+			case 23:				//Lâu đài
+				DIR dir = Collision::getInstance()->isCollision(this, obj);
+				if (dir != DIR::NONE){
+					_game->ChangeState(GS_NEXT_STAGE);
 				}
 				break;
 			}

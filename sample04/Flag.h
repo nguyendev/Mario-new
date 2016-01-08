@@ -22,4 +22,6 @@ public:
 	void Render();
 	void CollisionTemp(BaseObject *){};
 	void ChangeState(char _state);
+	int GetState(char* varName);
+	void SetState(char* varName, int val);
 };

@@ -50,3 +50,14 @@ void Flag::Render()
 		_sprite->setIndex(_SpriteIndex);
 		_sprite->Render(_m_Position.x, _m_Position.y + 10*_height, Camera::_cameraX, Camera::_cameraY, FLAG_DEEP);
 }
+void Flag::SetState(char* varName, int val)
+{
+	if (strcmp(varName, "_state") == 0)
+		ChangeState(val);
+}
+int Flag::GetState(char* varName)
+{
+	if (strcmp(varName, "_state") == 0)
+		return _state;
+	return -1;
+}

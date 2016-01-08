@@ -73,12 +73,16 @@ void CGameMario::UpdateWorld(float TPF)
 		{
 			
 			_obj = *i; 
+			if (_obj->getPosition().x < _camera->_cameraX - 10)
+				_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
+			if (_obj->getPosition().x < _camera->_cameraX - 10)
+				_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, false);
 		}
@@ -136,6 +140,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 	case GS_PLAYING:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
 		DrawScore();
+		test();
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			obj = *i;
@@ -148,6 +153,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
 				obj->Render();
 		}
+		
 		break;
 	case GS_REPLAY:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
@@ -215,7 +221,6 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		break;
 
 	case GS_PLAYING:
-		//_mario->ProcessInput(_keyboard);
 		if (_keyboard->KeyPress(DIK_Q))
 			PostQuitMessage(0);
 		break;
@@ -291,11 +296,26 @@ void CGameMario::ChangeMap(int Map)
 		ReadMap("Map\\MAP2.ptl", false, this);
 		break;
 	}
-	if (_Map<4)
+	if (_Map<2)
 		ChangeState(GS_PLAYING);
 	else ChangeState(GS_WIN);
 }
-
+void CGameMario::test()
+{
+	BaseObject* obj;
+	list<BaseObject*>::iterator i;
+	for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
+	{
+		obj = *i;
+		if (obj->_ID == 1)
+		{
+			text = to_string(obj->getPosition().y);
+			StringToWString(ws, text);
+			DrawTxt(ws, 330, 300, _font);
+		}
+	}
+	
+}
 void CGameMario::DrawScore()
 {
 	// Draw money
