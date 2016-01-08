@@ -5,7 +5,7 @@
 MushRoom::MushRoom()
 {
 }
-MushRoom::MushRoom(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
+MushRoom::MushRoom(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y,cameraX, cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;

@@ -88,7 +88,6 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 					break;
 				case RIGHT:
 					_m_Velocity.x = -X_VELOCITY;
-
 					break;
 				case TOP:
 					break;
@@ -97,26 +96,6 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 					break;
 				default:
 					break;
-				}
-			}
-		}
-	}
-		// va chạm với vật di chuyển
-	for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
-	{
-		obj = *i;
-		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		if (obj->_ID == 1)
-		{										// va chạm với mario
-			// xử lý ở đây
-			if (dir != DIR::NONE)
-			{
-				if (this->GetState("_state") == ES_ACTIVING)		// nếu đang đi
-				{
-					if (dir == TOP)									// bị dậm trên đầu
-					{
-						this->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
-					}
 				}
 			}
 		}

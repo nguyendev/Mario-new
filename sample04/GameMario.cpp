@@ -102,6 +102,7 @@ void CGameMario::UpdateWorld(float TPF)
 			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 		}
+		//_quadTree->Update(dynamicObjs);
 		break;
 	case GS_NEXT_STAGE:				//Khi đổi màn
 		ChangeMap(_Map + 1);
@@ -285,7 +286,7 @@ void CGameMario::LoadSprite()
 }
 void CGameMario::ChangeMap(int Map)
 {
-	_timeGame = 300;
+	_timeGame = 100;
 	_Map = Map;
 	switch (_Map)
 	{

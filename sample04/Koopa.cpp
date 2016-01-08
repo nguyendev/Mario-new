@@ -4,7 +4,7 @@
 Koopa::Koopa()
 {
 }
-Koopa::Koopa(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
+Koopa::Koopa(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y,cameraX, cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;

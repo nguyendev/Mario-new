@@ -144,25 +144,24 @@ void CGame::Init()
 void CGame::Run()
 {
 	MSG msg;
-	int done = 0;
-
+	ZeroMemory(&msg, sizeof(msg));
 	trace(L">>> Main game loop has been started");
-
-	while (!done) 
+	_timeManager->LimitFPS(60);
+	while (msg.message != WM_QUIT)
 	{
-		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))
+		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
 		{
-			if (msg.message==WM_QUIT) done=1;
-
 			TranslateMessage(&msg);
-			DispatchMessage(&msg);			
+			DispatchMessage(&msg);
 		}
-
-		_timeManager->LimitFPS(60);
-		TPF = _timeManager->TPF;
-		ProcessInput(_d3ddv, TPF);
-		UpdateWorld(TPF);
-		_RenderFrame();
+		else
+		{
+			TPF = _timeManager->TPF;
+			ProcessInput(_d3ddv, TPF);
+			UpdateWorld(TPF);
+			_RenderFrame();
+		}
+		
 		
 	}
 

@@ -6,7 +6,7 @@
 StoneBrick::StoneBrick() :BaseObject()
 {
 }
-StoneBrick::StoneBrick(float _x, float _y, float _cameraX, float _cameraY, int ID, CSprite* sprite,int SpriteIndex) : BaseObject(_x, _y, _cameraX, _cameraY)
+StoneBrick::StoneBrick(float _x, float _y, float _cameraX, float _cameraY, int ID, CSprite* sprite, int SpriteIndex) : BaseObject(_x, _y, _cameraX, _cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;

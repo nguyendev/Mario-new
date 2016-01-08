@@ -63,6 +63,7 @@ public:
 	void Render();
 	void ProcessInput(KeyBoard* _keyboard, float Time);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);
+	void CollisionEnemy();
 
 	void TurnLeft(float Time, float Max);
 	void TurnRight(float Time, float Max);

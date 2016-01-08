@@ -37,6 +37,9 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_state = M_NORMAL;
 	_isVisiableKeyboard = true;
 	died = false;
+
+	isBig = false;
+	//trang thai ban dan
 	isShotable = true;
 	waitbullet = 0;
 	isShotting = false;
@@ -283,13 +286,20 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 		obj = *i;
 		if (obj->_ID != 99)
 		{
-			DIR dir = Collision::getInstance()->isCollision(this, obj);
-			if (dir != DIR::NONE){
-
-				if (obj->_ID == 55)
+			if (obj->_ID == 55)
+			{
+				DIR dir = Collision::getInstance()->isCollision(this, obj);
+				if (dir != DIR::NONE)
 				{
-				if (dir == DIR::LEFT || dir == DIR::RIGHT || dir == DIR::TOP || dir == DIR::BOTTOM)
-				_m_Position.x + 100;
+					if (obj->GetState("_state") == ES_ACTIVING)		// nếu đang đi
+					{
+						if (dir == BOTTOM)									// bị dậm trên đầu
+						{
+							obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
+						}
+						else
+							CollisionEnemy();
+					}
 				}
 			}
 		}
@@ -303,7 +313,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 	{
 	case M_NORMAL:
 		Move(TPF);
-		//if (_state != M_DIEING && _state != M_DIED)
 		CheckCollision(staticObj, dynamicObj);
 		ProcessInput(keyborad, TPF);
 		if (_game->_coin >= 100)
@@ -406,7 +415,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			}
 			_m_Position.y += _m_Velocity.y;
 		}
-		
 		break;
 	case M_AUTO_TO_CASTLE:
 		CheckCollision(staticObj, dynamicObj);
@@ -426,14 +434,14 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			}
 		}
 		break;
+
 	case M_DIED:
+		Move(TPF);
 		if (_m_Position.y > 500)
 		{
 			_game->_life--;
 			_game->ChangeState(GS_REPLAY);
 		}
-			
-		
 		break;
 	}
 }
@@ -445,6 +453,17 @@ void Mario::Render()
 	else if (isChangeDirectionR)
 		_sSmall_right->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
 	
+}
+void Mario::CollisionEnemy()
+{
+	if (isBig == true)	//Lớn sẽ bị thu nhỏ
+	{
+		//SetState("isBig", 0);
+		isProtected = true;
+		waitProtect = 0;
+		waitRender = 0;
+	}
+	else ChangeState(M_DIEING);
 }
 void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 {
@@ -489,7 +508,6 @@ void Mario::ChangeState(char state)
 		_m_Velocity.x = 0;
 		_m_Velocity.y = -2;
 		_game->_audio->StopSound(_game->_sound_Background);
-
 		_game->_audio->PlaySound(_game->_sound_Die);
 		ChangeState(M_DIED);
 		died = true;
