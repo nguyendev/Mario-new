@@ -44,11 +44,14 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 		DIR dir = Collision::getInstance()->isCollision(this, _obj);
 		if (dir != DIR::NONE)
 		{
-			if (_obj->_ID >= 14 && _obj->_ID <= 16) //collision with Brick and special brick
+			if (_obj->_ID >= 14 && _obj->_ID <= 22) //collision with Brick and special brick
 			{
-				_m_Velocity.x = 0;
-				SetState("_state", BS_BLOW);
-				_game->_audio->PlaySound(_game->_sound_Bump);
+				if (dir == LEFT || dir == RIGHT)
+				{
+					_m_Velocity.x = 0;
+					SetState("_state", BS_BLOW);
+					_game->_audio->PlaySound(_game->_sound_Bump);
+				}
 			}
 		}
 		//else if (_obj->_ID == 29)
@@ -95,9 +98,9 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 				if (dir != DIR::NONE)
 				{
 					if (_obj->_ID == 53);
-					
+						_obj->SetState("_state", ES_CRASHED);
 					if (_obj->_ID = 55);
-						
+						_obj->SetState("_state", ES_CRASHED);
 				}
 			}
 		}

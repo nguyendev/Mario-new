@@ -156,6 +156,7 @@ void CGame::Run()
 		}
 		else
 		{
+			
 			TPF = _timeManager->TPF;
 			ProcessInput(_d3ddv, TPF);
 			UpdateWorld(TPF);

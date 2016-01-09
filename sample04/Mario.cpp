@@ -4,8 +4,8 @@
 
 #include "GameMario.h"
 #define MARIO_VY	2.6f	//velocity Y of mario
-#define _MARIO_VX_NORMAL 1.0f	//max velocity of mario
-#define MAX_MARIO_VX_	1.5f
+#define _MARIO_VX_NORMAL 1.5f	//max velocity of mario
+#define MAX_MARIO_VX_	2.5f
 #define GRAVITY		1.0f	//gravity ratio
 #define FRICTION_X	1.25f   //friction of mario
 Mario::Mario() :BaseObject(){};
@@ -14,7 +14,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_game = game;
 	_sprite = ssmall_right;
 	_sSmall_right = ssmall_left;
-	_sBig_left = ssmall_right;
+	_sBig_left = sbig_right;
 	_sBig_right = sbig_left;
 	_sBullet = sbullet;
 	_sExplosion = sExplosion;
@@ -30,7 +30,6 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	waittime = 0; 
 	waitIncreaseVecY = 0;
 	_m_PostionOld = _m_Position;
-	isJumping = false;
 	isChangeDirectionL = false;
 	isChangeDirectionR = true;
 	waitRenderFirst = 0;
@@ -46,7 +45,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	waitShotting = 0;
 
 	//trang thai bao ve
-	isProtected = true;
+	isProtected = false;
 	isProtectedHidden = false;
 	waitRender = 0;
 	waitProtectHidden = 0;
@@ -140,7 +139,7 @@ void Mario::UpdateSprite(float TPF)
 	if (isBig)
 	{
 		_widthRect = 16;
-		_heightRect = 32;
+		_heightRect = 30;
 	}
 	else
 	{
@@ -232,8 +231,8 @@ void Mario::UpdateSprite(float TPF)
 		{
 			if (isBig)
 			{
-				_sBig_left->setIndex(0);
-				_sBig_right->setIndex(7);
+				_sBig_left->setIndex(6);
+				_sBig_right->setIndex(1);
 			}
 			else
 			{
@@ -266,8 +265,12 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					if (obj->GetState("_state") == TS_IDLE)
 					{
+						if (isBig)
+							obj->SetState("_state", TS_BREAKING);
+						else
      						obj->SetState("_state", TS_MOVEUP);
 					}
+					
 					break;
 				case BOTTOM:
 					_m_Velocity.y = 0;
@@ -304,7 +307,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 				}
 			}
 			
-			if (obj->_ID == 36)				// collision with green mushroom
+			if (obj->_ID == 36 || obj->_ID == 19)				// collision with green mushroom
 			{
 				if (obj->GetState("_state") == TS_IDLE)			// nếu đang chờ thì đi lên
 				{
@@ -340,7 +343,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			{
 				obj->SetState("_state", TS_ACTIVING);
 				_m_Position.x = obj->getPosition().x;
-				yTemp = obj->getPosition().y + obj->_heightRect;
+				yTemp = obj->getPosition().y + obj->_height*9;
 				ChangeState(M_PULL_FLAG);
 			}
 			if (obj->_ID >= 14 && obj->_ID <= 16) // collision with Pipe
@@ -493,28 +496,26 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			{
 			case 58:
 				flagState = obj->GetState("_state");
-				if (flagState == TS_ACTIVING)						//Khi cờ đang xuống...
-				{
-					_m_Velocity.x = 0;
-					if (_m_Position.y > yTemp)			//... nếu Mario đã xuống tới nơi
-						_m_Velocity.y = 0;
-					else
-						_m_Velocity.y = 0.1;
-					
-				}
-				else if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
+				
+				if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
 				{
 					//isFaceRight = false;
 					_m_Position.x = obj->getPosition().x + obj->_width + 1;
 					_m_Position.y = yTemp;
 					waitInFlag += TPF;							//Chờ để di chuyển tiếp
-					if (waitInFlag>0.5)
+					if (waitInFlag>2)
 					{
 						waitInFlag = 0;
 						ChangeState(M_AUTO_TO_CASTLE);
 					}
 				}
-				
+				else						//Khi cờ đang xuống...
+				{
+					_m_Velocity.x = 0;
+					_m_Position.x = obj->getPosition().x;
+					if (_m_Position.y > yTemp)			//... nếu Mario đã xuống tới nơi
+						_m_Velocity.y = 0;
+				}
 				break;
 			}
 			_m_Position.y += _m_Velocity.y;
@@ -555,7 +556,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 void Mario::Render()
 {		
 	if (isRender == false) return;
-	
 	if (isChangeDirectionL)
 	{
 		if (isBig)
@@ -571,8 +571,6 @@ void Mario::Render()
 		else
 			_sSmall_right->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
 	}
-		
-	
 }
 void Mario::CollisionEnemy()
 {
@@ -618,12 +616,16 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 	}
 
 }
-
 void Mario::ChangeState(char state)
 {
 	_state = state;
+	//Nếu còn được bảo vệ thì không cho chết.
+	if (_state == M_NORMAL && (isProtectedHidden == true || isProtected == true) && _state == M_DIEING) return;	
 	switch (_state)
 	{
+	case M_PULL_FLAG:
+		_m_Velocity.y = 1;
+		break;
 	case M_DIEING:
 		_m_Velocity.x = 0;
 		_m_Velocity.y = -2;

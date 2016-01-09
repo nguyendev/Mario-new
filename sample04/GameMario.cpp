@@ -305,7 +305,7 @@ void CGameMario::ChangeMap(int Map)
 		ReadMap("Map\\MAP2.ptl", false, this);
 		break;
 	}
-	if (_Map<2)
+	if (_Map<=2)
 		ChangeState(GS_PLAYING);
 	else ChangeState(GS_WIN);
 }
