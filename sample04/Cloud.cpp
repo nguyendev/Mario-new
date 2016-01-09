@@ -14,10 +14,6 @@ Cloud::Cloud(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	_SpriteIndex = SpriteIndex;
 
 }
-void Cloud::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
-{
-
-}
 void Cloud::Render()
 {
 	switch (_ID)

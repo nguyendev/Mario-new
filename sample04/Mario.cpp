@@ -580,6 +580,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		_game->_audio->StopSound(_game->_sound_Background);
 		break;
 	}
+	NewRect();
 }
 void Mario::Render()
 {		

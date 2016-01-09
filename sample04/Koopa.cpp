@@ -61,6 +61,7 @@ void Koopa::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* 
 		_isNeedDelete = true;
 		break;
 	}
+	NewRect();
 }
 void Koopa::Render()
 {

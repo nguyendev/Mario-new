@@ -62,6 +62,7 @@ void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 	case TS_BREAKED:							// gạch bị đụng rồi
 		break;
 	}
+	NewRect();
 }
 void BrickQuestion::Render()
 {

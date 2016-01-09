@@ -63,6 +63,7 @@ void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		else _angle = 0;
 		break;
 	}
+	NewRect();
 }
 void Brick::Render()
 {

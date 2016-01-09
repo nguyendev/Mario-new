@@ -33,6 +33,7 @@ void Star::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dy
 		
 		break;
 	}
+	NewRect();
 }
 void Star::Move()
 {

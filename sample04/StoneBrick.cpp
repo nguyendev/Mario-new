@@ -16,10 +16,7 @@ StoneBrick::StoneBrick(float _x, float _y, float _cameraX, float _cameraY, int I
 	_widthRect = _width;
 	_heightRect = _height;
 }
-void StoneBrick::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
-{
 
-}
 void StoneBrick::Render()
 {
 	_sprite->setIndex(_SpriteIndex);

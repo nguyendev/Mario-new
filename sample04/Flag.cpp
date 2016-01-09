@@ -29,6 +29,7 @@ void Flag::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			ChangeState(TS_IDLE_2);
 		}
 	}
+	NewRect();
 }
 
 void Flag::ChangeState(char state)

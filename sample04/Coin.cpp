@@ -57,7 +57,7 @@ void Coin::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dy
 		_isNeedDelete = true;
 		break;
 	}
-
+	NewRect();
 }
 void Coin::Render()
 {

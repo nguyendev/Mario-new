@@ -93,6 +93,7 @@ void GreenMushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject
 			}
 		}
 	}
+	NewRect();
 }
 void GreenMushRoom::Render()
 {

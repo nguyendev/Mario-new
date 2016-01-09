@@ -66,7 +66,6 @@ void CGameMario::UpdateWorld(float TPF)
 		_coin = 0;
 		break;
 	case GS_PLAYING:
-		
 		_audio->PlaySoundA(_sound_Background);
 		wait1Sec += TPF;
 		if (wait1Sec > 1)
@@ -78,16 +77,16 @@ void CGameMario::UpdateWorld(float TPF)
 		{
 			
 			_obj = *i; 
-			if (_obj->getPosition().x < _camera->_cameraX - 10)
-				_obj->_isNeedDelete = true;
+			//if (_obj->getPosition().x < _camera->_cameraX - 10)
+			//	_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			if (_obj->getPosition().x < _camera->_cameraX - 10)
-				_obj->_isNeedDelete = true;
+			//if (_obj->getPosition().x < _camera->_cameraX - 10)
+			//	_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, false);
 		}
@@ -107,7 +106,7 @@ void CGameMario::UpdateWorld(float TPF)
 			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 		}
-		//_quadTree->Update(dynamicObjs);
+		_quadTree->Update(dynamicObjs);
 		break;
 	
 	case GS_REPLAY:
@@ -163,7 +162,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		}
 		
 		break;
-	case GS_REPLAY:
+	case GS_REPLAY:case GS_NEXT_STAGE:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
 		if (_Map == 1)

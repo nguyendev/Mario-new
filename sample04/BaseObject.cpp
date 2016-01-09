@@ -9,6 +9,7 @@ BaseObject::BaseObject()
 {
 	_sprite = NULL;
 	_oldNode = NULL;
+	NewRect();
 }
 BaseObject::~BaseObject()
 {
@@ -25,17 +26,17 @@ BaseObject::BaseObject(float x, float y, float cameraX, float cameraY)
 	_cameraY = cameraY;
 	_sprite = NULL;
 	_oldNode = NULL;
-	_widthRect = _width;
-	_heightRect = _height;
+	_widthRect = 2;
+	_heightRect = 2;
 	m_isActive = true;
 	m_status = StatusObject::ALIVE;
 	_isNeedDelete = false;
-	/*_rect.left = _m_Position.x;
-	_rect.top = _m_Position.y;
-	_rect.right = 0;
-	_rect.bottom = 0;*/
+	NewRect();
 }
-
+void BaseObject::Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
+{
+	NewRect();
+}
 void BaseObject::setPosition(float x, float y)
 {
 	_m_Position.x = x;
@@ -64,4 +65,10 @@ void BaseObject::setStatusObject(StatusObject status)
 {
 	m_status = status;
 }
-
+void BaseObject::NewRect()
+{
+	_rect.left = _m_Position.x;
+	_rect.top = _m_Position.y;
+	_rect.right = _m_Position.x + _widthRect;
+	_rect.bottom = _m_Position.y + _heightRect;
+}

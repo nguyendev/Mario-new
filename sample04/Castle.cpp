@@ -15,10 +15,6 @@ Castle::Castle(float x, float y, float _cameraX, float _cameraY, int ID, CSprite
 	_heightRect = _height + _m_Position.y;
 	_widthRect = _width;
 }
-void Castle::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
-{
-
-}
 void Castle::Render()
 {
 	_sprite->setIndex(_SpriteIndex);

@@ -114,7 +114,7 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 		SetState("_state", BS_BLOW);
 	//xOld = x;
 	//yOld = y;
-
+	NewRect();
 }
 void Bullet::ChangeState(char state)
 {

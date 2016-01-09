@@ -136,6 +136,7 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 			}
 		}
 	}
+	NewRect();
 }
 void MushRoom::Render()
 {
