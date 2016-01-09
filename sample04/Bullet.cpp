@@ -97,41 +97,16 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 				DIR dir = Collision::getInstance()->isCollision(this, _obj);
 				if (dir != DIR::NONE)
 				{
-					if (_obj->_ID == 53);
+					if (_obj->_ID == 53 || _obj->_ID == 55)
+					{
+						SetState("_state", BS_BLOW);
 						_obj->SetState("_state", ES_CRASHED);
-					if (_obj->_ID = 55);
-						_obj->SetState("_state", ES_CRASHED);
+					}
+						
+					
 				}
 			}
 		}
-		//		switch (obj->ID)
-		//		{
-		//		case 42:
-		//			if (obj->GetVar("state") == ES_ACTIVING)
-		//			{
-		//				if (vx>0)
-		//					obj->Huong = 1;
-		//				else obj->Huong = 2;
-		//				obj->SetVar("state", ES_FALL);
-		//				SetVar("state", BS_BLOW);
-		//			}
-		//			break;
-		//		case 41:
-		//			if (obj->GetVar("state") == ES_ACTIVING)
-		//			{
-		//				if (vx>0)
-		//					obj->Huong = 1;
-		//				else obj->Huong = 2;
-		//				obj->SetVar("state", ES_FALL);
-		//				SetVar("state", BS_BLOW);
-		//			}
-		//			break;
-		//		case 33:
-		//			obj->SetVar("state", IS_ATE);
-		//			SetVar("state", BS_BLOW);
-		//			break;
-		//		}
-		//	}
 		
 	}
 	// delete bullet when out camera

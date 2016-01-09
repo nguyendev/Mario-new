@@ -109,9 +109,7 @@ void CGameMario::UpdateWorld(float TPF)
 		}
 		//_quadTree->Update(dynamicObjs);
 		break;
-	case GS_NEXT_STAGE:				//Khi đổi màn
-		ChangeMap(_Map + 1);
-		break;
+	
 	case GS_REPLAY:
 		_replay += TPF;
 		if (_replay > 2)
@@ -121,6 +119,9 @@ void CGameMario::UpdateWorld(float TPF)
 			ChangeMap(_Map);
 		}
 		
+		break;
+	case GS_NEXT_STAGE:				//Khi đổi màn
+		ChangeMap(_Map + 1);
 		break;
 	case GS_GAMEOVER:
 		_audio->PlaySound(_sound_GameOver);
@@ -295,7 +296,7 @@ void CGameMario::LoadSprite()
 }
 void CGameMario::ChangeMap(int Map)
 {
-	_timeGame = 100;
+	_timeGame = 300;
 	_Map = Map;
 	switch (_Map)
 	{
@@ -369,6 +370,7 @@ void CGameMario::ChangeState(char state)
 		break;
 	case GS_WIN:
 		break;
+
 	}
 }
 void CGameMario::ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv)

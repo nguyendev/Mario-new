@@ -105,10 +105,10 @@ void Mario::sExplosion(float TPF)
 {
 	if (isShotable == true)
 	{
-		if (waitbullet>1)
+		if (waitbullet>0.5)
 		{
 			isShotting = true;
-			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?160:-160, _sBullet, _sExplosion,_game);
+			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?200:-200, _sBullet, _sExplosion,_game);
 			obj->SetState("_state", BS_ACTIVING);
 			_game->_quadTree->Add(obj, false);
 			_game->_audio->PlaySound(_game->_sound_FireBall);
@@ -136,112 +136,130 @@ void Mario::Move(float TPF)
 }
 void Mario::UpdateSprite(float TPF)
 {
-	if (isBig)
+	switch (_state)
 	{
-		_widthRect = 16;
-		_heightRect = 30;
-	}
-	else
-	{
-		_widthRect = 16;
-		_heightRect = 15;
-	}
-	if (_m_Velocity.x != 0)
-	{
-		if (!isJumping)
+	case M_NORMAL: case M_AUTO_TO_CASTLE :case M_DIEING:case M_DIED:
+		if (isBig)
 		{
-			if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
-			{
-				if (isBig)
-				{
-					_sBig_left->setIndex(5);
-					_sBig_right->setIndex(2);
-				}
-				else
-				{
-					_sprite->setIndex(5);
-					_sSmall_right->setIndex(2);
-				}
-				
-			}
-			else
-			{
-				if (isBig)
-				{
-					if (isChangeDirectionL)
-						_sBig_left->Next(2, 4, TPF);
-					else if (isChangeDirectionR)
-						_sBig_right->Next(3, 5, TPF);
-				}
-				else
-				{
-					if (isChangeDirectionL)
-						_sprite->Next(2, 4, TPF);
-					else if (isChangeDirectionR)
-						_sSmall_right->Next(3, 5, TPF);
-				}
-				
-			}
+			_widthRect = 16;
+			_heightRect = 30;
 		}
 		else
 		{
-			if (isBig)
-			{
-				_sBig_left->setIndex(1);
-				_sBig_right->setIndex(6);
-			}
-			else
-			{
-				_sprite->setIndex(1);
-				_sSmall_right->setIndex(6);
-			}
+			_widthRect = 16;
+			_heightRect = 15;
 		}
-	}
-	else
-	{
+		if (_m_Velocity.x != 0)
+		{
+			if (!isJumping)
+			{
+				if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
+				{
+					if (isBig)
+					{
+						_sBig_left->setIndex(5);
+						_sBig_right->setIndex(2);
+					}
+					else
+					{
+						_sprite->setIndex(5);
+						_sSmall_right->setIndex(2);
+					}
 
-		if (died)
-		{
-			if (isBig)
-			{
-				_sBig_left->setIndex(1);
-				_sBig_right->setIndex(1);
+				}
+				else
+				{
+					if (isBig)
+					{
+						if (isChangeDirectionL)
+							_sBig_left->Next(2, 4, TPF);
+						else if (isChangeDirectionR)
+							_sBig_right->Next(3, 5, TPF);
+					}
+					else
+					{
+						if (isChangeDirectionL)
+							_sprite->Next(2, 4, TPF);
+						else if (isChangeDirectionR)
+							_sSmall_right->Next(3, 5, TPF);
+					}
+
+				}
 			}
 			else
 			{
-				_sprite->setIndex(1);
-				_sSmall_right->setIndex(1);
-			}
-			
-		}
-		else if (isJumping)
-		{
-			if (isBig)
-			{
-				_sBig_left->setIndex(1);
-				_sBig_right->setIndex(6);
-			}
-			else
-			{
-				_sprite->setIndex(1);
-				_sSmall_right->setIndex(6);
+				if (isBig)
+				{
+					_sBig_left->setIndex(1);
+					_sBig_right->setIndex(6);
+				}
+				else
+				{
+					_sprite->setIndex(1);
+					_sSmall_right->setIndex(6);
+				}
 			}
 		}
 		else
 		{
-			if (isBig)
+
+			if (died)
 			{
-				_sBig_left->setIndex(6);
-				_sBig_right->setIndex(1);
+				if (isBig)
+				{
+					_sBig_left->setIndex(1);
+					_sBig_right->setIndex(1);
+				}
+				else
+				{
+					_sprite->setIndex(1);
+					_sSmall_right->setIndex(1);
+				}
+
+			}
+			else if (isJumping)
+			{
+				if (isBig)
+				{
+					_sBig_left->setIndex(1);
+					_sBig_right->setIndex(6);
+				}
+				else
+				{
+					_sprite->setIndex(1);
+					_sSmall_right->setIndex(6);
+				}
 			}
 			else
 			{
-				_sSmall_right->setIndex(0);
-				_sprite->setIndex(7);
+				if (isBig)
+				{
+					_sBig_left->setIndex(6);
+					_sBig_right->setIndex(1);
+				}
+				else
+				{
+					_sSmall_right->setIndex(0);
+					_sprite->setIndex(7);
+				}
+
 			}
-			
 		}
+		break;
+	case M_PULL_FLAG:
+		if (isBig)
+		{
+			_sBig_left->setIndex(0);
+			_sBig_right->setIndex(7);
+		}
+		else
+		{
+			_sSmall_right->setIndex(7);
+			_sprite->setIndex(0);
+		}
+		break;
 	}
+	
 }
 void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
@@ -342,10 +360,15 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			}
 			if (obj->_ID == 58)
 			{
-				obj->SetState("_state", TS_ACTIVING);
-				_m_Position.x = obj->getPosition().x;
-				yTemp = obj->getPosition().y + obj->_height*9;
-				ChangeState(M_PULL_FLAG);
+				if (obj->GetState("_state") == TS_IDLE)
+				{
+					obj->SetState("_state", TS_ACTIVING);
+					_m_Position.x = obj->getPosition().x;
+					yTemp = obj->getPosition().y + obj->_height * 9;
+					ChangeState(M_PULL_FLAG);
+				}					
+				else
+					continue;
 			}
 			if (obj->_ID >= 14 && obj->_ID <= 16) // collision with Pipe
 			{
@@ -497,25 +520,31 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			{
 			case 58:
 				flagState = obj->GetState("_state");
+				
 				Move(TPF);
 				if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
 				{
 					//isFaceRight = false;
-					_m_Position.x = obj->getPosition().x + obj->_width + 1;
+					_m_Position.x = obj->getPosition().x + obj->_width + 3;
 					_m_Position.y = yTemp;
 					waitInFlag += TPF;							//Chờ để di chuyển tiếp
-					if (waitInFlag>2)
+					if (waitInFlag>0.5)
 					{
 						waitInFlag = 0;
+						_m_Velocity.x = 1;
 						ChangeState(M_AUTO_TO_CASTLE);
+						break;
 					}
 				}
 				else						//Khi cờ đang xuống...
 				{
+					
 					_m_Velocity.x = 0;
-					_m_Position.x = obj->getPosition().x;
+					_m_Position.x = obj->getPosition().x - obj->_width/2 +1;
 					if (_m_Position.y > yTemp)			//... nếu Mario đã xuống tới nơi
 						_m_Velocity.y = 0;
+					else
+						_m_Velocity.y = 0.5;
 				}
 				break;
 			}
@@ -523,11 +552,10 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		break;
 	case M_AUTO_TO_CASTLE:
 		CheckCollision(staticObj, dynamicObj);
-		_m_Velocity.x = 1;
 		Move(TPF);
 		for (i = staticObj->begin(); i != staticObj->end(); i++)
 		{
-			BaseObject *obj = *i;
+			obj = *i;
 			switch (obj->_ID)
 			{
 			case 23:				//Lâu đài
@@ -539,7 +567,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			}
 		}
 		break;
-
 	case M_DIED:
 		Move(TPF);
 		if (_m_Position.y > 500)
