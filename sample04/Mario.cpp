@@ -14,8 +14,8 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_game = game;
 	_sprite = ssmall_right;
 	_sSmall_right = ssmall_left;
-	_sBig_left = sbig_left;
-	_sBig_right = sbig_right;
+	_sBig_left = ssmall_right;
+	_sBig_right = sbig_left;
 	_sBullet = sbullet;
 	_sExplosion = sExplosion;
 	_ID = ID;
@@ -132,49 +132,117 @@ void Mario::Move(float TPF)
 		_m_Position.x = Camera::_cameraX;
 	if (_m_Position.x > Camera::_cameraX + WIDTH)
 		_m_Position.x = Camera::_cameraX + WIDTH;
+	
+	_m_PostionOld = _m_Position;
+}
+void Mario::UpdateSprite(float TPF)
+{
+	if (isBig)
+	{
+		_widthRect = 16;
+		_heightRect = 32;
+	}
+	else
+	{
+		_widthRect = 16;
+		_heightRect = 15;
+	}
 	if (_m_Velocity.x != 0)
 	{
 		if (!isJumping)
 		{
 			if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
 			{
-				_sprite->setIndex(5);
-				_sSmall_right->setIndex(2);
+				if (isBig)
+				{
+					_sBig_left->setIndex(5);
+					_sBig_right->setIndex(2);
+				}
+				else
+				{
+					_sprite->setIndex(5);
+					_sSmall_right->setIndex(2);
+				}
+				
 			}
-			else 
+			else
 			{
-				if (isChangeDirectionL)
-					_sprite->Next(2, 4, TPF);
-				else if (isChangeDirectionR)
-					_sSmall_right->Next(3, 5, TPF);
+				if (isBig)
+				{
+					if (isChangeDirectionL)
+						_sBig_left->Next(2, 4, TPF);
+					else if (isChangeDirectionR)
+						_sBig_right->Next(3, 5, TPF);
+				}
+				else
+				{
+					if (isChangeDirectionL)
+						_sprite->Next(2, 4, TPF);
+					else if (isChangeDirectionR)
+						_sSmall_right->Next(3, 5, TPF);
+				}
+				
 			}
 		}
 		else
 		{
-			_sprite->setIndex(1);
-			_sSmall_right->setIndex(6);
+			if (isBig)
+			{
+				_sBig_left->setIndex(1);
+				_sBig_right->setIndex(6);
+			}
+			else
+			{
+				_sprite->setIndex(1);
+				_sSmall_right->setIndex(6);
+			}
 		}
 	}
 	else
 	{
-		
+
 		if (died)
 		{
-			_sprite->setIndex(1);
-			_sSmall_right->setIndex(1);
+			if (isBig)
+			{
+				_sBig_left->setIndex(1);
+				_sBig_right->setIndex(1);
+			}
+			else
+			{
+				_sprite->setIndex(1);
+				_sSmall_right->setIndex(1);
+			}
+			
 		}
 		else if (isJumping)
 		{
-			_sprite->setIndex(1);
-			_sSmall_right->setIndex(6);
+			if (isBig)
+			{
+				_sBig_left->setIndex(1);
+				_sBig_right->setIndex(6);
+			}
+			else
+			{
+				_sprite->setIndex(1);
+				_sSmall_right->setIndex(6);
+			}
 		}
 		else
 		{
-			_sSmall_right->setIndex(0);
-			_sprite->setIndex(7);
+			if (isBig)
+			{
+				_sBig_left->setIndex(0);
+				_sBig_right->setIndex(7);
+			}
+			else
+			{
+				_sSmall_right->setIndex(0);
+				_sprite->setIndex(7);
+			}
+			
 		}
 	}
-	_m_PostionOld = _m_Position;
 }
 void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)
 {
@@ -245,6 +313,10 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 				if (obj->GetState("_state") == TS_MOVEUP)		// nếu đã đi lên rồi thì bị ăn
 				{
 					obj->SetState("_state", TS_BREAKED);
+					_m_Position.y += 8;
+					isBig = true;
+			
+					_game->_audio->PlaySound(_game->_sound_Powerup);
 				}
 			}
 			// va chạm với ngôi sao
@@ -286,6 +358,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 		obj = *i;
 		if (obj->_ID != 99)
 		{
+			// collision with goomba
 			if (obj->_ID == 55)
 			{
 				DIR dir = Collision::getInstance()->isCollision(this, obj);
@@ -296,9 +369,39 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						if (dir == BOTTOM)									// bị dậm trên đầu
 						{
 							obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
+							_game->_audio->PlaySound(_game->_sound_Squish);
 						}
 						else
 							CollisionEnemy();
+					}
+				}
+			}
+
+			// collision with Koopa
+			if (obj->_ID == 53)
+			{
+				DIR dir = Collision::getInstance()->isCollision(this, obj);
+				if (dir != DIR::NONE)
+				{
+					if (obj->GetState("_state") == ES_ACTIVING)		// nếu đang đi
+					{
+						if (dir == BOTTOM)									// bị dậm trên đầu
+						{
+							obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
+							_game->_audio->PlaySound(_game->_sound_Squish);
+						}
+						else
+							CollisionEnemy();
+
+					}
+					if (this->GetState("_state") == ES_CRASHED)							// nếu đã bị Crash
+					{																	// bị va chạm tiếp
+						float centerOfMario = (this->getPositionX() + this->_width) / 2;
+						float centerOfKoopa = (obj->getPositionX() + obj->_width) / 2;
+						if ((centerOfMario - centerOfKoopa) < 0)						// nếu tâm mario theo trục x nhỏ hơn koopa thì Move Right
+							obj->SetState("_state", ES_MOVE_SHELL_RIGHT);				// chuyển sang trạng thái bị move right
+						else															// ngược lại
+							obj->SetState("_state", ES_MOVE_SHELL_LEFT);				// chuyển sang trạng thái bị move right
 					}
 				}
 			}
@@ -309,6 +412,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyborad)
 {
 	list<BaseObject*>::iterator i;
+	UpdateSprite(TPF);
 	switch (_state)
 	{
 	case M_NORMAL:
@@ -440,7 +544,10 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (_m_Position.y > 500)
 		{
 			_game->_life--;
-			_game->ChangeState(GS_REPLAY);
+			if (_game->_life >= 0)
+				_game->ChangeState(GS_REPLAY);
+			else
+				_game->ChangeState(GS_GAMEOVER);
 		}
 		break;
 	}
@@ -448,17 +555,30 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 void Mario::Render()
 {		
 	if (isRender == false) return;
+	
 	if (isChangeDirectionL)
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+	{
+		if (isBig)
+			_sBig_left->Render(_m_Position.x, _m_Position.y + 8, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+		else
+			_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+
+	}
 	else if (isChangeDirectionR)
-		_sSmall_right->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+	{
+		if (isBig)
+			_sBig_right->Render(_m_Position.x, _m_Position.y+ 8, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+		else
+			_sSmall_right->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, MARIO_DEEP);
+	}
+		
 	
 }
 void Mario::CollisionEnemy()
 {
 	if (isBig == true)	//Lớn sẽ bị thu nhỏ
 	{
-		//SetState("isBig", 0);
+		isBig = false;
 		isProtected = true;
 		waitProtect = 0;
 		waitRender = 0;

@@ -61,7 +61,12 @@ void CGameMario::UpdateWorld(float TPF)
 	list<BaseObject*>::iterator i;
 	switch (_state)
 	{
+	case GS_MENU:
+		_life = 3;
+		_coin = 0;
+		break;
 	case GS_PLAYING:
+		
 		_audio->PlaySoundA(_sound_Background);
 		wait1Sec += TPF;
 		if (wait1Sec > 1)
@@ -225,6 +230,9 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		if (_keyboard->KeyPress(DIK_Q))
 			PostQuitMessage(0);
 		break;
+	case GS_WIN: case GS_GAMEOVER:
+		if (_keyboard->KeyDown(DIK_RETURN) || _keyboard->KeyDown(DIK_ESCAPE))
+			ChangeState(GS_MENU);
 	}
 }
 
@@ -340,7 +348,10 @@ void CGameMario::DrawScore()
 	DrawTxt(L"MONEY", 224, 20, _font);
 
 	// Draw life
-	text = to_string(_life);
+	if (_life > 0)
+		text = to_string(_life);
+	else
+		text = "0";
 	StringToWString(ws, text);
 	DrawTxt(ws, 95, 20, _font);
 	DrawTxt(L"LIFE x", 24, 20, _font);
@@ -350,14 +361,12 @@ void CGameMario::ChangeState(char state)
 	_state = state;
 	switch (state)
 	{
-	case GS_PLAYING:
-		//a->PlaySound(sBackground); 
+	case GS_PLAYING: 
 		_camera->_cameraX = 0;
 		staticObjs.clear();
 		dynamicObjs.clear();
 		break;
 	case GS_WIN:
-		//a->PlaySound(sWinState);
 		break;
 	}
 }

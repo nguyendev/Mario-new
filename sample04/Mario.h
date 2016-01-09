@@ -60,6 +60,7 @@ public:
 	Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sBig_right, CSprite* sBig_left, CSprite* small_right, CSprite* small_left, CSprite* bullet, CSprite* sExplosion, CGameMario* game);
 	void Move(float t);
 	void Update(float t, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
+	void UpdateSprite(float time);
 	void Render();
 	void ProcessInput(KeyBoard* _keyboard, float Time);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);

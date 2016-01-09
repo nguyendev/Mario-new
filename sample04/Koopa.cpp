@@ -129,30 +129,6 @@ void Koopa::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	{
 		obj = *i;
 		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		if (obj->_ID == 1)
-		{										// va chạm với mario
-			// xử lý ở đây
-			if (dir != DIR::NONE)
-			{
-				if (this->GetState("_state") == ES_ACTIVING)		// nếu đang đi
-				{
-					if (dir == TOP)									// bị dậm trên đầu
-					{
-						this->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
-					}
-
-				}
-				if (this->GetState("_state") == ES_CRASHED)							// nếu đã bị Crash
-				{																	// bị va chạm tiếp
-					float centerOfMario = (obj->getPositionX() + obj->_width) / 2;
-					float centerOfKoopa = (this->getPositionX() + this->_width) / 2;
-					if ((centerOfMario - centerOfKoopa) < 0)						// nếu tâm mario theo trục x nhỏ hơn koopa thì Move Right
-						this->SetState("_state", ES_MOVE_SHELL_RIGHT);				// chuyển sang trạng thái bị move right
-					else															// ngược lại
-						this->SetState("_state", ES_MOVE_SHELL_LEFT);				// chuyển sang trạng thái bị move right
-				}
-			}
-		}
 	}
 }
 
