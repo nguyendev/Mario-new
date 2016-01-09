@@ -253,7 +253,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	{
 		obj = *i;
 		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		float timeCollision = Collision::getInstance()->getTimeCollision();
 		if (dir != DIR::NONE)
 		{
 			if (obj->_ID >= 17 && obj->_ID <= 22||obj->_ID==52) //collision with Brick and special brick
@@ -270,7 +269,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						else
      						obj->SetState("_state", TS_MOVEUP);
 					}
-					
 					break;
 				case BOTTOM:
 					_m_Velocity.y = 0;
@@ -306,7 +304,11 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					break;
 				}
 			}
-			
+			if (obj->_ID == 2)
+			{
+				_game->_audio->LoopSound(_game->_sound_Die);
+				ChangeState(M_DIED);
+			}
 			if (obj->_ID == 36 || obj->_ID == 19)				// collision with green mushroom
 			{
 				if (obj->GetState("_state") == TS_IDLE)			// nếu đang chờ thì đi lên
@@ -318,7 +320,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					obj->SetState("_state", TS_BREAKED);
 					_m_Position.y += 8;
 					isBig = true;
-			
 					_game->_audio->PlaySound(_game->_sound_Powerup);
 				}
 			}
@@ -496,7 +497,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			{
 			case 58:
 				flagState = obj->GetState("_state");
-				
+				Move(TPF);
 				if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
 				{
 					//isFaceRight = false;
@@ -518,7 +519,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 				}
 				break;
 			}
-			_m_Position.y += _m_Velocity.y;
 		}
 		break;
 	case M_AUTO_TO_CASTLE:
@@ -550,6 +550,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			else
 				_game->ChangeState(GS_GAMEOVER);
 		}
+		_game->_audio->StopSound(_game->_sound_Background);
 		break;
 	}
 }

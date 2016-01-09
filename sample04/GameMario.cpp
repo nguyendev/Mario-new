@@ -120,6 +120,7 @@ void CGameMario::UpdateWorld(float TPF)
 
 			ChangeMap(_Map);
 		}
+		
 		break;
 	case GS_GAMEOVER:
 		_audio->PlaySound(_sound_GameOver);

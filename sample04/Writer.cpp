@@ -10,6 +10,7 @@
 #include "Mountain.h"
 #include "Koopa.h"
 #include "BrickQuestion.h"
+#include "InvisibleBrick.h"
 #include "Coin.h"
 #include "MushRoom.h"
 #include "GreenMushroom.h"
@@ -17,6 +18,7 @@
 #include "Flag.h"
 #include "Castle.h"
 #include "Star.h"
+
 
 Camera*  _camera;
 void DrawTxt(wstring text, int x, int y, LPD3DXFONT font)
@@ -207,6 +209,10 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			break;
 		case 58:
 			obj = new Flag(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_FLAG], 0);
+			_isStatic = true;
+			break;
+		case 2:
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
 			_isStatic = true;
 			break;
 			/*case 50:
