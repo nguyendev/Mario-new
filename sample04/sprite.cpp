@@ -218,4 +218,5 @@ void CSprite::Reset()
 
 CSprite::~CSprite()
 {
+	_Image->Release();
 }

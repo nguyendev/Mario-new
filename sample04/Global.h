@@ -59,8 +59,8 @@
 #define CASTLE_DEEP			0.5
 #define CLOUD_DEEP			0.5
 #define GRASS_DEEP			0.4
-#define MOUNTAIN_DEEP		0.46
-#define ITEM_DEEP			0.7
+#define MOUNTAIN_DEEP		0.47
+#define ITEM_DEEP			0.46
 #define KEYBOARD_BUFFER_SIZE	1024
 #define CHANGE_POSY			3
 

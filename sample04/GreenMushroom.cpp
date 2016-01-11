@@ -39,12 +39,15 @@ void GreenMushRoom::Move()
 {
 	if (timeRised < 10){ // not going up yet
 		// y direction
+		_m_Velocity.y = -Y_VELOCITY;
 		_m_Position.y += _m_Velocity.y;
 	}
 	else{				// get definitely out of the brick
 		// x direction
+		_m_Velocity.x = X_VELOCITY;
 		_m_Position.x += _m_Velocity.x;
 		// y direction
+		_m_Velocity.y = Y_VELOCITY;
 		_m_Position.y += _m_Velocity.y;
 	}
 	timeRised++;
@@ -67,14 +70,18 @@ void GreenMushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject
 				switch (dir)
 				{
 				case LEFT:
+					_m_Velocity.x = -X_VELOCITY;
 					break;
 				case RIGHT:
+					_m_Velocity.x = X_VELOCITY;
 					break;
 				case TOP:
+					//_m_Velocity = Collision::getInstance()->getVelocity();
+					_m_Velocity.y = Y_VELOCITY;
 					break;
 				case BOTTOM:
-					_m_Velocity.y = 0;
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+					_m_Velocity.y = -Y_VELOCITY;
+					_m_Velocity = Collision::getInstance()->getVelocity();
 					break;
 				default:
 					break;
@@ -82,8 +89,6 @@ void GreenMushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject
 			}
 			if (obj->_ID == 1){			// va chạm với mario
 				// xử lý ở đây
-				if (dir == BOTTOM)
-				_m_Velocity.y = -Y_VELOCITY;
 				return;
 			}
 		}
@@ -94,8 +99,6 @@ void GreenMushRoom::Render()
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ 
-		_sprite->setIndex(0);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 		break;
 	case TS_MOVEUP:				// đang đi lên
 		_sprite->setIndex(0);

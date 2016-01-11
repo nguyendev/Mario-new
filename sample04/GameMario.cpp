@@ -71,19 +71,16 @@ void CGameMario::UpdateWorld(float TPF)
 		}
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
-			_obj = *i;
-			if (_obj->getPosition().x>_camera->_cameraX - 10 && _obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
-				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+			
+			_obj = *i; 
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
-				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
-			/*if (_obj->getStatusOBject() == StatusObject::DEAD)
-			_quadTree->DeleteObj(_obj, true);*/
+			if (_obj->GetState("_isNeedDelete") == 1)
+				_quadTree->DeleteObj(_obj, false);
 		}
 		staticObjs.clear();
 		dynamicObjs.clear();
@@ -101,8 +98,6 @@ void CGameMario::UpdateWorld(float TPF)
 			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 		}
-
-		
 		break;
 	case GS_NEXT_STAGE:				//Khi đổi màn
 		ChangeMap(_Map + 1);
@@ -273,11 +268,11 @@ void CGameMario::LoadSprite()
 	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, TIMEPERIMAGE);
 	//Enemies
 	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, TIMEPERIMAGE);
-	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4, TIMEPERIMAGE);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 8, 4, TIMEPERIMAGE);
 	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2, TIMEPERIMAGE);
 	//Items
 	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, TIMEPERIMAGE);
-	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 8, 4, TIMEPERIMAGE);
+	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 12, 4, TIMEPERIMAGE);
 	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, TIMEPERIMAGE);
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10, TIMEPERIMAGE);
 	//Others
@@ -299,16 +294,6 @@ void CGameMario::ChangeMap(int Map)
 	if (_Map<4)
 		ChangeState(GS_PLAYING);
 	else ChangeState(GS_WIN);
-}
-
-CGameMario::~CGameMario()
-{
-	delete _audio;
-	delete _camera;
-	if (_quadTree != NULL)
-		delete _quadTree;
-	for (int i = 0; i < 30; i++)
-		if (_sprites[i] != NULL) delete _sprites[i];
 }
 
 void CGameMario::DrawScore()
@@ -365,4 +350,13 @@ void CGameMario::ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv)
 		DrawTxt(L"WORLD 1.2", 360, 300, _font);
 	else
 		DrawTxt(L"WORLD", 360, 300, _font);
+}
+CGameMario::~CGameMario()
+{
+	delete _audio;
+	delete _camera;
+	if (_quadTree != NULL)
+		delete _quadTree;
+	for (int i = 0; i < 30; i++)
+	if (_sprites[i] != NULL) delete _sprites[i];
 }

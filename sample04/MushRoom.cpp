@@ -16,7 +16,7 @@ MushRoom::MushRoom(float x, float y, float cameraX, float cameraY, int ID, CSpri
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_widthRect = _width;
-	_heightRect = _height;
+	_heightRect = _height-1;
 	isFlower = false;		// không phải là hoa.
 	timeRised = RISE_TIME;
 	_state = TS_IDLE;		// đang chờ
@@ -42,15 +42,18 @@ void MushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>
 				_m_Position.y += _m_Velocity.y;
 				timeRised-=TPF;
 			}
+			else if (timeRised >= -TPF&&timeRised<=0)				// dang chuyen trang thai tu di len => di len hoan toan
+			{
+				_m_Velocity.x = X_VELOCITY;
+				_m_Velocity.y = Y_VELOCITY;
+				
+			}
 			else{				// get definitely out of the brick
 				// x direction
-				
 				_m_Position.x += _m_Velocity.x;
 				// y direction
-				
 				_m_Position.y += _m_Velocity.y;
 				// phải update vận tốc sau khi xét va chạm
-				_m_Velocity.x = X_VELOCITY;
 				_m_Velocity.y = Y_VELOCITY;
 				CheckCollision(staticObj, dynamicObj);
 			}
@@ -59,15 +62,21 @@ void MushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>
 		else									// là hoa
 		{
 			_ID = 34;							// đổi id thành 34
-			_currentSprite++;
-			if (_currentSprite<4||_currentSprite>7)
-				_currentSprite = 4;
+								
 			// di chuyển
-			if (timeRised < 10){ // not going up yet
+			if (timeRised >0){					// not going up yet
 				// y direction
 				_m_Velocity.y = -Y_VELOCITY;
 				_m_Position.y += _m_Velocity.y;
-				timeRised++;
+				timeRised -= TPF;				// đếm ngược
+			}
+			else if (timeRised >= -TPF&&timeRised <= 0)				// dang chuyen trang thai tu di len => di len hoan toan
+			{
+				timeRised -= 2 * TPF;
+			}
+			else
+			{
+				_m_Position.y -=0;
 			}
 			CheckCollision(staticObj, dynamicObj);
 		}
@@ -85,26 +94,24 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
 		obj = *i;
-		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		float timeCollision = Collision::getInstance()->getTimeCollision();
-		if (dir != DIR::NONE)
+		if (obj->_ID >= 14 && obj->_ID <= 22)
 		{
-			if (obj->_ID >= 14 && obj->_ID <= 22) //collision with Brick and pipes
+			DIR dir = Collision::getInstance()->isCollision(this, obj);
+			float timeCollision = Collision::getInstance()->getTimeCollision();
+			if (dir != DIR::NONE)
 			{
+
 				switch (dir)
 				{
-				case LEFT:
-					_m_Velocity.x = X_VELOCITY;
-					break;
-				case RIGHT:
-					_m_Velocity.x = -X_VELOCITY;
-					break;
-				case TOP:
+				case LEFT: case RIGHT:
+					if (this->isFlower ==false)							// nếu ko phải hoa
+						_m_Velocity.x *=-1;
 					break;
 				case BOTTOM:
 					_m_Velocity.y = 0;
 					break;
 				}
+
 			}
 		}
 
@@ -122,10 +129,10 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 				{
 					if (dir == BOTTOM)							// va chạm đáy của item
 					{
-						if (obj->GetState("_state") != M_NORMAL)// là loại bình thường => là nấm		đang test
-							isFlower = false;					
-						else									// không phải loại bình thường => là hoa
+						if (obj->GetState("_state") == M_NORMAL)// là loại bình thường => là nấm		đang test
 							isFlower = true;					
+						else									// không phải loại bình thường => là hoa
+							isFlower = false;					
 						SetState("_state",TS_ACTIVING);					// thì kích hoạt
 					}
 				}
@@ -139,9 +146,18 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 }
 void MushRoom::Render()
 {
+	if (!isFlower)				// không phải hoa
+	{
+		_currentSprite = 1;
+	}
+	else						// là hoa
+	{
+		_currentSprite++;
+		if (_currentSprite<4 || _currentSprite>7)
+			_currentSprite = 4;
+	}
 	_sprite->setIndex(_currentSprite);
 	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
-	
 }
 void MushRoom::SetState(char* Name, int val)
 {

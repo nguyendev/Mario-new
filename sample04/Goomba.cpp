@@ -18,7 +18,8 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_heightRect = _height-1;
 	_state = ES_ACTIVING;		// khoi tao trang thai cho`. -  DANG TEST
 	_currentSprite = 0;
-	_waitingTimeToDie = 0.5;
+	_countingTimeToDie = WAITING_TIME_TO_DIE;
+	_isNotCrashedByMario = false;
 }
 void Goomba::Move()
 {
@@ -26,7 +27,7 @@ void Goomba::Move()
 	_m_Position.y += _m_Velocity.y;
 }
 
-void Goomba::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
+void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	switch (_state)
 	{
@@ -37,11 +38,26 @@ void Goomba::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>*
 		Move();
 		CheckCollision(staticObj, dynamicObj);
 		break;
-	case ES_CRASHED:						// đã bị dam
-		_waitingTimeToDie -= Time;
-		if (_waitingTimeToDie <= 0)
-			SetState("_state", ES_DIED);
-		break;
+	case ES_CRASHED:						// đã bị dậm hoặc crash với koopa hoặc đạn
+		if (_isNotCrashedByMario)				// nếu bị crash bởi koopa hoặc đạn
+		{
+			_countingTimeToDie -= TPF;							// thời gian chết giảm dần
+			_m_Position.x += 4;
+			if (_countingTimeToDie > (WAITING_TIME_TO_DIE*0.75))	// 1 phần tư thời gian nảy lên không
+				_m_Position.y -= 4;
+			else
+				_m_Position.y += 4;
+			if (_countingTimeToDie < 0)							// hết thời gian
+				SetState("_state", ES_DIED);
+		}
+		else								// nếu ko
+		{
+			_countingTimeToDie -= TPF;
+			if (_countingTimeToDie < 0)
+				SetState("_state", ES_DIED);
+			break;
+		}
+		
 	case ES_DIED:				
 		_isNeedDelete = true;
 		break;
@@ -60,11 +76,19 @@ void Goomba::Render()
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
-		_sprite->setIndex(2);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		if (_isNotCrashedByMario)				// không bị dậm bởi mario
+		{
+			_sprite->setIndex(0);
+			_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		}
+		else
+		{
+			_sprite->setIndex(2);
+			_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		}			
 		break;
 	case ES_DIED:
-		// delete from quadtree.
+		_isNeedDelete = true;
 		break;
 	}
 }
@@ -79,15 +103,15 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 		float timeCollision = Collision::getInstance()->getTimeCollision();
 		if (dir != DIR::NONE)
 		{
-			if (obj->_ID >= 14 && obj->_ID <= 22 || obj->_ID == 52) //collision with Brick or pipe
+			if ((obj->_ID >= 14 && obj->_ID <= 22 )|| obj->_ID == 52) //collision with Brick or pipe
 			{
 				switch (dir)
 				{
 				case LEFT:
-					_m_Velocity.x = X_VELOCITY;
+					//_m_Velocity.x = X_VELOCITY;
 					break;
 				case RIGHT:
-					_m_Velocity.x = -X_VELOCITY;
+					//_m_Velocity.x = -X_VELOCITY;
 
 					break;
 				case TOP:
@@ -117,6 +141,21 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 					{
 						this->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
 					}
+				}
+			}
+		}
+
+		if (obj->_ID == 53)											// va chạm với koopa
+		{										
+			// xử lý ở đây
+			if (dir != DIR::NONE)
+			{
+				if (obj->GetState("_state") == ES_MOVE_SHELL_LEFT 
+					|| obj->GetState("_state") == ES_MOVE_SHELL_RIGHT)	// nếu koopa bị crash và đang di chuyển
+				{
+					_isNotCrashedByMario = true;
+					if (this->GetState("_state")==ES_ACTIVING)
+						this->SetState("_state", ES_CRASHED);
 				}
 			}
 		}

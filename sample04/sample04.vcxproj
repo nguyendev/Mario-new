@@ -105,12 +105,10 @@
     <ClCompile Include="dsutil.cpp" />
     <ClCompile Include="Flag.cpp" />
     <ClCompile Include="FloorBrick.cpp" />
-    <ClCompile Include="Flower.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="GreenMushroom.cpp" />
-    <ClCompile Include="IronBrick.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
@@ -121,6 +119,7 @@
     <ClCompile Include="MushRoom.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="QuadTree.cpp" />
+    <ClCompile Include="SpecialBrick.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StoneBrick.cpp" />
@@ -144,13 +143,11 @@
     <ClInclude Include="dxutil.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="FloorBrick.h" />
-    <ClInclude Include="Flower.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="GreenMushroom.h" />
-    <ClInclude Include="IronBrick.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mario.h" />
@@ -160,6 +157,7 @@
     <ClInclude Include="MushRoom.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="SpecialBrick.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StoneBrick.h" />

@@ -71,7 +71,6 @@ void Brick::Render()
 	{
 		_sprite->setIndex(_SpriteIndex);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-		_sprite->Render(_m_Position.x, _m_Position.y + _height, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 	}
 	else{
 		_sprite->setIndex(_SpriteIndex);

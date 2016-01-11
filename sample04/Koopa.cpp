@@ -18,7 +18,7 @@ Koopa::Koopa(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	_heightRect = _height-1;
 	_state = ES_ACTIVING;		// khoi tao trang thai cho`. -  DANG TEST
 	_currentSprite = 0;
-	_waitingTimeToLiveAgain = 4;
+	_waitingTimeToLiveAgain = WAITING_TIME_TO_LIVE;
 }
 void Koopa::Move()
 {
@@ -26,7 +26,7 @@ void Koopa::Move()
 	_m_Position.y += _m_Velocity.y;
 }
 
-void Koopa::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
+void Koopa::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	switch (_state)
 	{
@@ -36,16 +36,16 @@ void Koopa::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* 
 		_m_Velocity.x = -X_VELOCITY;
 		Move();
 		CheckCollision(staticObj, dynamicObj);
-		break;
-	case ES_CRASHED:						// đã bị dậm lần 1
-		_m_Velocity.x = 0;
-		Move();
-		CheckCollision(staticObj, dynamicObj);
-		_waitingTimeToLiveAgain -= Time;
-		if (_waitingTimeToLiveAgain <= 0)
+		break;	
+	case ES_CRASHED:										// đã bị dậm lần 1
+		_m_Velocity.x = 0;									// vận tốc ngang bằng 0
+		Move();										
+		CheckCollision(staticObj, dynamicObj);		
+		_waitingTimeToLiveAgain -= TPF;						// thời gian chờ đếm ngược
+		if (_waitingTimeToLiveAgain < 0)					
 		{
 			SetState("_state", ES_ACTIVING);
-			_waitingTimeToLiveAgain = 4;	// reset waiting time
+			_waitingTimeToLiveAgain = WAITING_TIME_TO_LIVE;	// reset waiting time
 		}
 			
 		break;
@@ -69,21 +69,24 @@ void Koopa::Render()
 	case ES_IDLE:				// trạng thái chờ duoc kich hoat
 		break;
 	case ES_ACTIVING:				// đang đi 
-		if (_currentSprite > 1)
-			_currentSprite = 0;
-		_sprite->setIndex(_currentSprite++);
+		_currentSprite++;
+		if (_currentSprite > 5)
+			_currentSprite = 4;
+		_sprite->setIndex(_currentSprite);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->setIndex(_currentSprite-4);
+		_sprite->Render(_m_Position.x, _m_Position.y-16, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
-		_sprite->setIndex(2);
+		_sprite->setIndex(6);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
 		break;
 	case ES_MOVE_SHELL_RIGHT:		
-		_sprite->setIndex(3);
+		_sprite->setIndex(7);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
 		break;
 	case ES_MOVE_SHELL_LEFT:		// bi dam lan thu 2, di chuyen sang ben phai
-		_sprite->setIndex(3);
+		_sprite->setIndex(7);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
 		break;
 	case ES_DIED:
@@ -110,7 +113,6 @@ void Koopa::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					_m_Velocity.x = X_VELOCITY;
 					break;
 				case RIGHT:
-					
 					_m_Velocity.x = -X_VELOCITY;
 					break;
 				case TOP:
@@ -177,7 +179,6 @@ int Koopa::GetState(char* Name)
 void Koopa::ChangeState(char state)
 {
 	_state = state;
-
 }
 
 Koopa::~Koopa()

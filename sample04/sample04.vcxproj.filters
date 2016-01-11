@@ -8,9 +8,6 @@
     <Filter Include="Game">
       <UniqueIdentifier>{dbcd08cb-530f-477f-8cf9-e7c208767d6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\State">
-      <UniqueIdentifier>{cdb2376c-3c92-4eaa-a856-2a18998a5dc9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Static">
       <UniqueIdentifier>{009b07c0-6939-47df-b8e4-2bafb1924bb3}</UniqueIdentifier>
     </Filter>
@@ -62,9 +59,6 @@
       <Filter>Game\Static</Filter>
     </ClCompile>
     <ClCompile Include="FloorBrick.cpp">
-      <Filter>Game\Static</Filter>
-    </ClCompile>
-    <ClCompile Include="IronBrick.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
     <ClCompile Include="Flag.cpp">
@@ -127,9 +121,6 @@
     <ClCompile Include="Coin.cpp">
       <Filter>Game\iTem</Filter>
     </ClCompile>
-    <ClCompile Include="Flower.cpp">
-      <Filter>Game\iTem</Filter>
-    </ClCompile>
     <ClCompile Include="GreenMushroom.cpp">
       <Filter>Game\iTem</Filter>
     </ClCompile>
@@ -142,10 +133,15 @@
     <ClCompile Include="MuchMoneyBrick.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Star.cpp">
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Game\iTem</Filter>
+    </ClCompile>
+    <ClCompile Include="SpecialBrick.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Star.cpp">
+      <Filter>Game\iTem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -170,9 +166,6 @@
       <Filter>Game\Static</Filter>
     </ClInclude>
     <ClInclude Include="FloorBrick.h">
-      <Filter>Game\Static</Filter>
-    </ClInclude>
-    <ClInclude Include="IronBrick.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
     <ClInclude Include="Flag.h">
@@ -241,9 +234,6 @@
     <ClInclude Include="Coin.h">
       <Filter>Game\iTem</Filter>
     </ClInclude>
-    <ClInclude Include="Flower.h">
-      <Filter>Game\iTem</Filter>
-    </ClInclude>
     <ClInclude Include="GreenMushroom.h">
       <Filter>Game\iTem</Filter>
     </ClInclude>
@@ -256,10 +246,15 @@
     <ClInclude Include="MuchMoneyBrick.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Star.h">
+    <ClInclude Include="Bullet.h">
+      <Filter>Game\iTem</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecialBrick.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Star.h">
+      <Filter>Game\iTem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
