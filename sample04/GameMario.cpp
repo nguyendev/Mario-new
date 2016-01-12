@@ -19,7 +19,7 @@ CGameMario::CGameMario(HINSTANCE hInstance, LPWSTR Name, int Mode, int IsFullScr
 CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 {
 	//Framework............................
-	_camera = new Camera(0, 0, 800, 600);
+	_camera = new Camera(0, 0, 800/ZOOM, 600/ZOOM);
 	_keyboard = new KeyBoard(_hWnd, hInstance);
 	//--------------------------------------
 	for (int i = 0; i < 30; i++)
@@ -74,19 +74,14 @@ void CGameMario::UpdateWorld(float TPF)
 			_timeGame--;
 		}
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
-		{
-			
+		{	
 			_obj = *i; 
-			//if (_obj->getPosition().x < _camera->_cameraX - 10)
-			//	_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, true);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			//if (_obj->getPosition().x < _camera->_cameraX - 10)
-			//	_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, false);
 		}
@@ -369,7 +364,6 @@ void CGameMario::ChangeState(char state)
 		break;
 	case GS_WIN:
 		break;
-
 	}
 }
 void CGameMario::ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv)

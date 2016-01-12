@@ -79,6 +79,7 @@ void MushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>
 		_isNeedDelete = true;
 		break;
 	}
+	NewRect();
 }
 
 void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)	// need to fix

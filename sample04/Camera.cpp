@@ -20,19 +20,19 @@ void Camera::Update(QuadTree* quadTree)
 {
 	if (_cameraX + _width < quadTree->rect.right)
 	{
-		if (mario->getPosition().x > _cameraX + _width / 2 / ZOOM)
+		if (mario->getPosition().x > _cameraX + _width / 2)
 		{
-			_cameraX = mario->getPosition().x - _width / 2 / ZOOM;
-			ResetRect();
+			_cameraX = mario->getPosition().x - _width / 2;
+			
 		}
 		if (mario->getPosition().x < _cameraX)
 		{
 			mario->setPositionX(_cameraX);
-			ResetRect();
 		}
 	}
 	else
 		_cameraX = quadTree->rect.right - _width;
+	ResetRect();
 	
 }
 void Camera::ResetRect()

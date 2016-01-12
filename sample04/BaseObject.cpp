@@ -15,7 +15,14 @@ BaseObject::~BaseObject()
 {
 	
 }
-
+void BaseObject::setDirCollision(DIR dir)
+{
+	m_dirCollision = dir;
+}
+DIR BaseObject::getDirCollision()
+{
+	return m_dirCollision;
+}
 BaseObject::BaseObject(float x, float y, float cameraX, float cameraY)
 {
 	_m_Position.x = x;

@@ -137,14 +137,12 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	if (fileName == "Map\\MAP1.ptl")
 	{
 		sizeWidth = 3865;
-		sizeHeight = n * PIXEL*	ZOOM;
 	}
 	if (fileName == "Map\\MAP2.ptl")
 	{
 		sizeWidth = 3865;
-		sizeHeight = n * PIXEL*	ZOOM;
 	}
-	game->_quadTree = new QuadTree(0, 0, sizeWidth, sizeHeight, 0);
+	game->_quadTree = new QuadTree(0, 0, 3865, 0);
 	Mario*	mario;
 	for (int i = 0; i < _count; i++)
 	{

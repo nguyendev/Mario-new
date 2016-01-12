@@ -275,10 +275,13 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 		{
 			if (obj->_ID >= 17 && obj->_ID <= 22||obj->_ID==52) //collision with Brick and special brick
 			{
+				if (getDirCollision() == DIR::NONE)
+					setDirCollision(dir);
+
+				_m_Velocity = Collision::getInstance()->getVelocity();
 				switch (dir)
 				{
 				case TOP:
-					_m_Velocity = Collision::getInstance()->getVelocity();
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					if (obj->GetState("_state") == TS_IDLE)
 					{
@@ -288,10 +291,8 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
      						obj->SetState("_state", TS_MOVEUP);
 					}
 					break;
-				case BOTTOM:
+				case BOTTOM:	
 					_m_Velocity.y = 0;
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					//_m_Position.x = (int) _m_Position.x;
 					isJumping = false;
 					timeJumped = 0;
 					break;
@@ -313,12 +314,14 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					{
 						obj->SetState("_state", TS_MOVEUP);
 					}
+					_m_Position = _m_PostionOld;
 					break;
 				case BOTTOM:
 					_m_Velocity.y = 0;
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 					isJumping = false;
 					timeJumped = 0;
+					_m_Position = _m_PostionOld;
 					break;
 				}
 			}
@@ -348,7 +351,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 				{
 					obj->SetState("_state", TS_MOVEUP);
 				}
-				
 			}
 			if (obj->_ID == 32)				// collision with coin
 			{
@@ -389,6 +391,8 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			if (obj->_ID == 55)
 			{
 				DIR dir = Collision::getInstance()->isCollision(this, obj);
+				if (getDirCollision() == DIR::NONE)
+					setDirCollision(dir);
 				if (dir != DIR::NONE)
 				{
 					if (obj->GetState("_state") == ES_ACTIVING)		// nếu đang đi

@@ -147,6 +147,7 @@ void CGame::Run()
 	ZeroMemory(&msg, sizeof(msg));
 	trace(L">>> Main game loop has been started");
 	_timeManager->LimitFPS(60);
+	//Sleep(1000);
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))

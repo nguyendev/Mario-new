@@ -20,7 +20,7 @@ protected:
 	D3DXVECTOR2		_m_Position;
 	D3DXVECTOR2		_m_Velocity;
 	bool			m_isActive;
-
+	DIR				m_dirCollision;
 	StatusObject	m_status;
 public:
 	// Thông tin cơ bản
@@ -53,6 +53,8 @@ public:
 
 	void				setStatusObject(StatusObject);
 	StatusObject		getStatusOBject(){ return m_status; }
+	void				setDirCollision(DIR dir);
+	DIR					getDirCollision();
 
 	Box					getBouding();
 	BaseObject();
