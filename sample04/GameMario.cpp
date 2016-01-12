@@ -76,6 +76,8 @@ void CGameMario::UpdateWorld(float TPF)
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{	
 			_obj = *i; 
+			if (_obj->getPosition().x < _camera->_cameraX - 10)
+				_obj->_isNeedDelete = true;
 			if (_obj->GetState("_isNeedDelete") == 1)
 				_quadTree->DeleteObj(_obj, true);
 		}

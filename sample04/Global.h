@@ -43,14 +43,14 @@
 #define MOUNTAIN_IMAGE		"Image\\imgMountain.png"
 
 //Deep Object
-#define GOOMBA_DEEP			0.5
+#define GOOMBA_DEEP			0.3
 #define BRICK_DEEP			0.4
 #define S_EXPLOSION_DEEP	0.5
 #define FIREBULLET_DEEP		0.5
 #define FLAG_DEEP			0.5
 #define FLOWER_DEEP			0.5
 #define FUNGI_DEEP			0.5
-#define KOOPA_DEEP			0.5
+#define KOOPA_DEEP			0.3
 #define MONEY_DEEP			0.5	
 #define NUMBER_DEEP			0.5
 #define PIPE_DEEP			0.45
