@@ -17,8 +17,9 @@ extern class CGame;
 class BaseObject
 {
 protected:
-	D3DXVECTOR2		_m_Position;
+	
 	D3DXVECTOR2		_m_Velocity;
+	
 	bool			m_isActive;
 	DIR				m_dirCollision;
 	StatusObject	m_status;
@@ -38,7 +39,7 @@ public:
 	CSprite* _sprite;
 	QuadTree* _oldNode;
 	BaseObject* obj;
-
+	D3DXVECTOR2		_m_Position;
 	void				setPositionX(float);
 	float				getPositionX(){ return _m_Position.x; }
 

@@ -15,7 +15,7 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_widthRect = _width;
-	_heightRect = _height-1;
+	_heightRect = _height;
 	_state = ES_ACTIVING;		// khoi tao trang thai cho`. -  DANG TEST
 	_currentSprite = 0;
 	_waitingTimeToDie = 0.5;

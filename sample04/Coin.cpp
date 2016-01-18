@@ -12,7 +12,7 @@ Coin::Coin(float x, float y, float cameraX, float cameraY, int ID, CSprite* spri
 	_m_Position.y = y;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
-	_heightRect = _height+1;
+	_heightRect = _height;
 	_widthRect = _width;
 	_currentSprite = 7;			// tàng hình
 	timeFly = MAX_TIME_FLY;
@@ -31,8 +31,6 @@ void Coin::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dy
 		timeFly = MAX_TIME_FLY;
 		break;
 	case TS_ACTIVING:
-		
-
 		// xử lý vị trí 
 		if (timeFly > MAX_TIME_FLY*0.5 ){	// flying up
 			_m_Position.y -= 4;
@@ -57,7 +55,7 @@ void Coin::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dy
 		_isNeedDelete = true;
 		break;
 	}
-	NewRect();
+	
 }
 void Coin::Render()
 {

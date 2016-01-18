@@ -18,40 +18,43 @@ GreenMushRoom::GreenMushRoom(float x, float y, float cameraX, float cameraY, int
 	_widthRect = _width;
 	_heightRect = _height;
 	_state = TS_IDLE;
-	timeRised = 0;
+	timeRised = RISE_TIME;
 }
-void GreenMushRoom::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
+void GreenMushRoom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ 
 		break;
-	case TS_MOVEUP:				// đang đi lên
-		Move();
-		
+	case TS_MOVEUP:				// thoát ra khỏi viên gạch
+		if (timeRised > 0){ // not going up yet
+			// y direction
+			_m_Velocity.y = -Y_VELOCITY;
+			_m_Position.y += _m_Velocity.y;
+			timeRised -= TPF;
+		}
+		// nếu hết thời gian đi lên thì chuyển trạng thái activing
+		if (timeRised <= 0)
+		{
+			//Khởi tạo vận tốc di chuyển
+			_m_Velocity.y = Y_VELOCITY;
+			_m_Velocity.x = X_VELOCITY;
+			SetState("_state", TS_ACTIVING);
+		}
 		break;
-	case TS_BREAKED:							// đã bị ăn
-		Move();
-		break;
-	}
-}
-void GreenMushRoom::Move()
-{
-	if (timeRised < 10){ // not going up yet
-		// y direction
-		_m_Velocity.y = -Y_VELOCITY;
-		_m_Position.y += _m_Velocity.y;
-	}
-	else{				// get definitely out of the brick
-		// x direction
-		_m_Velocity.x = X_VELOCITY;
+	case TS_ACTIVING:			// đang hoạt động
 		_m_Position.x += _m_Velocity.x;
 		// y direction
-		_m_Velocity.y = Y_VELOCITY;
 		_m_Position.y += _m_Velocity.y;
+		// phải update vận tốc sau khi xét va chạm
+		CheckCollision(staticObj, dynamicObj);
+		break;
+	case TS_BREAKED:			// đã bị ăn
+		_isNeedDelete = true;
+		break;
 	}
-	timeRised++;
 }
+
 void GreenMushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj)	// need to fix
 {
 	//Collision with staticObj
@@ -61,55 +64,42 @@ void GreenMushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject
 		obj = *i;
 		DIR dir = Collision::getInstance()->isCollision(this, obj);
 		float timeCollision = Collision::getInstance()->getTimeCollision();
+		if (dir == DIR::NONE)
+		{
+			_m_Velocity.y = Y_VELOCITY;
+		}
 		if (dir != DIR::NONE)
 		{
 			//D3DXVECTOR2 position = this->getPosition();
-
-			if (obj->_ID >= 17 && obj->_ID <= 22) //collision with Brick
+			if (obj->_ID >= 14 && obj->_ID <= 22) //collision with Brick and pipes
 			{
 				switch (dir)
 				{
-				case LEFT:
-					_m_Velocity.x = -X_VELOCITY;
-					break;
-				case RIGHT:
-					_m_Velocity.x = X_VELOCITY;
-					break;
-				case TOP:
-					//_m_Velocity = Collision::getInstance()->getVelocity();
-					_m_Velocity.y = Y_VELOCITY;
+				case LEFT: case RIGHT:
+					_m_Velocity.x *= -1;			// đổi hướng vận tốc ngang
 					break;
 				case BOTTOM:
-					_m_Velocity.y = -Y_VELOCITY;
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					break;
-				default:
+					_m_Velocity.y = 0;
 					break;
 				}
 			}
-			if (obj->_ID == 1){			// va chạm với mario
-				// xử lý ở đây
-				return;
-			}
 		}
 	}
-	NewRect();
 }
 void GreenMushRoom::Render()
 {
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ 
-		_sprite->setIndex(0);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 		break;
 	case TS_MOVEUP:				// đang đi lên
 		_sprite->setIndex(0);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 		break;
-	case TS_BREAKED:							// đã bị ăn
+	case TS_ACTIVING:
 		_sprite->setIndex(0);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+	case TS_BREAKED:							// đã bị ăn 
 		break;
 	}
 	

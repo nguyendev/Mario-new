@@ -146,6 +146,9 @@
       <Filter>Game\iTem</Filter>
     </ClCompile>
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="BrickMushroom.cpp">
+      <Filter>Game\Static</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -158,9 +161,6 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
-      <Filter>Game\Dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="Koopa.h">
       <Filter>Game\Dynamic</Filter>
     </ClInclude>
     <ClInclude Include="Pipe.h">
@@ -260,6 +260,12 @@
       <Filter>Game\iTem</Filter>
     </ClInclude>
     <ClInclude Include="Score.h" />
+    <ClInclude Include="Koopa.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickMushroom.h">
+      <Filter>Game\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

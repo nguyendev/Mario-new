@@ -6,6 +6,10 @@
 #include "Audio.h"
 #include "sprite.h"
 #include "Bullet.h"
+#include "MushRoom.h"
+#include "GreenMushroom.h"
+#include "BrickMushroom.h"
+#include "BrickQuestion.h"
 
 
 class CSprite;

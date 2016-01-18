@@ -45,7 +45,7 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv, &_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv, &_SpriteHandler);
-	D3DXCreateFont(_d3ddv, 25, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Time New Roman"), &_font);
+	D3DXCreateFont(_d3ddv, 25, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Emulogic"), &_font);
 	LoadSprite();
 	LoadAudio();
 
@@ -99,13 +99,13 @@ void CGameMario::UpdateWorld(float TPF)
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			_obj = *i;
-			if (_obj->getPosition().x>_camera->_cameraX - 10 && _obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
+			if (_obj->getPosition().x>_camera->_cameraX - 10 && _obj->getPosition().x<_camera->_cameraX + WIDTH/ZOOM + 10)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			_obj = *i;
-			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH + 100)
+			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH/ZOOM + 100)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
 		}
 		_quadTree->Update(dynamicObjs);
@@ -155,13 +155,13 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			obj = *i;
-			if (obj->getPosition().x>_camera->_cameraX - 10 && obj->getPosition().x<_camera->_cameraX + 350)
+			if (obj->getPosition().x>_camera->_cameraX - 30 && obj->getPosition().x<_camera->_cameraX + 350)
 				obj->Render();
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			obj = *i;
-			if (obj->getPosition().x>_camera->_cameraX -10 && obj->getPosition().x<_camera->_cameraX + 350)
+			if (obj->getPosition().x>_camera->_cameraX - 30 && obj->getPosition().x<_camera->_cameraX + 350)
 				obj->Render();
 		}
 		break;
@@ -169,11 +169,11 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
 		if (_Map == 1)
-			DrawTxt(L"WORLD 1.1", 355, 250, _font);
+			DrawTxt(L"WORLD 1.1", 330, 250, _font);
 		else if (_Map == 2)
-			DrawTxt(L"WORLD 1.2", 355, 250, _font);
+			DrawTxt(L"WORLD 1.2", 330, 250, _font);
 		else
-			DrawTxt(L"WORLD", 355, 250, _font);
+			DrawTxt(L"WORLD", 330, 250, _font);
 		_marioReplay->setIndex(0);
 		_marioReplay->Render(370 / ZOOM, 310 / ZOOM);
 		
@@ -286,15 +286,14 @@ void CGameMario::LoadSprite()
 	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, TIMEPERIMAGE);
 	//Enemies
 	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, TIMEPERIMAGE);
-	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 24, 4, 4, TIMEPERIMAGE);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 8, 4, TIMEPERIMAGE);
 	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2, TIMEPERIMAGE);
 	//Items
 	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, TIMEPERIMAGE);
-	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 2, 2, TIMEPERIMAGE);
+	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 12, 4, TIMEPERIMAGE);
 	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, TIMEPERIMAGE);
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10, TIMEPERIMAGE);
 	//Others
-	_sprites[S_STAR] = new CSprite(_SpriteHandler, STAR_IMAGE, 16, 16, 4, 4, 1);
 }
 void CGameMario::ChangeMap(int Map)
 {
@@ -331,34 +330,43 @@ void CGameMario::test()
 }
 void CGameMario::DrawScore()
 {
-	// Draw money
-	DrawTxt(L"WORLD 1.", 450, 20, _font);
+	// Draw world
+	DrawTxt(L"WORLD", 450, 20, _font);
+	DrawTxt(L"1.", 470, 50, _font);
 	text = to_string(_Map);
 	StringToWString(ws, text);
-	DrawTxt(ws, 552, 20, _font);
-	DrawTxt(L"MONEY", 224, 20, _font);
+	DrawTxt(ws, 510, 50, _font);
+
 	// draw Time
 	if (_timeGame > 0)
 		text = to_string(_timeGame);
 	else
 		text = "0";
+
 	StringToWString(ws, text);
 	DrawTxt(ws, 730, 20, _font);
-	DrawTxt(L"TIME", 650, 20, _font);
+	DrawTxt(L"TIME", 630, 20, _font);
+
 	// draw score coin
 	text = to_string(_coin);
 	StringToWString(ws, text);
-	DrawTxt(ws, 330, 20, _font);
-	DrawTxt(L"MONEY", 224, 20, _font);
+	DrawTxt(ws, 310, 20, _font);
+	DrawTxt(L"$", 280, 20, _font);
 
-	// Draw life
-	if (_life > 0)
+	// draw life
+	if (_life)
 		text = to_string(_life);
 	else
-		text = "0";
+		text = '0';
 	StringToWString(ws, text);
-	DrawTxt(ws, 95, 20, _font);
-	DrawTxt(L"LIFE x", 24, 20, _font);
+	DrawTxt(ws, 140, 20, _font);
+	DrawTxt(L"LIFE x", 10, 20, _font);
+
+	// Draw score
+	text = to_string(_score);
+	StringToWString(ws, text);
+	DrawTxt(ws, 140, 50, _font);
+	
 }
 void CGameMario::ChangeState(char state)
 {
@@ -379,11 +387,11 @@ void CGameMario::ReplayandStartGame(LPDIRECT3DDEVICE9 d3ddv)
 	d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 	DrawScore();
 	if (_Map == 1)
-		DrawTxt(L"WORLD 1.1", 360, 300, _font);
+		DrawTxt(L"WORLD 1.1", 330, 300, _font);
 	else if (_Map == 2)
-		DrawTxt(L"WORLD 1.2", 360, 300, _font);
+		DrawTxt(L"WORLD 1.2", 330, 300, _font);
 	else
-		DrawTxt(L"WORLD", 360, 300, _font);
+		DrawTxt(L"WORLD", 330, 300, _font);
 }
 CGameMario::~CGameMario()
 {
@@ -410,6 +418,7 @@ void CGameMario::DrawEat()
 		string text = to_string(_score);
 		wstring ws;
 		StringToWString(ws, text);
+		reY--;
 		DrawTxt(ws, reX, reY,_font);
 		if (distanceMove < -100)
 		{

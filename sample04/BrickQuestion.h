@@ -22,12 +22,15 @@ private:
 	// lưu vị trí cố định của gạch
 	const float Recent_X = _m_Position.x;
 	const float Recent_Y = _m_Position.y;
+	// tiền xu
+	BaseObject* coin;
+	int _NumberOfCoins;
 public:
 	bool	_isBright;
 	bool	_isNeedDelete;
 	bool	_isChanged;
 	BrickQuestion();
-	BrickQuestion(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
+	BrickQuestion(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite, CSprite* CoinSprite, int NumberOfCoins);
 	~BrickQuestion();
 	void Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void Render();

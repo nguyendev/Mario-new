@@ -185,7 +185,7 @@ void CGame::_RenderFrame()
 
 void CGame::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
-	d3ddv->ColorFill(_BackBuffer,NULL,D3DCOLOR_XRGB(0,0,0));
+	d3ddv->ColorFill(_BackBuffer,NULL,D3DCOLOR_XRGB(107,140,255));
 }
 
 void CGame::UpdateWorld(float TPF) { }

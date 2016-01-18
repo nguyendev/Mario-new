@@ -1,19 +1,19 @@
-#pragma once
+﻿#pragma once
 #include "BaseObject.h"
 #include "Camera.h"
 #include "Collision.h"
 #define X_VELOCITY 2
 #define Y_VELOCITY 3
-#define RISE_TIME  0.2
+#define RISE_TIME  0.08
 
 class MushRoom :public BaseObject
 {
 private:
 	float	timeRised;
-	bool	isFlower;
 	int		_currentSprite;
 	char	_state;
 public:
+	
 	DWORD last_time;
 	MushRoom();
 	MushRoom(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);

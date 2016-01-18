@@ -10,7 +10,6 @@
 #include "Mountain.h"
 #include "Koopa.h"
 #include "BrickQuestion.h"
-#include "InvisibleBrick.h"
 #include "Coin.h"
 #include "MushRoom.h"
 #include "GreenMushroom.h"
@@ -18,6 +17,8 @@
 #include "Flag.h"
 #include "Castle.h"
 #include "Star.h"
+#include "SpecialBrick.h"
+#include "BrickMushroom.h"
 
 
 Camera*  _camera;
@@ -139,10 +140,8 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		sizeWidth = 3865;
 	}
 	if (fileName == "Map\\MAP2.ptl")
-	{
-		sizeWidth = 3865;
-	}
-	game->_quadTree = new QuadTree(0, 0, 3865, 0);
+		sizeWidth = 4000;
+	game->_quadTree = new QuadTree(0, 0, sizeWidth, 0);
 	Mario*	mario;
 	for (int i = 0; i < _count; i++)
 	{
@@ -152,6 +151,10 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Mario(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BMARIO_RIGHT], game->_sprites[S_BMARIO_LEFT], game->_sprites[S_SMARIO_RIGHT], game->_sprites[S_SMARIO_LEFT], game->_sprites[S_FIREBULLET], game->_sprites[S_EXPLOSION], game);
 			game->_camera->mario = obj;
 			_isStatic = false;
+			break;
+		case 59:
+			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			_isStatic = true;
 			break;
 		case 53:
 			obj = new Koopa(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_KOOPA]);
@@ -174,9 +177,8 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = true;
 			break;
 		case 19:
-			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], game->_sprites[S_MONEY], 1);
 			_isStatic = true;
-
 			break;
 		case 20:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4, isBright);
@@ -214,25 +216,18 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Flag(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_FLAG], 0);
 			_isStatic = true;
 			break;
-		case 2:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+		case 50:
+			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
 			break;
-			/*case 50:
-			obj = new InvisibleBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],11);
-			_isStatic = true;
-			break;*/
 		case 51:
-			obj = new MuchMoneyBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], game->_sprites[S_MONEY], 5);
 			_isStatic = true;
 			break;
-			/*case 52:
-			obj = new SpecialBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+		case 52:
+			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
-			break;*/
-			/*default:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK],1);
-			break;*/
+			break;
 		}
 		// them doi tuong tinh vao quadtree.
 		if (obj != NULL)
@@ -243,56 +238,58 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 		obj = NULL;
 	}
 	// duyet item.
-	for (int i = 0; i < _count; i++)
-	{
-		if (t[i].id == 19)				// neu la questionbrick
-		{
-			SRC s;
-			s.id = Count_Item;
-			s.srcX = t[i].srcX;
-			s.srcY = t[i].srcY;
-			if (s.id == 0 || s.id == 1 || s.id == 3 || s.id == 4 || s.id == 5 || s.id == 7
-				|| s.id == 10 || s.id == 11 || s.id == 12 || s.id == 13 || s.id == 9)
-				obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY],1);
-			if (s.id == 6||s.id ==2||s.id==8)
-				obj = new MushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 33, game->_sprites[S_FUNGI]);
-			_isStatic = true;
-			Count_Item++;
-		}
+	//for (int i = 0; i < _count; i++)
+	//{
+	//	if (t[i].id == 19)				// neu la questionbrick
+	//	{
+	//		SRC s;
+	//		s.id = Count_Item;
+	//		s.srcX = t[i].srcX;
+	//		s.srcY = t[i].srcY;
+	//		/*if (s.id == 0 || s.id == 1 || s.id == 3 || s.id == 4 || s.id == 5 || s.id == 7
+	//			|| s.id == 10 || s.id == 11 || s.id == 12 || s.id == 13 || s.id == 9)
+	//			obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY],1);*/
+	//		if (s.id == 6||s.id ==2||s.id==8)
+	//			obj = new MushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 33, game->_sprites[S_FUNGI]);
+	//		_isStatic = true;
+	//		Count_Item++;
+	//	}
 
-		// them item vao quadtree.
-		if (obj != NULL)
-		{
-			obj->_game = game;
-			game->_quadTree->Add(obj, _isStatic);
-		}
-		obj = NULL;
-		// them item dac biet
-		SRC s;
-		switch (t[i].id){
-		case 52:
-			s.srcX = t[i].srcX;
-			s.srcY = t[i].srcY;
-			obj = new Star(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 35, game->_sprites[S_STAR]);
-			break;
-		case 51:
-			s.srcX = t[i].srcX;
-			s.srcY = t[i].srcY;
-			obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY],5);		// 10 ngôi sao
-			break;
-		case 50:
-			s.srcX = t[i].srcX;
-			s.srcY = t[i].srcY;
-			obj = new GreenMushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 36, game->_sprites[S_FUNGI]);
-			break;
-		}
-		if (obj != NULL)
-		{
-			obj->_game = game;
-			game->_quadTree->Add(obj, _isStatic);
-		}
-		obj = NULL;
+	//	// them item vao quadtree.
+	//	if (obj != NULL)
+	//	{
+	//		obj->_game = game;
+	//		game->_quadTree->Add(obj, _isStatic);
+	//	}
+	//	obj = NULL;
+	// them item dac biet
+	/*
+	SRC s;
+	switch (t[i].id){
+	case 52:
+	s.srcX = t[i].srcX;
+	s.srcY = t[i].srcY;
+	obj = new Star(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 35, game->_sprites[S_STAR]);
+	break;
+	case 51:
+	s.srcX = t[i].srcX;
+	s.srcY = t[i].srcY;
+	obj = new Coin(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 32, game->_sprites[S_MONEY],5);		// 10 ngôi sao
+	break;
+	case 50:
+	s.srcX = t[i].srcX;
+	s.srcY = t[i].srcY;
+	obj = new GreenMushRoom(PIXEL * (s.srcX), PIXEL * (s.srcY), _camera->_cameraX, _camera->_cameraY, 36, game->_sprites[S_FUNGI]);
+	break;
 	}
+	if (obj != NULL)
+	{
+	obj->_game = game;
+	game->_quadTree->Add(obj, _isStatic);
+	}
+	obj = NULL;
+	*/
+	//}
 
 	fclose(pFile);
 }
