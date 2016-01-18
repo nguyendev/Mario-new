@@ -113,12 +113,13 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 	for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
 	{
 		obj = *i;
+		if (obj->_ID == 1)									// va chạm với mario
+		{
 		DIR dir = Collision::getInstance()->isCollision(this, obj);
 		float timeCollision = Collision::getInstance()->getTimeCollision();
 		if (dir != DIR::NONE)
 		{
-			if (obj->_ID == 1)									// va chạm với mario
-			{
+			
 				if (_state == TS_IDLE)							// nếu đang chờ...
 				{
 					if (dir == BOTTOM)							// va chạm đáy của item

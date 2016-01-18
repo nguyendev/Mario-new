@@ -16,7 +16,7 @@ GreenMushRoom::GreenMushRoom(float x, float y, float cameraX, float cameraY, int
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_widthRect = _width;
-	_heightRect = _height+2;
+	_heightRect = _height;
 	_state = TS_IDLE;
 	timeRised = 0;
 }

@@ -23,7 +23,6 @@ void Camera::Update(QuadTree* quadTree)
 		if (mario->getPosition().x > _cameraX + _width / 2)
 		{
 			_cameraX = mario->getPosition().x - _width / 2;
-			
 		}
 		if (mario->getPosition().x < _cameraX)
 		{

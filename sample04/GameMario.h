@@ -2,17 +2,12 @@
 #define _GAME_MARIO_H_
 
 #include <d3dx9.h>
-
 #include "game.h"
 #include "sprite.h"
 #include "Global.h"
-// Objects
 #include "BaseObject.h" 
-//#include "Mario.h"
 #include "Brick.h"
-
-
-// Others
+#include "Score.h"
 #include "Collision.h"
 #include "Camera.h"
 #include "Audio.h"
@@ -29,11 +24,13 @@ public:
 	CSprite * _sprites[30];
 	list<BaseObject*> staticObjs;
 	list<BaseObject*> dynamicObjs;
+	list<Score*>	lScore;
+	list<Score*>	lScoreRemove;
 	Camera * _camera;
 	Audio* _audio;
 	QuadTree* _quadTree;
 	LPD3DXFONT	_font;
-
+	float distanceMove;
 	int _countI = 0;
 	int _live;
 	CSprite * brick;
@@ -41,12 +38,15 @@ public:
 	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
 	int _curState;
+	int _score;
 	float wait1Sec;
 	int _timeGame;
 
 	int _coin;
 	int _life;
-
+	float reX;
+	float reY;
+	bool isDrawEat;
 protected:
 
 	void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF);
@@ -63,7 +63,7 @@ public:
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine;
 	void LoadAudio();
 	void LoadSprite();
-
+	void AddScore(int _score, float _x, float _y);
 
 	//-------------------------
 	void ChangeMap(int Map);
@@ -76,6 +76,7 @@ public:
 	bool isLoad = false;
 	int _Map;
 	void ChangeState(char state);
+	void DrawEat();
 	wstring ws;
 	string text;
 	void test();

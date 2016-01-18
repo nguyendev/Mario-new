@@ -36,6 +36,7 @@ void Goomba::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>*
 		_m_Velocity.y = Y_VELOCITY;
 		Move();
 		CheckCollision(staticObj, dynamicObj);
+		_sprite->Next(0, 1, Time);
 		break;
 	case ES_CRASHED:						// đã bị dam
 		_waitingTimeToDie -= Time;
@@ -55,9 +56,6 @@ void Goomba::Render()
 	case ES_IDLE:				// trạng thái chờ duoc kich hoat
 		break;
 	case ES_ACTIVING:				// đang đi 
-		if (_currentSprite > 1)
-			_currentSprite = 0;
-		_sprite->setIndex(_currentSprite++);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
@@ -76,29 +74,24 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
 		obj = *i;
-		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		float timeCollision = Collision::getInstance()->getTimeCollision();
-		if (dir != DIR::NONE)
-		{
+	
 			if (obj->_ID >= 14 && obj->_ID <= 22 || obj->_ID == 52) //collision with Brick or pipe
 			{
-				switch (dir)
+				DIR dir = Collision::getInstance()->isCollision(this, obj);
+				_m_Velocity = Collision::getInstance()->getVelocity();
+				if (dir != DIR::NONE)
 				{
-				case LEFT:
-					_m_Velocity.x = X_VELOCITY;
-					break;
-				case RIGHT:
-					_m_Velocity.x = -X_VELOCITY;
-					break;
-				case TOP:
-					break;
-				case BOTTOM:
-					_m_Velocity.y = 0;
-					break;
-				default:
-					break;
+					switch (dir)
+					{
+					case LEFT:	case RIGHT:
+						this->setVelocity(this->getVelocity().x*(-1), this->getVelocity().y);
+						break;
+					case BOTTOM: case TOP:
+						_m_Velocity.y = 0;
+						break;
+					}
 				}
-			}
+			
 		}
 	}
 }

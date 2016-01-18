@@ -67,7 +67,6 @@ void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 }
 void Brick::Render()
 {
-	
 	if (_state != TS_BREAKING)
 	{
 		_sprite->setIndex(_SpriteIndex);

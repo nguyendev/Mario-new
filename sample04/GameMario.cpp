@@ -30,6 +30,11 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	_life = 3;
 	_coin = 0;
 	_replay = 0;
+	_score = 0;
+	reX = 0;
+	reY = 0;
+	distanceMove = 0;
+	isDrawEat = false;
 
 }
 
@@ -89,7 +94,7 @@ void CGameMario::UpdateWorld(float TPF)
 		}
 		staticObjs.clear();
 		dynamicObjs.clear();
-		_quadTree->GetBaseObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
+		_quadTree->GetObjectsFromCamera(_camera->_rect, &staticObjs, &dynamicObjs);
 		_camera->Update(_quadTree);
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
@@ -131,6 +136,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 {
 	BaseObject* obj;
 	list<BaseObject*>::iterator i;
+	list<Score*>::iterator iScore;
 	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK);
 	///_SpriteHandler->Begin(D3DXSPRITE_SORT_DEPTH_FRONTTOBACK | D3DXSPRITE_OBJECTSPACE);
 	switch (_state)
@@ -144,20 +150,20 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 	case GS_PLAYING:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
 		DrawScore();
+		DrawEat();
 		test();
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			obj = *i;
-			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
+			if (obj->getPosition().x>_camera->_cameraX - 10 && obj->getPosition().x<_camera->_cameraX + 350)
 				obj->Render();
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
 		{
 			obj = *i;
-			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + WIDTH + 10)
+			if (obj->getPosition().x>_camera->_cameraX -10 && obj->getPosition().x<_camera->_cameraX + 350)
 				obj->Render();
 		}
-		
 		break;
 	case GS_REPLAY:case GS_NEXT_STAGE:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
@@ -387,4 +393,29 @@ CGameMario::~CGameMario()
 		delete _quadTree;
 	for (int i = 0; i < 30; i++)
 	if (_sprites[i] != NULL) delete _sprites[i];
+}
+
+void CGameMario::AddScore(int score, float _x, float _y)
+{
+	_score += score;
+	isDrawEat = true;
+	reX = _x;
+	reY = _y;
+}
+void CGameMario::DrawEat()
+{
+	if (isDrawEat)
+	{
+		distanceMove -= 1;
+		string text = to_string(_score);
+		wstring ws;
+		StringToWString(ws, text);
+		DrawTxt(ws, reX, reY,_font);
+		if (distanceMove < -100)
+		{
+			isDrawEat = false;
+			distanceMove = 0;
+		}
+			
+	}
 }

@@ -22,7 +22,7 @@ void Flag::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* d
 {
 	if (_state == TS_ACTIVING)
 	{
-		yFlag += 30 * Time;							//Cập nhật tọa độ cờ.
+		yFlag += 70 * Time;							//Cập nhật tọa độ cờ.
 		if (yFlag > _m_Position.y + _height * 9)
 		{
 			yFlag = _m_Position.y + _height * 9;

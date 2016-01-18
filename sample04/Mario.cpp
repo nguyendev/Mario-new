@@ -22,7 +22,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_widthRect = _width;
-	_heightRect = _height-1;
+	_heightRect = _height;
 	isCanJump = false;
 	timeJumped = 0;
 	isJumping = false;
@@ -64,6 +64,8 @@ Mario::~Mario()
 }
 void Mario::TurnLeft(float TPF, float Max)
 {
+	waitIncreaseVecY += TPF;
+	//waitIncreaseVecY += TPF;
 	_m_Velocity.x -= FRICTION_X * TPF;
 	if (_m_Velocity.x <= -Max)
 		_m_Velocity.x = -Max;
@@ -74,6 +76,8 @@ void Mario::TurnLeft(float TPF, float Max)
 void Mario::TurnRight(float TPF, float Max)
 {
 	// if press Right, Update _vx
+	waitIncreaseVecY += TPF;
+	//waitIncreaseVecY += TPF;
 	_m_Velocity.x += FRICTION_X * TPF;
 	if (_m_Velocity.x >= Max)
 		_m_Velocity.x = Max;
@@ -83,6 +87,7 @@ void Mario::TurnRight(float TPF, float Max)
 }
 void Mario::Stand(float TPF)
 {
+	//waitIncreaseVecY += TPF;
 	//Giam toc do xuong khi khong bam phim
 	if (_m_Velocity.x < 0.0f)
 		_m_Velocity.x += FRICTION_X / 2 * TPF;
@@ -92,7 +97,7 @@ void Mario::Stand(float TPF)
 		_m_Velocity.x = 0.0f;
 	waitRenderFirst = 0;
 }
-void Mario::Jump(float TPF)
+float Mario::Jump(float TPF)
 {
 	if (timeJumped < 0.2)
 	{
@@ -100,6 +105,7 @@ void Mario::Jump(float TPF)
 		isJumping = true;
 		_game->_audio->PlaySound(_game->_sound_Jump);
 	}
+	return _m_Velocity.y;
 }
 void Mario::sExplosion(float TPF)
 {
@@ -142,12 +148,12 @@ void Mario::UpdateSprite(float TPF)
 		if (isBig)
 		{
 			_widthRect = 16;
-			_heightRect = 30;
+			_heightRect = 32;
 		}
 		else
 		{
 			_widthRect = 16;
-			_heightRect = 15;
+			_heightRect = 16;
 		}
 		if (_m_Velocity.x != 0)
 		{
@@ -202,7 +208,6 @@ void Mario::UpdateSprite(float TPF)
 		}
 		else
 		{
-
 			if (died)
 			{
 				if (isBig)
@@ -275,9 +280,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 		{
 			if (obj->_ID >= 17 && obj->_ID <= 22||obj->_ID==52) //collision with Brick and special brick
 			{
-				if (getDirCollision() == DIR::NONE)
-					setDirCollision(dir);
-
 				_m_Velocity = Collision::getInstance()->getVelocity();
 				switch (dir)
 				{
@@ -356,6 +358,8 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			{
 				if (dir == TOP)
 				{
+					_game->_audio->PlaySound(_game->_sound_Coin);
+					EatCoin(obj->getPosition().x, obj->getPosition().y);
 					if (obj->GetState("_state") == TS_IDLE)
 						obj->SetState("_state", TS_ACTIVING);
 				}
@@ -391,14 +395,13 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			if (obj->_ID == 55)
 			{
 				DIR dir = Collision::getInstance()->isCollision(this, obj);
-				if (getDirCollision() == DIR::NONE)
-					setDirCollision(dir);
 				if (dir != DIR::NONE)
 				{
 					if (obj->GetState("_state") == ES_ACTIVING)		// nếu đang đi
 					{
 						if (dir == BOTTOM)									// bị dậm trên đầu
 						{
+							_m_Velocity.y = -MARIO_VY/2;
 							obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
 							_game->_audio->PlaySound(_game->_sound_Squish);
 						}
@@ -418,6 +421,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					{
 						if (dir == BOTTOM)									// bị dậm trên đầu
 						{
+							_m_Velocity.y = -MARIO_VY/2;
 							obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
 							_game->_audio->PlaySound(_game->_sound_Squish);
 						}
@@ -516,6 +520,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		break;
 	case M_PULL_FLAG:
 		_isVisiableKeyboard = false;
+		CheckCollision(staticObj, dynamicObj);
 		for (i = staticObj->begin(); i != staticObj->end(); i++)
 		{
 			obj = *i;
@@ -542,7 +547,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 				}
 				else						//Khi cờ đang xuống...
 				{
-					
 					_m_Velocity.x = 0;
 					_m_Position.x = obj->getPosition().x - obj->_width/2 +1;
 					if (_m_Position.y > yTemp)			//... nếu Mario đã xuống tới nơi
@@ -573,7 +577,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		break;
 	case M_DIED:
 		Move(TPF);
-		if (_m_Position.y > 500)
+		if (_m_Position.y > 400)
 		{
 			_game->_life--;
 			if (_game->_life >= 0)
@@ -651,9 +655,11 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 }
 void Mario::ChangeState(char state)
 {
-	_state = state;
+	
 	//Nếu còn được bảo vệ thì không cho chết.
-	if (_state == M_NORMAL && (isProtectedHidden == true || isProtected == true) && _state == M_DIEING) return;	
+	if (_state == M_NORMAL && (isProtectedHidden == true || isProtected == true) && state == M_DIEING)
+		return;
+	_state = state;
 	switch (_state)
 	{
 	case M_PULL_FLAG:
@@ -664,10 +670,17 @@ void Mario::ChangeState(char state)
 		_m_Velocity.y = -2;
 		_game->_audio->StopSound(_game->_sound_Background);
 		_game->_audio->PlaySound(_game->_sound_Die);
-		ChangeState(M_DIED);
 		died = true;
 		_isVisiableKeyboard = false; //vo hieu ban phim khi sap chet
+		ChangeState(M_DIED);
+		
 		break;
 	
 	}
+}
+
+void Mario::EatCoin(float _x, float _y)
+{
+	_game->_coin++;
+	_game->AddScore(200, _x, _y - 3);
 }

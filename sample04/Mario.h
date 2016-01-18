@@ -68,9 +68,10 @@ public:
 
 	void TurnLeft(float Time, float Max);
 	void TurnRight(float Time, float Max);
-	void Jump(float Time);
+	float Jump(float Time);
 	void Stand(float Time);
 	void sExplosion(float Time);
+	void EatCoin(float _x, float _y);
 	~Mario();
 
 

@@ -35,6 +35,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{dcddd881-6270-4bc7-8fd5-986699d51c55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Score">
+      <UniqueIdentifier>{bbb5b6b3-cabd-460a-88eb-9deef37a1f49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Brick.cpp">
@@ -142,6 +145,7 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Game\iTem</Filter>
     </ClCompile>
+    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -255,6 +259,7 @@
     <ClInclude Include="Bullet.h">
       <Filter>Game\iTem</Filter>
     </ClInclude>
+    <ClInclude Include="Score.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

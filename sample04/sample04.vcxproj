@@ -120,6 +120,7 @@
     <ClCompile Include="MushRoom.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="QuadTree.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StoneBrick.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="MushRoom.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="QuadTree.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StoneBrick.h" />
