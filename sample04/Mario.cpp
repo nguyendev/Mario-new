@@ -51,6 +51,8 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	isHasStar = false;
 	_selectRowBig = 0;
 	waitLostStar = 0;
+	_watingNextState = 0;
+	SetBox();
 }
 Mario::~Mario()
 {
@@ -137,21 +139,28 @@ void Mario::Move(float TPF)
 	
 	_m_PostionOld = _m_Position;
 }
+void Mario::SetBox()
+{
+	if (isBig)
+	{
+		_widthRect = 14;
+		_heightRect = 30;
+	}
+	else
+	{
+		_widthRect = 14;
+		_heightRect = 14;
+	}
+}
 void Mario::UpdateSprite(float TPF)
 {
 	switch (_state)
 	{
 	case M_NORMAL: case M_AUTO_TO_CASTLE :case M_DIEING:case M_DIED:
-		if (isBig)
-		{
-			_widthRect = 16;
-			_heightRect = 32;
-		}
-		else
-		{
-			_widthRect = 16;
-			_heightRect = 16;
-		}
+		if (isHasStar)
+			_selectRowBig = rand() % 4;
+		else if (!isBig)
+			_selectRowBig = 0;
 		if (_m_Velocity.x != 0)
 		{
 			if (!isJumping)
@@ -160,21 +169,13 @@ void Mario::UpdateSprite(float TPF)
 				{
 					if (isBig)
 					{
-						if (isShotable)
-						{
-							_sBig_left->setIndex(13);
-							_sBig_right->setIndex(10);
-						}
-						else
-						{
-							_sBig_left->setIndex(5);
-							_sBig_right->setIndex(2);
-						}
+						_sBig_left->setIndex(5 + 8 * _selectRowBig);
+						_sBig_right->setIndex(2 + 8 * _selectRowBig);
 					}
 					else
 					{
-						_sprite->setIndex(5);
-						_sSmall_right->setIndex(2);
+						_sprite->setIndex(5 + 8 * _selectRowBig);
+						_sSmall_right->setIndex(2 + 8 * _selectRowBig);
 					}
 				}
 				else
@@ -183,21 +184,13 @@ void Mario::UpdateSprite(float TPF)
 					{
 						if (isChangeDirectionL)
 						{
-							if (isShotable)
-								_sBig_left->Next(10, 12, TPF);
-							else
-								_sBig_left->Next(2, 4, TPF);
+							_sBig_left->Next(2 + 8 * _selectRowBig, 4 + 8 * _selectRowBig, TPF);
 						}
 							
 						else if (isChangeDirectionR)
 						{
-							if (isShotable)
-								_sBig_right->Next(11, 13, TPF);
-							else
-								_sBig_right->Next(3, 5, TPF);
+							_sBig_right->Next(3 + 8 * _selectRowBig, 5 + 8 * _selectRowBig, TPF);
 						}
-						
-							
 					}
 					else
 					{
@@ -212,22 +205,13 @@ void Mario::UpdateSprite(float TPF)
 			{
 				if (isBig)
 				{
-					if (isShotable == true)
-					{
-						_sBig_left->setIndex(9);
-						_sBig_right->setIndex(14);
-					}
-					else
-					{
-						_sBig_left->setIndex(1);
-						_sBig_right->setIndex(6);
-					}
-					
+						_sBig_left->setIndex(1 + 8* _selectRowBig);
+						_sBig_right->setIndex(6 + 8 * _selectRowBig);
 				}
 				else
 				{
-					_sprite->setIndex(1);
-					_sSmall_right->setIndex(6);
+					_sprite->setIndex(1 + 8 * _selectRowBig);
+					_sSmall_right->setIndex(6 + 8 * _selectRowBig);
 				}
 			}
 		}
@@ -239,20 +223,20 @@ void Mario::UpdateSprite(float TPF)
 				{
 					if (isShotable)
 					{
-						_sBig_left->setIndex(9);
-						_sBig_right->setIndex(9);
+						_sBig_left->setIndex(9 + 8 * _selectRowBig);
+						_sBig_right->setIndex(9 + 8 * _selectRowBig);
 					}
 					else
 					{
-						_sBig_left->setIndex(1);
-						_sBig_right->setIndex(1);
+						_sBig_left->setIndex(1 + 8 * _selectRowBig);
+						_sBig_right->setIndex(1 + 8 * _selectRowBig);
 					}
 					
 				}
 				else
 				{
-					_sprite->setIndex(1);
-					_sSmall_right->setIndex(1);
+					_sprite->setIndex(1 + 8 * _selectRowBig);
+					_sSmall_right->setIndex(1 + 8 *_selectRowBig);
 				}
 
 			}
@@ -262,42 +246,34 @@ void Mario::UpdateSprite(float TPF)
 				{
 					if (isShotable)
 					{
-						_sBig_left->setIndex(7);
-						_sBig_right->setIndex(14);
+						_sBig_left->setIndex(7 + 8 * _selectRowBig);
+						_sBig_right->setIndex(14 + 8 * _selectRowBig);
 					}
 					else
 					{
-						_sBig_left->setIndex(1);
-						_sBig_right->setIndex(6);
+						_sBig_left->setIndex(1 + 8 * _selectRowBig);
+						_sBig_right->setIndex(6 + 8 * _selectRowBig);
 					}
 					
 				}
 				else
 				{
-					_sprite->setIndex(1);
-					_sSmall_right->setIndex(6);
+					_sprite->setIndex(1 + 8 * _selectRowBig);
+					_sSmall_right->setIndex(6 + 8 * _selectRowBig);
 				}
 			}
 			else
 			{
 				if (isBig)
 				{
-					if (isShotable)
-					{
-						_sBig_left->setIndex(14);
-						_sBig_right->setIndex(9);
-					}
-					else
-					{
-						_sBig_left->setIndex(6);
-						_sBig_right->setIndex(1);
-					}
-					
+
+					_sBig_left->setIndex(6 + 8 * _selectRowBig);
+					_sBig_right->setIndex(1 + 8 * _selectRowBig);
 				}
 				else
 				{
-					_sSmall_right->setIndex(0);
-					_sprite->setIndex(7);
+					_sSmall_right->setIndex(0 + 8 * _selectRowBig);
+					_sprite->setIndex(7 + 8 * _selectRowBig);
 				}
 
 			}
@@ -308,20 +284,20 @@ void Mario::UpdateSprite(float TPF)
 		{
 			if (isShotable == true)
 			{
-				_sBig_left->setIndex(8);
-				_sBig_right->setIndex(15);
+				_sBig_left->setIndex(8 + 8 * _selectRowBig);
+				_sBig_right->setIndex(15 + 8 * _selectRowBig);
 			}
 			else
 			{
-				_sBig_left->setIndex(0);
-				_sBig_right->setIndex(7);
+				_sBig_left->setIndex(0 + 8 * _selectRowBig);
+				_sBig_right->setIndex(7 + 8 * _selectRowBig);
 			}
 			
 		}
 		else
 		{
-			_sSmall_right->setIndex(7);
-			_sprite->setIndex(0);
+			_sSmall_right->setIndex(7 + 8 * _selectRowBig);
+			_sprite->setIndex(0 + 8 * _selectRowBig);
 		}
 		break;
 	}
@@ -384,9 +360,11 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			}
 			if (obj->_ID >= 14 && obj->_ID <= 16)// collision with Pipe
 			{
-				_m_Velocity.y = 0;
-				isJumping = false;
-				timeJumped = 0;
+				if (dir == BOTTOM){
+					_m_Velocity.y = 0;
+					isJumping = false;
+					timeJumped = 0;
+				}
 				_game->_audio->PlaySound(_game->_sound_Warp);
 			}
 			if (obj->_ID == 51){
@@ -436,15 +414,22 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					obj->SetState("_state", TS_ACTIVING);
 					_m_Position.x = obj->getPosition().x;
 					yTemp = obj->getPosition().y + obj->_height * 9;
+					if (_m_Position.y == yTemp)
+						_game->AddScore(5000, obj->getPosition().x, obj->getPosition().y - 3);
+					else
+						_game->AddScore(400, obj->getPosition().x, obj->getPosition().y - 3);
 					ChangeState(M_PULL_FLAG);
 				}					
-				else
-					continue;
 			}
 			if (obj->_ID == 59) //collision with Brick mushroom
 			{
 				switch (dir)
 				{
+				case BOTTOM:
+					_m_Velocity.y = 0;
+					isJumping = false;
+					timeJumped = 0;
+					break;
 				case TOP:
 					_m_Velocity = Collision::getInstance()->getVelocity();
 					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
@@ -455,10 +440,11 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						if (!isBig)
 						{
 							// tạo mushroom nấm đỏ: id = 33.
-							BaseObject* mushroom = new MushRoom(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 33, _game->_sprites[S_FUNGI]);
+							BaseObject* mushroom = new MushRoom(obj->getPosition().x, obj->getPosition().y, _cameraX, _cameraY, 33, _game->_sprites[S_FUNGI]);
 							// thêm vào quadtree.
 							_game->_quadTree->Add(mushroom, false);
 							mushroom->SetState("_state", TS_MOVEUP);
+							_game->AddScore(1000, obj->getPosition().x, obj->getPosition().y - 3);
 							// gạch 
 							
 						}
@@ -469,7 +455,6 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							// thêm vào quadtree.
 							_game->_quadTree->Add(mushroom, false);
 							mushroom->SetState("_state", TS_MOVEUP);
-							
 							// gạch 
 						}
 						obj->SetState("_state", TS_MOVEUP);
@@ -493,6 +478,8 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						// gạch 
 						obj->SetState("_state", TS_MOVEUP);
 					}
+					break;
+				case BOTTOM:
 					break;
 				}
 			}
@@ -533,15 +520,28 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 			{
 				switch (obj->_ID)
 				{
-				case 33:
+				case 33: //nấm biến lớn
 					isBig = true;
 					obj->_isNeedDelete = true;
 					_game->_audio->PlaySound(_game->_sound_Powerup);
+					_selectRowBig = 0;
+					SetBox();
 					break;
-				case 34:
+				case 34: // bông hoa
 					obj->_isNeedDelete = true;
-					isShotable = true;
+					if (isBig)
+					{
+						isShotable = true;
+						_selectRowBig = 1;
+					}
+					else
+					{
+						isBig = true;
+						_selectRowBig = 0;
+					}	
+					_game->AddScore(1000, obj->getPosition().x, obj->getPosition().y - 3);
 					_game->_audio->PlaySound(_game->_sound_Powerup);
+					SetBox();
 					break;
 				case 36: // nam xanh an mang
 					_game->_audio->PlaySound(_game->_sound_1up);
@@ -554,6 +554,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					obj->_isNeedDelete = true;
 					waitRender = 0;
 					break;
+					//case 51 duoc 100 da 400
 				case 55:
 					if (isHasStar == false)							//Nếu không có sao
 					{
@@ -566,14 +567,20 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 								_m_Velocity.y = -MARIO_VY / 2;
 								obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
 								_game->_audio->PlaySound(_game->_sound_Squish);
+								_game->AddScore(100, obj->getPosition().x, obj->getPosition().y);
 							}
 							else
+							{
 								CollisionEnemy();
+								obj;
+							}
+								
 						}
 					}
 					else if (obj->GetState("_state") != ES_CRASHED)
 					{
-						obj->SetState("_state", ES_CRASHED);
+						obj->_isNeedDelete = true;
+						//obj->SetState("_state", ES_CRASHED);
 						_game->_audio->PlaySound(_game->_sound_Squish);
 					}
 					break;
@@ -664,6 +671,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			{
 				waitLostStar = 0;
 				isHasStar = false;
+				_selectRowBig = 0;
 			}
 			waitRender += TPF;
 			if (waitRender>0.05)
@@ -684,7 +692,6 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			{
 			case 58:
 				flagState = obj->GetState("_state");
-				
 				Move(TPF);
 				if (flagState == TS_IDLE_2)					//Nếu cờ được kéo xuống hoàn toàn.
 				{
@@ -724,9 +731,31 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			case 5:				//Lâu đài
 				DIR dir = Collision::getInstance()->isCollision(this, obj);
 				if (dir != DIR::NONE){
-					_game->ChangeState(GS_NEXT_STAGE);
+					ChangeState(M_WATING_NEXT_STATE);
 				}
 				break;
+			}
+		}
+		break;
+	case M_WATING_NEXT_STATE:
+		if (_watingNextState > 30)
+		{
+			_game->ChangeState(GS_NEXT_STAGE);
+			_watingNextState = 0;
+			_game->_audio->StopSound(_game->_sound_Win);
+		}
+		else
+		{
+			_watingNextState += TPF;
+			if (_game->_timeGame > 0)
+			{
+				_game->_score += 50;
+				_game->_timeGame--;
+				_game->_audio->PlaySound(_game->_sound_Win);
+			}
+			else
+			{
+				_game->_timeGame = 0;
 			}
 		}
 		break;
@@ -773,8 +802,10 @@ void Mario::CollisionEnemy()
 		waitProtect = 0;
 		waitRender = 0;
 		isShotable = false;
+		SetBox();
 	}
 	else ChangeState(M_DIEING);
+
 }
 void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 {
@@ -823,11 +854,11 @@ void Mario::ChangeState(char state)
 		break;
 	case M_DIEING:
 		_m_Velocity.x = 0;
+		_isVisiableKeyboard = false; //vo hieu ban phim khi sap chet
 		_m_Velocity.y = -2;
 		_game->_audio->StopSound(_game->_sound_Background);
 		_game->_audio->PlaySound(_game->_sound_Die);
 		died = true;
-		_isVisiableKeyboard = false; //vo hieu ban phim khi sap chet
 		ChangeState(M_DIED);
 		
 		break;

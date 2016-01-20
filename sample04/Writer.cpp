@@ -152,17 +152,17 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			game->_camera->mario = obj;
 			_isStatic = false;
 			break;
-		case 59:
-			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+		case 2:
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
 			_isStatic = true;
 			break;
-		case 53:
-			obj = new Koopa(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_KOOPA]);
-			_isStatic = false;
+		case 5:
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+			_isStatic = true;
 			break;
-		case 55:
-			obj = new Goomba(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GOOMBA]);
-			_isStatic = false;
+		case 11: case 12: case 13:
+			obj = new Grass(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GRASS], 0);
+			_isStatic = true;
 			break;
 		case 14: case 15: case 16:
 			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
@@ -173,7 +173,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = true;
 			break;
 		case 18:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], isBright, 0);
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 0, isBright);
 			_isStatic = true;
 			break;
 		case 19:
@@ -192,10 +192,6 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new FloorBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1);
 			_isStatic = true;
 			break;
-		case 39:
-			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 6);
-			_isStatic = true;
-			break;
 		case 23:
 			obj = new Castle(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_CASTLE], 0);
 			_isStatic = true;
@@ -204,16 +200,16 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Cloud(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_CLOUD], 0);
 			_isStatic = true;
 			break;
-		case 11: case 12: case 13:
-			obj = new Grass(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GRASS], 0);
-			_isStatic = true;
-			break;
-		case 29: case 28:
+		case 28: case 29:
 			obj = new Mountain(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_MOUNTAIN], 0);
 			_isStatic = true;
 			break;
-		case 58:
-			obj = new Flag(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_FLAG], 0);
+		case 30: case 31: case 35:
+			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
+			_isStatic = true;
+			break;
+		case 39:
+			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 6);
 			_isStatic = true;
 			break;
 		case 50:
@@ -228,6 +224,23 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
 			break;
+		case 53:
+			obj = new Koopa(PIXEL * (t[i].srcX), PIXEL* (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_KOOPA]);
+			_isStatic = false;
+			break;
+		case 55:
+			obj = new Goomba(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GOOMBA]);
+			_isStatic = false;
+			break;
+		case 58:
+			obj = new Flag(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_FLAG], 0);
+			_isStatic = true;
+			break;
+		case 59:
+			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
+			_isStatic = true;
+			break;
+
 		}
 		// them doi tuong tinh vao quadtree.
 		if (obj != NULL)

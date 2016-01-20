@@ -35,13 +35,13 @@ public:
 	int _live;
 	CSprite * brick;
 
-	DWORD last_time;		// this is to control the animate rate of kitty
 	int _state;
 	int _curState;
 	int _score;
 	float wait1Sec;
 	int _timeGame;
 
+	float _watingNextState;
 	int _coin;
 	int _life;
 	float reX;

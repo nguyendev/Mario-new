@@ -57,6 +57,7 @@ private:
 	int _selectRowBig;
 	D3DXVECTOR2		_m_PostionOld;
 	LPD3DXFONT	_font;
+	float _watingNextState;
 public:
 	
 	bool _isVisiableKeyboard;
@@ -80,6 +81,7 @@ public:
 	void Stand(float Time);
 	void sExplosion(float Time);
 	void EatCoin(float _x, float _y);
+	void SetBox();
 	~Mario();
 
 

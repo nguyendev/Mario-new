@@ -56,7 +56,7 @@ void Goomba::Render()
 	case ES_IDLE:				// trạng thái chờ duoc kich hoat
 		break;
 	case ES_ACTIVING:				// đang đi 
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY,GOOMBA_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
 		_sprite->setIndex(2);

@@ -35,7 +35,7 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	reY = 0;
 	distanceMove = 0;
 	isDrawEat = false;
-
+	_watingNextState = 0;
 }
 
 void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
@@ -120,7 +120,6 @@ void CGameMario::UpdateWorld(float TPF)
 
 			ChangeMap(_Map);
 		}
-		
 		break;
 	case GS_NEXT_STAGE:				//Khi đổi màn
 		ChangeMap(_Map + 1);
@@ -150,14 +149,17 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		d3ddv->StretchRect(_title, NULL, _BackBuffer, NULL, D3DTEXF_NONE);
 		break;
 	case GS_PLAYING:
-		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
+		if (_Map == 1)
+			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(107, 140, 255), 1.0, 0);
+		else
+			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
 		DrawEat();
 		test();
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
 			obj = *i;
-			if (obj->getPosition().x>_camera->_cameraX - 30 && obj->getPosition().x<_camera->_cameraX + 350)
+			if (obj->getPosition().x>_camera->_cameraX - 800 && obj->getPosition().x<_camera->_cameraX + 800)
 				obj->Render();
 		}
 		for (i = dynamicObjs.begin(); i != dynamicObjs.end(); i++)
@@ -187,12 +189,12 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 	case GS_GAMEOVER:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
-		DrawTxt(L"GAME OVER", 355, 250, _font);
+		DrawTxt(L"GAME OVER", 330, 250, _font);
 		break;
 	case GS_WIN:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
-		DrawTxt(L"YOU WIN", 355, 250, _font);
+		DrawTxt(L"YOU WIN", 330, 250, _font);
 		break;
 	}
 	_SpriteHandler->End();
@@ -304,7 +306,7 @@ void CGameMario::LoadSprite()
 }
 void CGameMario::ChangeMap(int Map)
 {
-	_timeGame = 300;
+	_timeGame = 400;
 	_Map = Map;
 	switch (_Map)
 	{
@@ -361,7 +363,7 @@ void CGameMario::DrawScore()
 	DrawTxt(L"$", 280, 20, _font);
 
 	// draw life
-	if (_life)
+	if (_life > 0)
 		text = to_string(_life);
 	else
 		text = '0';

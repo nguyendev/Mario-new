@@ -39,6 +39,7 @@ static DIR AABB(Box box1, Box box2)
 	if (t <= 0 && box1.y + box1.height > box2.y + box2.height) return DIR::TOP;
 	if (l <= 0 && box1.x < box2.x) return DIR::LEFT;
 	if (r <= 0 && box1.x + box1.width > box2.x + box2.width) return DIR::RIGHT;
+	
 }
 
 // thuat toan xet va cham

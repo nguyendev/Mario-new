@@ -54,16 +54,8 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Heig
 }
 void CSprite::Render(float X, float Y,int vpx,int vpy, int zoomX, int zoomY, RECT rSrc, float deep)
 {
-	float xscale = -1;
-	float yscale = 0;
-	float x = 0;
-	if (xscale < 0)
-		x += 16 * xscale;
-	float y = 0;
-	if (yscale < 0)
-		y += 16 * yscale;
 
-	D3DXVECTOR3 position((float)X - x, (float)Y -y, 0);
+	D3DXVECTOR3 position((float)X, (float)Y, 0);
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
 	mt._22 = 1.0f;
@@ -87,8 +79,17 @@ void CSprite::Render(float X, float Y,int vpx,int vpy, int zoomX, int zoomY, REC
 		D3DCOLOR_XRGB(255, 255, 255)
 		);
 }
-void CSprite::Render(float X, float Y, int vpx, int vpy, float deep, bool Rotation)
+void CSprite::Render(float X, float Y, int vpx, int vpy, bool isLeft, bool isDown,float deep)
 {
+	if (isDown)
+	{
+		Y = Y - 287;
+		X = X + 8;
+	}
+	if (isLeft)
+	{
+		Y = Y + 51;
+	}
 	RECT srect;
 	// remove +1 in each index l,t,r,b
 	srect.left = (_Index % _SpritePerRow)*(_Width);
@@ -97,24 +98,44 @@ void CSprite::Render(float X, float Y, int vpx, int vpy, float deep, bool Rotati
 	srect.bottom = srect.top + _Height;
 
 	D3DXVECTOR3 position((float)X, (float)Y, 0);
-
 	//
 	// WORLD TO VIEWPORT TRANSFORM USING MATRIX
 	//
+	float viewportx;
+	float viewporty;
+	if (isLeft) viewportx = X * 2 + _Width - vpx;
+	else viewportx = vpx;
+	if (isDown) viewporty = Y * 2 + _Height - vpy;
+	else
+	if (isLeft) viewportx = X * 2 + _Width - vpx;
+	else viewportx = viewportx;
+	if (isDown) viewporty = Y * 2 + _Height - vpy;
+	else
+		viewporty = vpy;
 
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
 	mt._22 = 1.0f;
-	mt._41 = -vpx;
-	mt._42 = vpy;
+	mt._41 = -viewportx;
+	mt._42 = viewporty;
 	D3DXVECTOR4 vp_pos;
 	D3DXVec3Transform(&vp_pos, &position, &mt);
 
 	D3DXVECTOR3 p(vp_pos.x, vp_pos.y, deep);
 	D3DXVECTOR3 center((float)_Width / 2, (float)_Height / 2, 0);
-
 	D3DXMATRIX mt1;
-	D3DXMatrixScaling(&mt1, ZOOM, ZOOM, 1);
+	int scalex;
+	int scaley;
+	if (isLeft)
+		scalex = -ZOOM;
+	else
+		scalex = ZOOM;
+	if (isDown)
+		scaley = -ZOOM;
+	else
+		scaley = ZOOM;
+
+	D3DXMatrixScaling(&mt1, scalex, scaley, 1);
 	_SpriteHandler->SetTransform(&mt1);
 
 	_SpriteHandler->Draw(
@@ -158,33 +179,21 @@ void CSprite::Render(float X, float Y, int vpx, int vpy, float deep)
 	//
 	// WORLD TO VIEWPORT TRANSFORM USING MATRIX
 	//
-	bool IsLeft = false;
-	bool IsDown = false;
-	float viewportx;
-	float viewporty;
-	if (IsLeft) viewportx = X * 2 + _Width - vpx;
-	else viewportx = vpx;
-	if (IsDown) viewporty = Y * 2 + _Height - vpy;
-	else
-	if (IsLeft) viewportx = X * 2 + _Width - vpx;
-	else viewportx = viewportx;
-	if (IsDown) viewporty = Y * 2 + _Height - vpy;
-	else
-		viewporty = vpy;
-
+	
 
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
 	mt._22 = 1.0f;
-	mt._41 = -viewportx;
-	mt._42 = viewporty;
+	mt._41 = -vpx;
+	mt._42 = vpy;
 	D3DXVECTOR4 vp_pos;
 	D3DXVec3Transform(&vp_pos,&position,&mt);
 	
 	D3DXVECTOR3 p(vp_pos.x,vp_pos.y,deep);
 	D3DXVECTOR3 center((float)_Width/2,(float)_Height/2,0);
-	
 	D3DXMATRIX mt1;
+	
+	
 	D3DXMatrixScaling(&mt1, ZOOM, ZOOM, 1);
 	_SpriteHandler->SetTransform(&mt1);
 

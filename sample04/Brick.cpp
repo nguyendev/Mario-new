@@ -89,28 +89,27 @@ void Brick::Render()
 {
 	if (this->_ID == 5)
 		return;
-	{
 		// nếu không phải breaking hoặc breaked thì vẽ
-		if (_state != TS_BREAKING&&_state != TS_BREAKED)
-		{
-			_sprite->setIndex(_SpriteIndex);
-			_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-		}
-		// nếu là breaking
-		else if (_state == TS_BREAKING)
-		{
-			// set index là mảnh gạch
-			_sprite->setIndex(12);
-			// mảnh 1
-			_sprite->Render(SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-			// mảnh 2
-			_sprite->Render(SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-			// mảnh 3 đối xứng với mảnh 2 qua tâm
-			_sprite->Render(2 * CenterX - SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-			// mảnh 4 đối xứng với mảnh 2 qua tâm
-			_sprite->Render(2 * CenterX - SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-		}
+	if (_state != TS_BREAKING&&_state != TS_BREAKED)
+	{
+		_sprite->setIndex(_SpriteIndex);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 	}
+		// nếu là breaking
+	else if (_state == TS_BREAKING)
+	{
+		// set index là mảnh gạch
+		_sprite->setIndex(12);
+		// mảnh 1
+		_sprite->Render(SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+		// mảnh 2
+		_sprite->Render(SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+		// mảnh 3 đối xứng với mảnh 2 qua tâm
+		_sprite->Render(2 * CenterX - SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+		// mảnh 4 đối xứng với mảnh 2 qua tâm
+		_sprite->Render(2 * CenterX - SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	}
+
 }
 void Brick::SetState(char* Name, int val)
 {

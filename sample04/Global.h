@@ -181,19 +181,11 @@ enum TERRAIN_STATE
 };
 enum MARIO_STATE
 {
-	start,
-	reborn,
-	stand,
-	Move,
-	alive,
-	jumping,
-	beforedead,
-	beforedead2,
-	dead,
 	M_NORMAL,
 	M_SIT,
 	M_PULL_FLAG,
 	M_AUTO_TO_CASTLE,				//Khi kéo xong cờ.
+	M_WATING_NEXT_STATE,
 	M_DIEING,
 	M_DIED,
 	M_AUTO_RIGHT_PIPE,				//Khi chui vào ống ngang
