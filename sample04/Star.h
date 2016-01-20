@@ -2,10 +2,10 @@
 #include "BaseObject.h"
 #include "Camera.h"
 #include "Collision.h"
-#define X_VELOCITY 1.5
-#define Y_VELOCITY 2.5
+#define X_VELOCITY 0.5
+#define Y_VELOCITY 1
 #define RISE_TIME  0.08
-#define TIME_JUMPING 0.2	// thời gian 1 lần nảy của sao
+#define TIME_JUMPING 0.5	// thời gian 1 lần nảy của sao
 
 class Star :public BaseObject
 {

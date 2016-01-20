@@ -69,6 +69,7 @@ void CGameMario::UpdateWorld(float TPF)
 	case GS_MENU:
 		_life = 3;
 		_coin = 0;
+		_audio->PlaySoundA(_sound_Start);
 		break;
 	case GS_PLAYING:
 		_audio->PlaySoundA(_sound_Background);
@@ -128,6 +129,7 @@ void CGameMario::UpdateWorld(float TPF)
 		_audio->PlaySound(_sound_GameOver);
 		break;
 	case GS_WIN:
+		_audio->PlaySoundA(_sound_Win);
 		break;
 	}
 }
@@ -226,7 +228,10 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 				ChangeState(GS_REPLAY);
 			}
 			else
+			{
 				ChangeState(GS_WIN);
+			}
+				
 		}
 		break;
 
@@ -266,6 +271,8 @@ void CGameMario::LoadAudio()
 	_sound_Vine = _audio->LoadSound("Sounds\\Vine.wav");
 	_sound_Warp = _audio->LoadSound("Sounds\\Warp.wav");
 	_sound_Background = _audio->LoadSound("Sounds\\Background.wav");
+	_sound_Start = _audio->LoadSound("Sounds\\StartGame.wav");
+	_sound_Win = _audio->LoadSound("Sounds\\WinStage.wav");
 }
 void CGameMario::LoadSprite()
 {
@@ -279,7 +286,7 @@ void CGameMario::LoadSprite()
 	//Static Object
 	_sprites[S_FLAG] = new CSprite(_SpriteHandler, FLAG_IMAGE, 16, 16, 4, 2, TIMEPERIMAGE);
 	_sprites[S_BRICK] = new CSprite(_SpriteHandler, BRICK_IMAGE, 16, 16, 16, 4, TIMEPERIMAGE);
-	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 8, 4, TIMEPERIMAGE);
+	_sprites[S_PIPE] = new CSprite(_SpriteHandler, PIPE_IMAGE, 16, 17, 20, 5, TIMEPERIMAGE);
 	_sprites[S_CASTLE] = new CSprite(_SpriteHandler, CASTLE_IMAGE, 40, 40, 4, 2, TIMEPERIMAGE);
 	_sprites[S_CLOUD] = new CSprite(_SpriteHandler, CLOUD_IMAGE, 8, 24, 4, 4, TIMEPERIMAGE);
 	_sprites[S_GRASS] = new CSprite(_SpriteHandler, GRASS_IMAGE, 8, 16, 8, 4, TIMEPERIMAGE);

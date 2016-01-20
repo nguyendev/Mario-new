@@ -6,6 +6,7 @@
 #include "Audio.h"
 #include "sprite.h"
 #include "Bullet.h"
+#include "Star.h"
 #include "MushRoom.h"
 #include "GreenMushroom.h"
 #include "BrickMushroom.h"
@@ -51,6 +52,9 @@ private:
 	bool isRender;
 	float yTemp;
 	float waitInFlag;
+	bool isHasStar;
+	float waitLostStar;
+	int _selectRowBig;
 	D3DXVECTOR2		_m_PostionOld;
 	LPD3DXFONT	_font;
 public:

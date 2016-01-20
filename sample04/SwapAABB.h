@@ -39,44 +39,7 @@ static DIR AABB(Box box1, Box box2)
 	if (t <= 0 && box1.y + box1.height > box2.y + box2.height) return DIR::TOP;
 	if (l <= 0 && box1.x < box2.x) return DIR::LEFT;
 	if (r <= 0 && box1.x + box1.width > box2.x + box2.width) return DIR::RIGHT;
-	//RECT *_rect1 = Rectangle( , *_rect2, *_rect;
-	//_rect1->left = box1.x;
-	//_rect1->right = box1.x + box1.width;
-	//_rect1->top = box1.y;
-	//_rect1->bottom = box1.y + box1.height;
-	//
-	//_rect2->left = box2.x;
-	//_rect2->right = box2.x + box2.width;
-	//_rect2->top = box2.y;
-	//_rect2->bottom = box2.y + box2.height;
-	////	// co va cham khong can biet va cham ben nao
-	//if (IntersectRect(_rect, _rect1, _rect2))
-	//{
-	//	float top = abs(_rect1->top - _rect2->bottom);
-	//	float botom = abs(_rect1->bottom - _rect2->top);
-	//	float left = abs(_rect1->left - _rect2->right);
-	//	float right = abs(_rect1->right - _rect2->left);
-	//	float rs = min(min(right, left), min(top, botom));
-	//	if (rs == top)
-	//	{
-	//		return DIR::TOP;
-	//	}
-	//	if (rs == botom)
-	//	{
-	//		return DIR::BOTTOM;
-	//	}
-	//	if (rs == left)
-	//	{
-	//		return DIR::LEFT;
-	//	}
-	//	if (rs == right)
-	//	{
-	//		return DIR::RIGHT;
-	//	}
-	}
-	
-	
-//}
+}
 
 // thuat toan xet va cham
 static float SweptAABB(Box b1, Box b2, float& normalx, float& normaly)

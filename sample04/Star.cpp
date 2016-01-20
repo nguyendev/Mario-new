@@ -47,7 +47,11 @@ void Star::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dy
 		break;
 	case TS_ACTIVING:			// đang hoạt động
 		// đang còn thời gian đi lên
-		
+		// tạo sự nhấp nháy
+		_currentSprite++;
+		if (_currentSprite<8 || _currentSprite>11)
+			_currentSprite = 8;
+
 		if (timeJumping > 0)
 		{
 			_m_Velocity.y = -Y_VELOCITY;
@@ -76,18 +80,19 @@ void Star::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynam
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
 		obj = *i;
-		DIR dir = Collision::getInstance()->isCollision(this, obj);
-		float timeCollision = Collision::getInstance()->getTimeCollision();
-		// trọng lực khi rơi
-		if (dir == DIR::NONE)
+		if (obj->_ID >= 14 && obj->_ID <= 22) //collision with Brick and pipes
 		{
-			_m_Velocity.y = Y_VELOCITY;
-		}
-		if (dir != DIR::NONE)
-		{
-			//D3DXVECTOR2 position = this->getPosition();
-			if (obj->_ID >= 14 && obj->_ID <= 22) //collision with Brick and pipes
+			DIR dir = Collision::getInstance()->isCollision(this, obj);
+			float timeCollision = Collision::getInstance()->getTimeCollision();
+			// trọng lực khi rơi
+			if (dir == DIR::NONE)
 			{
+				_m_Velocity.y = Y_VELOCITY;
+			}
+			if (dir != DIR::NONE)
+			{
+				//D3DXVECTOR2 position = this->getPosition();
+
 				switch (dir)
 				{
 				case LEFT: case RIGHT:
@@ -119,9 +124,6 @@ void Star::Render()
 		break;
 	case TS_ACTIVING:
 		// Nhấp nháy
-		_currentSprite++;
-		if (_currentSprite<9||_currentSprite > 11)
-			_currentSprite = 9;
 		_sprite->setIndex(_currentSprite);
 		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 	case TS_BREAKED:							// đã bị ăn 

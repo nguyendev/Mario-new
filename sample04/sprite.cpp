@@ -54,7 +54,16 @@ CSprite::CSprite(LPD3DXSPRITE SpriteHandler, char* FilePath, int Width, int Heig
 }
 void CSprite::Render(float X, float Y,int vpx,int vpy, int zoomX, int zoomY, RECT rSrc, float deep)
 {
-	D3DXVECTOR3 position((float)X, (float)Y, 0);
+	float xscale = -1;
+	float yscale = 0;
+	float x = 0;
+	if (xscale < 0)
+		x += 16 * xscale;
+	float y = 0;
+	if (yscale < 0)
+		y += 16 * yscale;
+
+	D3DXVECTOR3 position((float)X - x, (float)Y -y, 0);
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
 	mt._22 = 1.0f;
@@ -145,17 +154,30 @@ void CSprite::Render(float X, float Y, int vpx, int vpy, float deep)
 	srect.right = srect.left + _Width;
 	srect.bottom = srect.top + _Height;
 
-	D3DXVECTOR3 position((float)X,(float)Y,0);
-
+	D3DXVECTOR3 position((float)X, (float)Y, 0);
 	//
 	// WORLD TO VIEWPORT TRANSFORM USING MATRIX
 	//
+	bool IsLeft = false;
+	bool IsDown = false;
+	float viewportx;
+	float viewporty;
+	if (IsLeft) viewportx = X * 2 + _Width - vpx;
+	else viewportx = vpx;
+	if (IsDown) viewporty = Y * 2 + _Height - vpy;
+	else
+	if (IsLeft) viewportx = X * 2 + _Width - vpx;
+	else viewportx = viewportx;
+	if (IsDown) viewporty = Y * 2 + _Height - vpy;
+	else
+		viewporty = vpy;
+
 
 	D3DXMATRIX mt;
 	D3DXMatrixIdentity(&mt);
 	mt._22 = 1.0f;
-	mt._41 = -vpx;
-	mt._42 = vpy;
+	mt._41 = -viewportx;
+	mt._42 = viewporty;
 	D3DXVECTOR4 vp_pos;
 	D3DXVec3Transform(&vp_pos,&position,&mt);
 	

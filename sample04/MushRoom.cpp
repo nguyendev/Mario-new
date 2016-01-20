@@ -69,10 +69,12 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
 		obj = *i;
-		if (obj->_ID >= 14 && obj->_ID <= 22)
+		
+		
+		if (obj->_ID >= 14 && obj->_ID <= 21 && obj->_ID != 19|| obj->_ID == 59 || obj->_ID == 29)
 		{
 			DIR dir = Collision::getInstance()->isCollision(this, obj);
-			float timeCollision = Collision::getInstance()->getTimeCollision();
+			//_m_Velocity = Collision::getInstance()->getVelocity();
 			// đi xuống
 			if (dir == DIR::NONE)
 			{
@@ -84,14 +86,21 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 				switch (dir)
 				{
 				case LEFT: case RIGHT:
-					if (_ID == 33)							// nếu ko phải hoa
-						_m_Velocity.x *=-1;
+					if (_ID == 33)	{
+						// nếu ko phải hoa
+						obj->_ID;
+						this->setVelocity(this->getVelocity().x*-1, this->getVelocity().y);				
+					}
 					break;
 				case BOTTOM:
 					_m_Velocity.y = 0;
 					break;
 				}
 			}
+		}
+		if (obj->_ID == 22)
+		{
+			DIR dir = Collision::getInstance()->isCollision(this, obj);
 		}
 	}
 }
