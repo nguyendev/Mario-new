@@ -29,7 +29,7 @@
 #define FUNGI_IMAGE			"Image\\imgFungi.png"
 #define KOOPA_IMAGE			"Image\\imgKoopa.bmp"
 #define MONEY_IMAGE			"Image\\imgMoney.png"
-#define NUMBER_IMAGE		"Image\\imgNumber.bmp"
+#define NUMBER_IMAGE		"Image\\imgNumber.png"
 #define PIPE_IMAGE			"Image\\imgPipe.bmp"
 #define PIRHANA_IMAGE		"Image\\imgPirhana.png"
 #define SMARIO_IMAGE_RIGHT	"Image\\imgSmallMario_Right.png"
@@ -185,7 +185,7 @@ enum MARIO_STATE
 	M_SIT,
 	M_PULL_FLAG,
 	M_AUTO_TO_CASTLE,				//Khi kéo xong cờ.
-	M_WATING_NEXT_STATE,
+	M_WAITING_NEXT_STATE,
 	M_DIEING,
 	M_DIED,
 	M_AUTO_RIGHT_PIPE,				//Khi chui vào ống ngang

@@ -14,7 +14,7 @@ public:
 	int		_score;
 	LPD3DXFONT	_font;
 	Score();
-	Score(LPD3DXFONT font, float _x, float _y, int _score);
+	Score(CSprite* sprite, float _x, float _y,float camerax, float cameray, int _score);
 	void Update(float TPF);
 	void Render();
 	int	GetVar(char* varName);

@@ -51,7 +51,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	isHasStar = false;
 	_selectRowBig = 0;
 	waitLostStar = 0;
-	_watingNextState = 0;
+	_waitingNextState = 0;
 	SetBox();
 }
 Mario::~Mario()
@@ -309,200 +309,193 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	list<BaseObject*>::iterator i;
 	for (i = staticObj->begin(); i != staticObj->end(); i++)
 	{
+
 		obj = *i;
 		DIR dir = Collision::getInstance()->isCollision(this, obj);
 		if (dir != DIR::NONE)
 		{
-			if (obj->_ID >= 17 && obj->_ID <= 22 && obj->_ID !=19 || obj->_ID == 39) //collision with Brick and special brick
+			switch (obj->_ID)
 			{
-				_m_Velocity = Collision::getInstance()->getVelocity();
-				switch (dir)
-				{
-				case TOP:
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					if (obj->GetState("_state") == TS_IDLE)
-					{
-						if (isBig)
-							obj->SetState("_state", TS_BREAKING);
-						else
-     						obj->SetState("_state", TS_MOVEUP);
+				case 2:  // gach de mario chet
+					_game->_audio->LoopSound(_game->_sound_Die);
+					ChangeState(M_DIED);
+					break;
+				case 14:case 15:case 16: // collision with Pipe
+					if (dir == BOTTOM){
+						_m_Velocity.y = 0;
+						isJumping = false;
+						timeJumped = 0;
 					}
+					_game->_audio->PlaySound(_game->_sound_Warp);
 					break;
-				case BOTTOM:	
-					_m_Velocity.y = 0;
-					isJumping = false;
-					timeJumped = 0;
-					break;
-				}
-			}
-			if (obj->_ID == 19) // collistion with coin
-			{
-				_m_Velocity = Collision::getInstance()->getVelocity();
-				switch (dir)
-				{
-				case TOP:
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					if (obj->GetState("_state") == TS_IDLE)
-					{
-						obj->SetState("_state", TS_MOVEUP);
-						_game->AddScore(100, obj->getPosition().x, obj->getPosition().y - 3);
-						_game->_coin++;
-						_game->_audio->PlaySound(_game->_sound_Coin);
-					}
-					break;
-				case BOTTOM:
-					_m_Velocity.y = 0;
-					isJumping = false;
-					timeJumped = 0;
-					break;
-				}
-					
-			}
-			if (obj->_ID >= 14 && obj->_ID <= 16)// collision with Pipe
-			{
-				if (dir == BOTTOM){
-					_m_Velocity.y = 0;
-					isJumping = false;
-					timeJumped = 0;
-				}
-				_game->_audio->PlaySound(_game->_sound_Warp);
-			}
-			if (obj->_ID == 51){
-				switch (dir)
-				{
-				case TOP:
+				case 17: case 18: case 20: case 21: case 22: //collision with Brick and special brick
 					_m_Velocity = Collision::getInstance()->getVelocity();
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					if (obj->GetState("_state") == TS_IDLE)
+					switch (dir)
 					{
-						obj->SetState("_state", TS_MOVEUP);
-					}
-					_m_Position = _m_PostionOld;
-					break;
-				case BOTTOM:
-					_m_Velocity.y = 0;
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					isJumping = false;
-					timeJumped = 0;
-					_m_Position = _m_PostionOld;
-					break;
-				}
-			}
-			if (obj->_ID == 2)
-			{
-				_game->_audio->LoopSound(_game->_sound_Die);
-				ChangeState(M_DIED);
-			}
-			if (obj->_ID == 36)				// collision with green mushroom
-			{
-				if (obj->GetState("_state") == TS_IDLE)			// nếu đang chờ thì đi lên
-				{
-					obj->SetState("_state", TS_MOVEUP);
-				}
-				if (obj->GetState("_state") == TS_MOVEUP)		// nếu đã đi lên rồi thì bị ăn
-				{
-					obj->SetState("_state", TS_BREAKED);
-					_m_Position.y += 8;
-					isBig = true;
-					_game->_audio->PlaySound(_game->_sound_Powerup);
-				}
-			}		
-			if (obj->_ID == 58)
-			{
-				if (obj->GetState("_state") == TS_IDLE)
-				{
-					obj->SetState("_state", TS_ACTIVING);
-					_m_Position.x = obj->getPosition().x;
-					yTemp = obj->getPosition().y + obj->_height * 9;
-					if (_m_Position.y == yTemp)
-						_game->AddScore(5000, obj->getPosition().x, obj->getPosition().y - 3);
-					else
-						_game->AddScore(400, obj->getPosition().x, obj->getPosition().y - 3);
-					ChangeState(M_PULL_FLAG);
-				}					
-			}
-			if (obj->_ID == 59) //collision with Brick mushroom
-			{
-				switch (dir)
-				{
-				case BOTTOM:
-					_m_Velocity.y = 0;
-					isJumping = false;
-					timeJumped = 0;
-					break;
-				case TOP:
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					if (obj->GetState("_state") == TS_IDLE)
-					{
-						// đụng gạch nấm thì cho cho nó sang moveup
-						
-						if (!isBig)
+					case TOP:
+						this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+						if (obj->GetState("_state") == TS_IDLE)
 						{
-							// tạo mushroom nấm đỏ: id = 33.
-							BaseObject* mushroom = new MushRoom(obj->getPosition().x, obj->getPosition().y, _cameraX, _cameraY, 33, _game->_sprites[S_FUNGI]);
-							// thêm vào quadtree.
-							_game->_quadTree->Add(mushroom, false);
-							mushroom->SetState("_state", TS_MOVEUP);
-							_game->AddScore(1000, obj->getPosition().x, obj->getPosition().y - 3);
-							// gạch 
-							
+							if (isBig)
+								obj->SetState("_state", TS_BREAKING);
+							else
+								obj->SetState("_state", TS_MOVEUP);
 						}
-						else
+						break;
+					case BOTTOM:
+						_m_Velocity.y = 0;
+						isJumping = false;
+						timeJumped = 0;
+						break;
+					}
+					break;
+				case 19:
+					_m_Velocity = Collision::getInstance()->getVelocity();
+					switch (dir)
+					{
+					case TOP:
+						this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+						if (obj->GetState("_state") == TS_IDLE)
 						{
-							// tạo hoa: id = 34.
-							BaseObject* mushroom = new MushRoom(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 34, _game->_sprites[S_FUNGI]);
-							// thêm vào quadtree.
-							_game->_quadTree->Add(mushroom, false);
-							mushroom->SetState("_state", TS_MOVEUP);
-							// gạch 
+							obj->SetState("_state", TS_MOVEUP);
+							_game->AddScore(100, obj->getPosition().x +obj->_widthRect*3, obj->getPosition().y - 3,_cameraX,_cameraY);
+							_game->_coin++;
+							_game->_audio->PlaySound(_game->_sound_Coin);
 						}
-						obj->SetState("_state", TS_MOVEUP);
+						break;
+					case BOTTOM:
+						_m_Velocity.y = 0;
+						isJumping = false;
+						timeJumped = 0;
+						break;
 					}
 					break;
-				}
-			}
-			if (obj->_ID == 50) //va chạm gạch tàng hình
-			{
-				switch (dir)
-				{
-				case TOP:
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+				case 36: // collision with green mushroom
+					if (obj->GetState("_state") == TS_IDLE)			// nếu đang chờ thì đi lên
+					{
+						obj->SetState("_state", TS_MOVEUP);
+					}
+					if (obj->GetState("_state") == TS_MOVEUP)		// nếu đã đi lên rồi thì bị ăn
+					{
+						obj->SetState("_state", TS_BREAKED);
+						_m_Position.y += 8;
+						isBig = true;
+						_game->_audio->PlaySound(_game->_sound_Powerup);
+					}
+					break;
+				case 50: //va cham voi gach tang hinh
+					switch (dir)
+					{
+						case TOP:
+							_m_Velocity = Collision::getInstance()->getVelocity();
+							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+							if (obj->GetState("_state") == TS_IDLE)
+							{
+								BaseObject* mushroom = new GreenMushRoom(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 36, _game->_sprites[S_FUNGI]);
+								// thêm vào quadtree.
+								_game->_quadTree->Add(mushroom, false);
+								mushroom->SetState("_state", TS_MOVEUP);
+								// gạch 
+								obj->SetState("_state", TS_MOVEUP);
+							}
+							break;
+						case BOTTOM:
+							break;
+					}
+					break;
+				case 51:
+					switch (dir)
+					{
+						case TOP:
+							_m_Velocity = Collision::getInstance()->getVelocity();
+							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+							if (obj->GetState("_state") == TS_IDLE)
+							{
+								obj->SetState("_state", TS_MOVEUP);
+							}
+							_m_Position = _m_PostionOld;
+							break;
+						case BOTTOM:
+							_m_Velocity.y = 0;
+							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+							isJumping = false;
+							timeJumped = 0;
+							_m_Position = _m_PostionOld;
+							break;
+					}
+					break;
+				case 52: //va cham voi gach sao
+					switch (dir)
+					{
+							case TOP:
+							_m_Velocity = Collision::getInstance()->getVelocity();
+							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+							if (obj->GetState("_state") == TS_IDLE)
+							{
+								BaseObject* mushroom = new Star(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 37, _game->_sprites[S_FUNGI]);
+								// thêm vào quadtree.
+								_game->_quadTree->Add(mushroom, false);
+								mushroom->SetState("_state", TS_MOVEUP);
+								// gạch 
+								obj->SetState("_state", TS_MOVEUP);
+							}
+							break;
+					}
+					break;
+				case 58:
 					if (obj->GetState("_state") == TS_IDLE)
 					{
-						BaseObject* mushroom = new GreenMushRoom(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 36, _game->_sprites[S_FUNGI]);
-						// thêm vào quadtree.
-						_game->_quadTree->Add(mushroom, false);
-						mushroom->SetState("_state", TS_MOVEUP);
-						// gạch 
-						obj->SetState("_state", TS_MOVEUP);
+						obj->SetState("_state", TS_ACTIVING);
+						_m_Position.x = obj->getPosition().x;
+						yTemp = obj->getPosition().y + obj->_height * 9;
+						if (_m_Position.y == yTemp)
+							_game->AddScore(5000, obj->getPosition().x + obj->_widthRect*3, obj->getPosition().y - 3,_cameraX,_cameraY);
+						else
+							_game->AddScore(400, obj->getPosition().x + obj->_widthRect*3, obj->getPosition().y - 3,_cameraX,_cameraY);
+						ChangeState(M_PULL_FLAG);
 					}
 					break;
-				case BOTTOM:
-					break;
-				}
-			}
-			if (obj->_ID == 52) //va chạm gạch sao
-			{
-				switch (dir)
-				{
-				case TOP:
-					_m_Velocity = Collision::getInstance()->getVelocity();
-					this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-					if (obj->GetState("_state") == TS_IDLE)
+				case 59: //collision with Brick mushroom
+					switch (dir)
 					{
-						BaseObject* mushroom = new Star(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 37, _game->_sprites[S_FUNGI]);
-						// thêm vào quadtree.
-						_game->_quadTree->Add(mushroom, false);
-						mushroom->SetState("_state", TS_MOVEUP);
-						// gạch 
-						obj->SetState("_state", TS_MOVEUP);
-					}
-					break;
+						case BOTTOM:
+							_m_Velocity.y = 0;
+							isJumping = false;
+							timeJumped = 0;
+							break;
+						case TOP:
+							_m_Velocity = Collision::getInstance()->getVelocity();
+							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+							if (obj->GetState("_state") == TS_IDLE)
+							{
+								// đụng gạch nấm thì cho cho nó sang moveup
+
+								if (!isBig)
+								{
+									// tạo mushroom nấm đỏ: id = 33.
+									BaseObject* mushroom = new MushRoom(obj->getPosition().x, obj->getPosition().y, _cameraX, _cameraY, 33, _game->_sprites[S_FUNGI]);
+									// thêm vào quadtree.
+									_game->_quadTree->Add(mushroom, false);
+									mushroom->SetState("_state", TS_MOVEUP);
+									_game->AddScore(1000, obj->getPosition().x + obj->_widthRect*3, obj->getPosition().y - 3,_cameraX,_cameraY);
+									// gạch 
+
+								}
+								else
+								{
+									// tạo hoa: id = 34.
+									BaseObject* mushroom = new MushRoom(obj->getPositionX(), obj->getPositionY(), _cameraX, _cameraY, 34, _game->_sprites[S_FUNGI]);
+									// thêm vào quadtree.
+									_game->_quadTree->Add(mushroom, false);
+									mushroom->SetState("_state", TS_MOVEUP);
+									// gạch 
+								}
+								obj->SetState("_state", TS_MOVEUP);
+							}
+							break;
+						}
+						break;
 				}
-			}
-			
 		}
 	}
 	//------------------------
@@ -539,7 +532,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						isBig = true;
 						_selectRowBig = 0;
 					}	
-					_game->AddScore(1000, obj->getPosition().x, obj->getPosition().y - 3);
+					_game->AddScore(1000, obj->getPosition().x + obj->_widthRect*3, obj->getPosition().y - 3,_cameraX,_cameraY);
 					_game->_audio->PlaySound(_game->_sound_Powerup);
 					SetBox();
 					break;
@@ -563,11 +556,10 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							if (dir == BOTTOM)									// bị dậm trên đầu
 							{
 								isProtectedHidden = true;
-								_game->AddScore(100, obj->getPosition().x, obj->getPosition().y - 3);
 								_m_Velocity.y = -MARIO_VY / 2;
 								obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
 								_game->_audio->PlaySound(_game->_sound_Squish);
-								_game->AddScore(100, obj->getPosition().x, obj->getPosition().y);
+								_game->AddScore(100, obj->getPosition().x + obj->_widthRect*3, obj->getPosition().y,_cameraX, _cameraY);
 							}
 							else
 							{
@@ -731,33 +723,40 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			case 5:				//Lâu đài
 				DIR dir = Collision::getInstance()->isCollision(this, obj);
 				if (dir != DIR::NONE){
-					ChangeState(M_WATING_NEXT_STATE);
+					ChangeState(M_WAITING_NEXT_STATE);
 				}
 				break;
 			}
 		}
 		break;
-	case M_WATING_NEXT_STATE:
-		if (_watingNextState > 30)
+	case M_WAITING_NEXT_STATE:
+		if (_waitingNextState > 30)
 		{
 			_game->ChangeState(GS_NEXT_STAGE);
-			_watingNextState = 0;
+			_waitingNextState = 0;
 			_game->_audio->StopSound(_game->_sound_Win);
 		}
 		else
 		{
-			_watingNextState += TPF;
+			_waitingNextState += TPF;
 			if (_game->_timeGame > 0)
 			{
 				_game->_score += 50;
 				_game->_timeGame--;
 				_game->_audio->PlaySound(_game->_sound_Win);
+				_game->_audio->StopSound(_game->_sound_Background);
 			}
 			else
-			{
 				_game->_timeGame = 0;
+			if (_game->_coin > 0)
+			{
+				_game->_score += 50;
+				_game->_coin--;
 			}
+			else
+				_game->_coin = 0;
 		}
+		isRender = false;
 		break;
 	case M_DIED:
 		Move(TPF);
@@ -869,5 +868,5 @@ void Mario::ChangeState(char state)
 void Mario::EatCoin(float _x, float _y)
 {
 	_game->_coin++;
-	_game->AddScore(200, _x, _y - 3);
+	_game->AddScore(200, _x, _y - 3, Camera::_cameraX, Camera::_cameraY);
 }

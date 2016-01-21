@@ -34,7 +34,6 @@ CGame(hInstance, Name, Mode, IsFullScreen, FrameRate)
 	reX = 0;
 	reY = 0;
 	distanceMove = 0;
-	isDrawEat = false;
 	_watingNextState = 0;
 }
 
@@ -63,7 +62,9 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 void CGameMario::UpdateWorld(float TPF)
 {
 	BaseObject* _obj;
+	Score* sco;
 	list<BaseObject*>::iterator i;
+	list<Score*>::iterator iScore;
 	switch (_state)
 	{
 	case GS_MENU:
@@ -108,6 +109,21 @@ void CGameMario::UpdateWorld(float TPF)
 			_obj = *i;
 			if (_obj->getPosition().x>_camera->_cameraX - WIDTH && _obj->getPosition().x<_camera->_cameraX + WIDTH/ZOOM + 100)
 				_obj->Update(TPF, &staticObjs, &dynamicObjs, _keyboard);
+		}
+		lScoreRemove.clear();
+		for (iScore = lScore.begin(); iScore != lScore.end(); iScore++)
+		{
+			sco = *iScore;
+			sco->Update(TPF);
+			if (sco->_isNeedDelete == true)
+			{
+				delete sco;
+				lScoreRemove.push_back(sco);
+			}
+		}
+		for (iScore = lScoreRemove.begin(); iScore != lScoreRemove.end(); iScore++)
+		{
+			lScore.remove((*iScore));
 		}
 		_quadTree->Update(dynamicObjs);
 		break;
@@ -154,7 +170,6 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 		else
 			d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
 		DrawScore();
-		DrawEat();
 		test();
 		for (i = staticObjs.begin(); i != staticObjs.end(); i++)
 		{
@@ -168,6 +183,8 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			if (obj->getPosition().x>_camera->_cameraX - 30 && obj->getPosition().x<_camera->_cameraX + 350)
 				obj->Render();
 		}
+		for (iScore = lScore.begin(); iScore != lScore.end(); iScore++)
+			(*iScore)->Render();
 		break;
 	case GS_REPLAY:case GS_NEXT_STAGE:
 		d3ddv->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0, 0);
@@ -301,7 +318,7 @@ void CGameMario::LoadSprite()
 	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, TIMEPERIMAGE);
 	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 12, 4, TIMEPERIMAGE);
 	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, TIMEPERIMAGE);
-	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 16, 16, 10, 10, TIMEPERIMAGE);
+	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 8, 8, 10, 10, TIMEPERIMAGE);
 	//Others
 }
 void CGameMario::ChangeMap(int Map)
@@ -412,28 +429,9 @@ CGameMario::~CGameMario()
 	if (_sprites[i] != NULL) delete _sprites[i];
 }
 
-void CGameMario::AddScore(int score, float _x, float _y)
+void CGameMario::AddScore(int score, float x, float y, float cameraX, float cameraY)
 {
 	_score += score;
-	isDrawEat = true;
-	reX = _x;
-	reY = _y;
-}
-void CGameMario::DrawEat()
-{
-	if (isDrawEat)
-	{
-		distanceMove -= 1;
-		string text = to_string(_score);
-		wstring ws;
-		StringToWString(ws, text);
-		reY--;
-		DrawTxt(ws, reX, reY,_font);
-		if (distanceMove < -100)
-		{
-			isDrawEat = false;
-			distanceMove = 0;
-		}
-			
-	}
+	Score* sco = new Score(_sprites[S_NUMBER], x, y, cameraX, cameraY, score);
+	lScore.push_back(sco);
 }

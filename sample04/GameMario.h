@@ -46,7 +46,6 @@ public:
 	int _life;
 	float reX;
 	float reY;
-	bool isDrawEat;
 protected:
 
 	void RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF);
@@ -63,7 +62,7 @@ public:
 	CSound	*_sound_Jump, *_sound_Kick, *_sound_Pause, *_sound_Powerup, *_sound_Skid, *_sound_Squish, *_sound_Thwomp, *_sound_Vine,*_sound_Start, *_sound_Win;
 	void LoadAudio();
 	void LoadSprite();
-	void AddScore(int _score, float _x, float _y);
+	void AddScore(int score, float x, float y, float cameraX, float cameraY);
 
 	//-------------------------
 	void ChangeMap(int Map);
@@ -76,7 +75,6 @@ public:
 	bool isLoad = false;
 	int _Map;
 	void ChangeState(char state);
-	void DrawEat();
 	wstring ws;
 	string text;
 	void test();

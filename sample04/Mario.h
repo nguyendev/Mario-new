@@ -57,7 +57,7 @@ private:
 	int _selectRowBig;
 	D3DXVECTOR2		_m_PostionOld;
 	LPD3DXFONT	_font;
-	float _watingNextState;
+	float _waitingNextState;
 public:
 	
 	bool _isVisiableKeyboard;

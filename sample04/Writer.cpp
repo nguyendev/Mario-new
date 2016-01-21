@@ -37,7 +37,7 @@ void DrawTxt(wstring text, int x, int y, LPD3DXFONT font)
 }
 void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy)
 {
-	DrawNumber(sprite, number, x,y, vpx, vpy, 1, 1);
+	DrawNumber(sprite, number, x,y, vpx, vpy,	ZOOM, ZOOM);
 }
 LPDIRECT3DSURFACE9 CreateSurface(char* filePath, LPDIRECT3DDEVICE9 d3ddv)
 {
@@ -61,7 +61,7 @@ void DrawNumber(CSprite* sprite, int number, int x, int y, int vpx, int vpy, cha
 		rSrc.right = numWidth*(temp + 1);
 		rSrc.top = 0;
 		rSrc.bottom = sprite->_Height;
-		sprite->Render(x,y, vpx, vpy, zoomX, zoomY, rSrc, 1);
+		sprite->Render(x, y, vpx, vpy, zoomX, zoomY, rSrc, 0.1);
 		x -= numWidth;
 	} while (number>0);
 }
@@ -153,6 +153,14 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = false;
 			break;
 		case 2:
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+			_isStatic = true;
+			break;
+		case 3: //chui cong
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+			_isStatic = true;
+			break;
+		case 4: // ra cong
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
 			_isStatic = true;
 			break;
