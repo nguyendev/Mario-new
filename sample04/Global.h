@@ -165,7 +165,8 @@ enum ENEMY_STATE
 	ES_MOVE_SHELL_LEFT,		// Khi Koopa di chuyển về bên trái trong mai rùa.
 	ES_MOVE_SHELL_RIGHT,	// koopa di chuyển về bên phải
 	ES_FALL,				// Khi Goomba hoặc Koopa bị rơi (chuẩn bị chết)
-	ES_DIED					// khi toi.
+	ES_DIED,					// khi toi.
+	ES_SHOOTED
 };
 enum class StatusObject
 {

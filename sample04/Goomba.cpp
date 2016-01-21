@@ -18,7 +18,7 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_heightRect = _height;
 	_state = ES_ACTIVING;		// khoi tao trang thai cho`. -  DANG TEST
 	_currentSprite = 0;
-	_waitingTimeToDie = 0.5;
+	_waitingTimeToDie = WAITING_TIME_TO_DIE;
 }
 void Goomba::Move()
 {
@@ -26,20 +26,40 @@ void Goomba::Move()
 	_m_Position.y += _m_Velocity.y;
 }
 
-void Goomba::Update(float Time, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
+void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
 	switch (_state)
 	{
 	case ES_IDLE:				// trạng thái chờ 
 		break;
 	case ES_ACTIVING:			// duoc kich hoat
-		_m_Velocity.y = Y_VELOCITY;
+		_timeToFlicker -= TPF;
+		if (_timeToFlicker<0)
+		{
+			_currentSprite++;
+			if (_currentSprite >1)
+				_currentSprite = 0;
+			_timeToFlicker = TIME_FLICKER;	// reset thời gian nhấp nháy
+		}
 		Move();
 		CheckCollision(staticObj, dynamicObj);
-		_sprite->Next(0, 1, Time);
 		break;
 	case ES_CRASHED:						// đã bị dam
-		_waitingTimeToDie -= Time;
+		_waitingTimeToDie -= TPF;
+		if (_waitingTimeToDie <= 0)
+			SetState("_state", ES_DIED);
+		break;
+	case ES_SHOOTED:						// bị bắn hoặc bị đập bởi mai rùa
+		_waitingTimeToDie -= TPF;
+		_m_Velocity.x = X_VELOCITY / 2;
+		Move();
+		// 1 phần 3 thời gian bay lên
+		if (_waitingTimeToDie>2*WAITING_TIME_TO_DIE/3)
+			_m_Velocity.y = -Y_VELOCITY;
+		else if (_waitingTimeToDie> 0 &&_waitingTimeToDie<2*WAITING_TIME_TO_DIE/3)
+		{
+			_m_Velocity.y = Y_VELOCITY;
+		}
 		if (_waitingTimeToDie <= 0)
 			SetState("_state", ES_DIED);
 		break;
@@ -56,11 +76,16 @@ void Goomba::Render()
 	case ES_IDLE:				// trạng thái chờ duoc kich hoat
 		break;
 	case ES_ACTIVING:				// đang đi 
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY,GOOMBA_DEEP);
+		_sprite->setIndex(_currentSprite);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
 		_sprite->setIndex(2);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		break;
+	case ES_SHOOTED:
+		_sprite->setIndex(1);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
 		break;
 	case ES_DIED:
 		// delete from quadtree.
@@ -79,6 +104,11 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 			{
 				DIR dir = Collision::getInstance()->isCollision(this, obj);
 				_m_Velocity = Collision::getInstance()->getVelocity();
+				// không va chạm với gạch nào
+				if (dir == DIR::NONE)
+				{
+					_m_Velocity.y = Y_VELOCITY;
+				}
 				if (dir != DIR::NONE)
 				{
 					switch (dir)
@@ -86,7 +116,10 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 					case LEFT:	case RIGHT:
 						this->setVelocity(this->getVelocity().x*(-1), this->getVelocity().y);
 						break;
-					case BOTTOM: case TOP:
+					case BOTTOM: 
+						// gặp gạch đang bị đẩy lên thì chuuyển sang trạng thái bị bắn
+						if (obj->getVelocity().y < 0)
+							this->SetState("_state", ES_SHOOTED);
 						_m_Velocity.y = 0;
 						break;
 					}

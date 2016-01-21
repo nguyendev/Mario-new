@@ -5,6 +5,8 @@
 #include "MushRoom.h"
 #include <list>
 #define TIME_FLICKER 0.3		// thời gian nhấp nháy
+#define Y_VELOCITY_UP 1			// vận tốc đi lên của gạch
+#define MAX_MOVEUP_TIME 0.15	// thời gian đi lên của gạch
 
 using namespace std;
 

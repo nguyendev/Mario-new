@@ -17,7 +17,7 @@ BrickMushroom::BrickMushroom(float x, float y, float _cameraX, float _cameraY, i
 	_widthRect = _width;
 	_heightRect = _height;
 	_state = TS_IDLE;
-	_moveupTime = 0.1;
+	_moveupTime = MAX_MOVEUP_TIME;
 	isFalling = false;
 	_currentSprite = 0;
 	_timeToFlicker = TIME_FLICKER;
@@ -38,20 +38,22 @@ void BrickMushroom::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 		}
 		// reset
 		_m_Position.y = Recent_Y;		// vị trí
-		_moveupTime = 0.1;				// reset moveup time
+		_moveupTime = MAX_MOVEUP_TIME;				// reset moveup time
 		isFalling = false;				// trạng thái falling
 		break;
 	case TS_MOVEUP:
 		if (_moveupTime > 0 && !isFalling){
 			_moveupTime -= TPF;
-			_m_Position.y -= 1;
+			_m_Velocity.y = -Y_VELOCITY_UP;
+			_m_Position.y += _m_Velocity.y;
 		}
 		if (_moveupTime <= 0){
 			isFalling = true;
 		}
 		// nếu đang rơi thì moveupTime
 		if (isFalling){
-			_m_Position.y += 1;
+			_m_Velocity.y = Y_VELOCITY_UP;
+			_m_Position.y += _m_Velocity.y;
 			if (_m_Position.y > Recent_Y)			// nếu vị trí gạch lớn hơn vị trí ban đầu thì reset lại 
 			{
 				_m_Position.y = Recent_Y;			// vị trí cũ

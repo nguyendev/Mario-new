@@ -143,17 +143,15 @@ void CGame::Init()
 // Main game message loop
 void CGame::Run()
 {
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
 	trace(L">>> Main game loop has been started");
 	
 	//Sleep(1000);
-	int done = 0;
-	while (!done)
+	MSG msg = { 0 };
+
+	while (WM_QUIT != msg.message)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
-			if (msg.message == WM_QUIT) done = 1;
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -166,24 +164,6 @@ void CGame::Run()
 			_RenderFrame();
 		}
 	}
-	/*while (msg.message != WM_QUIT)
-	{
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		else
-		{
-			_timeManager->LimitFPS(60);
-			TPF = _timeManager->TPF;
-			ProcessInput(_d3ddv, TPF);
-			UpdateWorld(TPF);
-			_RenderFrame();
-		}
-		
-		
-	}*/
 
 	trace(L"Main game loop has ended");
 }

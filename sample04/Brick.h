@@ -5,7 +5,10 @@
 #include "StoneBrick.h"
 #include "FloorBrick.h"
 #include <list>
-#define MAX_MOVEUP_TIME 0.1
+#define MAX_MOVEUP_TIME 0.15
+#define SPEED_OF_BRICK_PIECE_X 0.5
+#define SPEED_OF_BRICK_PIECE_Y 2.0
+#define Y_VELOCITY_UP 1
 
 using namespace std;
 

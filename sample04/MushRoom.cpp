@@ -108,7 +108,7 @@ void MushRoom::Render()
 	{
 		_currentSprite = 1;
 		_sprite->setIndex(_currentSprite);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 	}
 	else if(_ID==34)						// là hoa
 	{
@@ -116,7 +116,7 @@ void MushRoom::Render()
 		if (_currentSprite<4 || _currentSprite>7)
 			_currentSprite = 4;
 		_sprite->setIndex(_currentSprite);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 		
 	}
 	

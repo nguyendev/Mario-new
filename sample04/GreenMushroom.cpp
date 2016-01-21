@@ -94,11 +94,11 @@ void GreenMushRoom::Render()
 		break;
 	case TS_MOVEUP:				// đang đi lên
 		_sprite->setIndex(0);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 		break;
 	case TS_ACTIVING:
 		_sprite->setIndex(0);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
 	case TS_BREAKED:							// đã bị ăn 
 		break;
 	}

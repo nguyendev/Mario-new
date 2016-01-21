@@ -5,6 +5,8 @@
 #include "Coin.h"
 #include <list>
 #define TIME_FLICKER 0.3		// thời gian nhấp nháy
+#define Y_VELOCITY_UP 1			// vận tốc đi lên của gạch
+#define MAX_MOVEUP_TIME 0.15	// thời gian đi lên của gạch
 
 using namespace std;
 
@@ -23,7 +25,6 @@ private:
 	const float Recent_X = _m_Position.x;
 	const float Recent_Y = _m_Position.y;
 	// tiền xu
-	BaseObject* coin;
 	int _NumberOfCoins;
 public:
 	bool	_isBright;

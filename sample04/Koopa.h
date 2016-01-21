@@ -1,9 +1,10 @@
-#pragma once
+﻿#pragma once
 #include "BaseObject.h"
 #include "Camera.h"
 #define X_VELOCITY 0.5
 #define Y_VELOCITY 2
 #define WAITING_TIME_TO_LIVE 4
+#define WAITING_TIME_TO_DIE 0.5
 
 class BaseObject;
 class Koopa :public BaseObject
@@ -12,8 +13,9 @@ private:
 	char	_state;
 	float	waitIdle;
 	float	_waitingTimeToLiveAgain;
-	float	_waitingTimeToChangeState;
+	float	_waitingTimeToDie;				// thời gian chờ chết khi bị bắn
 	int		_currentSprite;
+	float oldY;
 public:
 
 	DWORD last_time;

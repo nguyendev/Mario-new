@@ -41,10 +41,10 @@ void CGameMario::LoadResources(LPDIRECT3DDEVICE9 d3ddv)
 {
 	_audio = new Audio();
 	_audio->initialize(_hWnd);
-	srand((unsigned)time(NULL));
 	D3DXCreateSprite(d3ddv, &_SpriteHandler);
 	HRESULT res = D3DXCreateSprite(_d3ddv, &_SpriteHandler);
 	D3DXCreateFont(_d3ddv, 25, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Emulogic"), &_font);
+	srand((unsigned)time(NULL));
 	LoadSprite();
 	LoadAudio();
 
@@ -154,6 +154,7 @@ void CGameMario::RenderFrame(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 	list<BaseObject*>::iterator i;
 	list<Score*>::iterator iScore;
 	_SpriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_DEPTH_FRONTTOBACK);
+	d3ddv->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_NONE); 
 	///_SpriteHandler->Begin(D3DXSPRITE_SORT_DEPTH_FRONTTOBACK | D3DXSPRITE_OBJECTSPACE);
 	switch (_state)
 	{

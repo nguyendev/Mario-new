@@ -22,6 +22,7 @@ Brick::Brick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	_isBright = isBright;
 	_moveupTime = MAX_MOVEUP_TIME;
 	isFalling = false;
+	// khởi tạo vận tốc đi lên cho gạch
 	// khởi tạo 2 mảnh gạch
 	SmallPiece1 = new BaseObject(x, y, _cameraX, _cameraY);
 	SmallPiece2 = new BaseObject(x, y, _cameraX, _cameraY);
@@ -37,14 +38,18 @@ void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 	case TS_MOVEUP:
 		if (_moveupTime > 0&&!isFalling){
 			_moveupTime -= TPF;
-			_m_Position.y -= 1;
+			// vận tốc âm
+			_m_Velocity.y = -Y_VELOCITY_UP;
+			_m_Position.y += _m_Velocity.y;
 		}
 		if (_moveupTime <= 0){
 			isFalling = true;
 		}
 		// nếu đang rơi thì moveupTime
 		if (isFalling){
-			_m_Position.y += 1;
+			// Vận tốc dương
+			_m_Velocity.y = Y_VELOCITY_UP;
+			_m_Position.y += _m_Velocity.y;
 			if (_m_Position.y > Recent_Y)		// nếu vị trí gạch lớn hơn vị trí ban đầu thì reset lại 
 			{
 				_m_Position.y = Recent_Y;	// vị trí
@@ -57,25 +62,28 @@ void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 	case TS_BREAKING:						// đang bị vỡ
 		// đang bay lên
 		if (_moveupTime > 0 && !isFalling){
+			// vận tốc lớn hơn 0
+			_m_Velocity.y = Y_VELOCITY_UP;
 			_moveupTime -= TPF;
 			// gạch 1
-			SmallPiece1->_m_Position.y -= 5;
-			SmallPiece1->_m_Position.x -= 3;
+			SmallPiece1->_m_Position.x -= SPEED_OF_BRICK_PIECE_X;
+			SmallPiece1->_m_Position.y -= SPEED_OF_BRICK_PIECE_Y;
 			// gạch 2 
-			SmallPiece2->_m_Position.y -= 2;
-			SmallPiece2->_m_Position.x -= 3;
+			SmallPiece2->_m_Position.x -= SPEED_OF_BRICK_PIECE_X;
+			SmallPiece2->_m_Position.y -= SPEED_OF_BRICK_PIECE_Y/2;
+			
 		}
 		// các mảnh đang rơi
-		else if (_moveupTime <= 0 && _moveupTime>-MAX_MOVEUP_TIME){
+		else if (_moveupTime <= 0 && _moveupTime>-MAX_MOVEUP_TIME*3){
 			_moveupTime -= TPF;
 			// gạch 1
-			SmallPiece1->_m_Position.y +=5;
-			SmallPiece1->_m_Position.x -= 3;
+			SmallPiece1->_m_Position.y += SPEED_OF_BRICK_PIECE_Y;
+			SmallPiece1->_m_Position.x -= SPEED_OF_BRICK_PIECE_X;
 			// gạch 2 
-			SmallPiece2->_m_Position.y += 1;
-			SmallPiece2->_m_Position.x -= 3;
+			SmallPiece2->_m_Position.y += SPEED_OF_BRICK_PIECE_Y / 3;
+			SmallPiece2->_m_Position.x -= SPEED_OF_BRICK_PIECE_X;
 		}
-		if (_moveupTime < -MAX_MOVEUP_TIME)
+		if (_moveupTime < -MAX_MOVEUP_TIME*3)
 		{
 			SetState("_state", TS_BREAKED);
 		}
@@ -89,27 +97,28 @@ void Brick::Render()
 {
 	if (this->_ID == 5)
 		return;
+	{
 		// nếu không phải breaking hoặc breaked thì vẽ
-	if (_state != TS_BREAKING&&_state != TS_BREAKED)
-	{
-		_sprite->setIndex(_SpriteIndex);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-	}
+		if (_state != TS_BREAKING&&_state != TS_BREAKED)
+		{
+			_sprite->setIndex(_SpriteIndex);
+			_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+		}
 		// nếu là breaking
-	else if (_state == TS_BREAKING)
-	{
-		// set index là mảnh gạch
-		_sprite->setIndex(12);
-		// mảnh 1
-		_sprite->Render(SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-		// mảnh 2
-		_sprite->Render(SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-		// mảnh 3 đối xứng với mảnh 2 qua tâm
-		_sprite->Render(2 * CenterX - SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
-		// mảnh 4 đối xứng với mảnh 2 qua tâm
-		_sprite->Render(2 * CenterX - SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+		else if (_state == TS_BREAKING)
+		{
+			// set index là mảnh gạch
+			_sprite->setIndex(12);
+			// mảnh 1
+			_sprite->Render(SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+			// mảnh 2
+			_sprite->Render(SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+			// mảnh 3 đối xứng với mảnh 2 qua tâm
+			_sprite->Render(2 * CenterX - SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+			// mảnh 4 đối xứng với mảnh 2 qua tâm
+			_sprite->Render(2 * CenterX - SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+		}
 	}
-
 }
 void Brick::SetState(char* Name, int val)
 {
