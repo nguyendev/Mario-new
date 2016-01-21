@@ -70,7 +70,6 @@ void CGameMario::UpdateWorld(float TPF)
 	case GS_MENU:
 		_life = 3;
 		_coin = 0;
-		_audio->PlaySoundA(_sound_Start);
 		break;
 	case GS_PLAYING:
 		_audio->PlaySoundA(_sound_Background);
@@ -292,6 +291,7 @@ void CGameMario::LoadAudio()
 	_sound_Background = _audio->LoadSound("Sounds\\Background.wav");
 	_sound_Start = _audio->LoadSound("Sounds\\StartGame.wav");
 	_sound_Win = _audio->LoadSound("Sounds\\WinStage.wav");
+	_sound_Invincible = _audio->LoadSound("Sounds\\Invincible.wav");
 }
 void CGameMario::LoadSprite()
 {
@@ -319,6 +319,7 @@ void CGameMario::LoadSprite()
 	_sprites[S_FUNGI] = new CSprite(_SpriteHandler, FUNGI_IMAGE, 16, 16, 12, 4, TIMEPERIMAGE);
 	_sprites[S_MONEY] = new CSprite(_SpriteHandler, MONEY_IMAGE, 16, 16, 7, 7, TIMEPERIMAGE);
 	_sprites[S_NUMBER] = new CSprite(_SpriteHandler, NUMBER_IMAGE, 8, 8, 10, 10, TIMEPERIMAGE);
+	_sprites[S_BRIDGE] = new CSprite(_SpriteHandler, BRIDGE_IMAGE, 6, 6, 3, 3, TIMEPERIMAGE);
 	//Others
 }
 void CGameMario::ChangeMap(int Map)
@@ -331,7 +332,7 @@ void CGameMario::ChangeMap(int Map)
 		ReadMap("Map\\MAP1.ptl", false , this);
 		break;
 	case 2:
-		ReadMap("Map\\MAP2.ptl", false, this);
+		ReadMap("Map\\MAP2.ptl", true, this);
 		break;
 	}
 	if (_Map<=2)
@@ -380,19 +381,37 @@ void CGameMario::DrawScore()
 	DrawTxt(L"$", 280, 20, _font);
 
 	// draw life
-	if (_life > 0)
-		text = to_string(_life);
-	else
-		text = '0';
-	StringToWString(ws, text);
-	DrawTxt(ws, 140, 20, _font);
-	DrawTxt(L"LIFE x", 10, 20, _font);
+	//if (_life > 0)
+	//	text = to_string(_life);
+	//else
+	//	text = '0';
+	//StringToWString(ws, text);
+	//DrawTxt(ws, 140, 20, _font);
+	DrawTxt(L"MARIO", 30, 20, _font);
 
 	// Draw score
 	text = to_string(_score);
 	StringToWString(ws, text);
-	DrawTxt(ws, 140, 50, _font);
-	
+	if (_score == 0)
+		DrawTxt(L"000000", 30, 50, _font);
+	else if (_score > 99)
+	{
+		DrawTxt(ws, 90, 50, _font);
+		DrawTxt(L"000", 30, 50, _font);
+	}
+	else if (_score > 999)
+	{
+		DrawTxt(ws, 80, 50, _font);
+		DrawTxt(L"00", 30, 50, _font);
+	}
+	else if (_score > 9999)
+	{
+		DrawTxt(ws, 70, 50, _font);
+		DrawTxt(L"0", 30, 50, _font);
+	}
+	else
+		DrawTxt(ws, 60, 50, _font);
+		
 }
 void CGameMario::ChangeState(char state)
 {

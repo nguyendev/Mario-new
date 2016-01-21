@@ -58,6 +58,9 @@ private:
 	D3DXVECTOR2		_m_PostionOld;
 	LPD3DXFONT	_font;
 	float _waitingNextState;
+	bool isAutoPipe;
+	bool isAllowJump;
+	D3DXVECTOR2  _PositionAlterPipe;
 public:
 	
 	bool _isVisiableKeyboard;

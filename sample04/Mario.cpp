@@ -52,7 +52,10 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	_selectRowBig = 0;
 	waitLostStar = 0;
 	_waitingNextState = 0;
+	isAutoPipe = false;
 	SetBox();
+	isAllowJump = false;
+	_PositionAlterPipe = D3DXVECTOR2(2612,150);
 }
 Mario::~Mario()
 {
@@ -165,7 +168,7 @@ void Mario::UpdateSprite(float TPF)
 		{
 			if (!isJumping)
 			{
-				if (waitRenderFirst < 0.5 && _m_Velocity.y == 0)
+				if ((waitRenderFirst < 0.5 && _m_Velocity.y == 0) || (waitRenderFirst < 0.5 && isAllowJump))
 				{
 					if (isBig)
 					{
@@ -195,9 +198,9 @@ void Mario::UpdateSprite(float TPF)
 					else
 					{
 						if (isChangeDirectionL)
-							_sprite->Next(2, 4, TPF);
+							_sprite->Next(2 + 8 * _selectRowBig, 4 + 8 * _selectRowBig, TPF);
 						else if (isChangeDirectionR)
-							_sSmall_right->Next(3, 5, TPF);
+							_sSmall_right->Next(3 + 8 * _selectRowBig, 5 + 8 * _selectRowBig, TPF);
 					}
 				}
 			}
@@ -240,7 +243,7 @@ void Mario::UpdateSprite(float TPF)
 				}
 
 			}
-			else if (isJumping)
+			else if (isJumping) // dang bay
 			{
 				if (isBig)
 				{
@@ -320,6 +323,14 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					_game->_audio->LoopSound(_game->_sound_Die);
 					ChangeState(M_DIED);
 					break;
+				case 3: // chui cong
+					if (isAutoPipe)
+						ChangeState(M_AUTO_BOTTOM_PIPE);
+					break;
+				case 30:
+					_m_Position = _PositionAlterPipe;
+					Camera::_cameraX = _m_Position.x - WIDTH/ZOOM / 2;
+					break;
 				case 14:case 15:case 16: // collision with Pipe
 					if (dir == BOTTOM){
 						_m_Velocity.y = 0;
@@ -347,7 +358,11 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						isJumping = false;
 						timeJumped = 0;
 						break;
+					case LEFT: case RIGHT:
+						this->setVelocity(this->getVelocity().x*-1, this->getVelocity().y);
+						break;
 					}
+					
 					break;
 				case 19:
 					_m_Velocity = Collision::getInstance()->getVelocity();
@@ -543,9 +558,16 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					break;
 				case 37:
 					isHasStar = true;
-					//_game->_audio->PlaySound(_game->_so)
+					_game->_audio->PlaySound(_game->_sound_Invincible);
 					obj->_isNeedDelete = true;
 					waitRender = 0;
+					break;
+				case 41: case 42:
+					_m_Velocity.y = obj->getVelocity().y;
+					isAllowJump = true;
+					isJumping = false;
+					timeJumped = 0;
+					this;
 					break;
 					//case 51 duoc 100 da 400
 				case 55:
@@ -563,11 +585,12 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							}
 							else
 							{
-								CollisionEnemy();
+								//CollisionEnemy();
 								obj;
 							}
 								
 						}
+						_m_Position.x = _m_PostionOld.x;
 					}
 					else if (obj->GetState("_state") != ES_CRASHED)
 					{
@@ -605,7 +628,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (isShotting == true)
 		{
 			waitShotting += TPF;
-			if (waitShotting>0.2)
+			if (waitShotting > 0.2)
 			{
 				waitShotting -= 0.2;
 				isShotting = false;
@@ -630,7 +653,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (isProtected == true)
 		{
 			waitProtect += TPF;
-			if (waitProtect>3)
+			if (waitProtect > 3)
 			{
 				isProtected = false;
 				isRender = true;
@@ -639,7 +662,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (isProtectedHidden == true)
 		{
 			waitProtectHidden += TPF;
-			if (waitProtectHidden>0.5)
+			if (waitProtectHidden > 0.5)
 			{
 				isProtectedHidden = false;
 				waitProtectHidden -= 0.5;
@@ -649,7 +672,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (isProtected == true)
 		{
 			waitRender += TPF;
-			if (waitRender>0.05)
+			if (waitRender > 0.05)
 			{
 				waitRender -= 0.05;
 				isRender = !isRender;
@@ -663,10 +686,11 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			{
 				waitLostStar = 0;
 				isHasStar = false;
+				_game->_audio->StopSound(_game->_sound_Invincible);
 				_selectRowBig = 0;
 			}
 			waitRender += TPF;
-			if (waitRender>0.05)
+			if (waitRender > 0.05)
 			{
 				waitRender -= 0.05;
 				isRender = !isRender;
@@ -691,7 +715,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 					_m_Position.x = obj->getPosition().x + obj->_width + 3;
 					_m_Position.y = yTemp;
 					waitInFlag += TPF;							//Chờ để di chuyển tiếp
-					if (waitInFlag>0.5)
+					if (waitInFlag > 0.5)
 					{
 						waitInFlag = 0;
 						_m_Velocity.x = 1;
@@ -702,7 +726,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 				else						//Khi cờ đang xuống...
 				{
 					_m_Velocity.x = 0;
-					_m_Position.x = obj->getPosition().x - obj->_width/2 +1;
+					_m_Position.x = obj->getPosition().x - obj->_width / 2 + 1;
 					if (_m_Position.y > yTemp)			//... nếu Mario đã xuống tới nơi
 						_m_Velocity.y = 0;
 					else
@@ -730,7 +754,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		}
 		break;
 	case M_WAITING_NEXT_STATE:
-		if (_waitingNextState > 30)
+		if (_waitingNextState > 20)
 		{
 			_game->ChangeState(GS_NEXT_STAGE);
 			_waitingNextState = 0;
@@ -763,6 +787,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		if (_m_Position.y > 400)
 		{
 			_game->_life--;
+			_m_Position.y = 0;
 			if (_game->_life >= 0)
 				_game->ChangeState(GS_REPLAY);
 			else
@@ -770,7 +795,15 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		}
 		_game->_audio->StopSound(_game->_sound_Background);
 		break;
+	case M_AUTO_BOTTOM_PIPE:
+		_m_Position.x = 3450;
+		Camera::_cameraX = 3350;
+		_m_Position.y = 0;
+		isAutoPipe = false;
+		ChangeState(M_NORMAL);
+		break;
 	}
+	_m_PostionOld = _m_Position;
 	NewRect();
 }
 void Mario::Render()
@@ -817,6 +850,7 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 			sExplosion(TPF);
 		if (_keyboard->KeyDown(DIK_DOWN))		//Ngồi
 		{
+			isAutoPipe = true;
 		}
 		else if (_keyboard->KeyDown(DIK_RIGHT))
 		{

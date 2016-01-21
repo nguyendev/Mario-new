@@ -41,6 +41,7 @@
 #define CLOUD_IMAGE			"Image\\imgCloud.png"
 #define GRASS_IMAGE			"Image\\imgGrass.png"
 #define MOUNTAIN_IMAGE		"Image\\imgMountain.png"
+#define BRIDGE_IMAGE		"Image\\imgBridge.jpg"
 
 //Deep Object
 #define GOOMBA_DEEP			0.3
@@ -126,7 +127,8 @@ enum _SPRITE
 	S_CASTLE,
 	S_CLOUD,
 	S_GRASS,
-	S_MOUNTAIN
+	S_MOUNTAIN,
+	S_BRIDGE,
 };
 
 enum GAME_STATE
@@ -185,6 +187,7 @@ enum MARIO_STATE
 	M_SIT,
 	M_PULL_FLAG,
 	M_AUTO_TO_CASTLE,				//Khi kéo xong cờ.
+	M_AUTO_BOTTOM_PIPE,					// chui cong doc
 	M_WAITING_NEXT_STATE,
 	M_DIEING,
 	M_DIED,

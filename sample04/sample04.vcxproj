@@ -97,6 +97,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickMushroom.cpp" />
     <ClCompile Include="BrickQuestion.cpp" />
+    <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Castle.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickMushroom.h" />
     <ClInclude Include="BrickQuestion.h" />
+    <ClInclude Include="Bridge.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Castle.h" />

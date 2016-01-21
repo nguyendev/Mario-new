@@ -96,7 +96,7 @@ void MushRoom::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* d
 				}
 			}
 		}
-		if (obj->_ID == 22 || obj->_ID == 18)
+		if (obj->_ID == 22 || obj->_ID == 18 || obj->_ID == 19)
 		{
 			DIR dir = Collision::getInstance()->isCollision(this, obj);
 		}

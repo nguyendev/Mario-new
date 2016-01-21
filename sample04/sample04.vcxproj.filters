@@ -149,6 +149,9 @@
     <ClCompile Include="BrickMushroom.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="BrickMushroom.h">
       <Filter>Game\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Game\Dynamic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

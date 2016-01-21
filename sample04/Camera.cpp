@@ -18,7 +18,7 @@ Camera::~Camera()
 }
 void Camera::Update(QuadTree* quadTree)
 {
-	if (_cameraX + _width < quadTree->rect.right)
+	if (_cameraX + _width < quadTree->rect.right - 80)
 	{
 		if (mario->getPosition().x > _cameraX + _width / 2)
 		{
