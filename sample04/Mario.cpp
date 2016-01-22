@@ -57,6 +57,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	isAllowJump = false;
 	_PositionAlterPipe = D3DXVECTOR2(2612,150);
 	waitBlow = 0;
+	isSit = false;
 }
 Mario::~Mario()
 {
@@ -160,14 +161,14 @@ void Mario::UpdateSprite(float TPF)
 {
 	switch (_state)
 	{
-	case M_NORMAL: case M_AUTO_TO_CASTLE :case M_DIEING:case M_DIED:
+	case M_NORMAL: case M_AUTO_TO_CASTLE :case M_DIEING:case M_DIED: case M_SIT:
 		if (isHasStar)
 			_selectRowBig = rand() % 4;
 		else if (!isBig)
 			_selectRowBig = 0;
 		if (_m_Velocity.x != 0)
 		{
-			if (!isJumping)
+			if (!isJumping) // chua nhay
 			{
 				if ((waitRenderFirst < 0.5 && _m_Velocity.y == 0) || (waitRenderFirst < 0.5 && isAllowJump))
 				{
@@ -182,7 +183,20 @@ void Mario::UpdateSprite(float TPF)
 						_sSmall_right->setIndex(2 + 8 * _selectRowBig);
 					}
 				}
-				else
+				else if (isSit)
+				{
+					if (isBig)
+					{
+						_sBig_left->setIndex(7 + 8 * _selectRowBig);
+						_sBig_right->setIndex(0 + 8 * _selectRowBig);
+					}
+					else
+					{
+						_sprite->setIndex(7 + 8 * _selectRowBig);
+						_sSmall_right->setIndex(0 + 8 * _selectRowBig);
+					}
+				}
+				else //render binh thuong
 				{
 					if (isBig)
 					{
@@ -205,7 +219,7 @@ void Mario::UpdateSprite(float TPF)
 					}
 				}
 			}
-			else
+			else // dang nhay
 			{
 				if (isBig)
 				{
@@ -912,6 +926,7 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 			sExplosion(TPF);
 		if (_keyboard->KeyDown(DIK_DOWN))		//Ngồi
 		{
+			isSit = true;
 			isAutoPipe = true;
 		}
 		else if (_keyboard->KeyDown(DIK_RIGHT))
@@ -931,6 +946,7 @@ void Mario::ProcessInput(KeyBoard* _keyboard, float TPF)
 		else
 		{
 			Stand(TPF);
+			isSit = false;
 		}
 	}
 

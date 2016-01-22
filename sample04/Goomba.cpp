@@ -4,7 +4,7 @@
 Goomba::Goomba()
 {
 }
-Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite) :BaseObject(x, y, cameraX, cameraY)
+Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* sprite, bool isBright) :BaseObject(x, y, cameraX, cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;
@@ -19,6 +19,7 @@ Goomba::Goomba(float x, float y, float cameraX, float cameraY, int ID, CSprite* 
 	_state = ES_ACTIVING;		// khoi tao trang thai cho`. -  DANG TEST
 	_currentSprite = 0;
 	_waitingTimeToDie = WAITING_TIME_TO_DIE;
+	_isBright = isBright;						// màu xanh hay ko?
 }
 void Goomba::Move()
 {
@@ -37,8 +38,16 @@ void Goomba::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* 
 		if (_timeToFlicker<0)
 		{
 			_currentSprite++;
-			if (_currentSprite >1)
-				_currentSprite = 0;
+			if (_isBright == false)			// không phải màu xanh
+			{
+				if (_currentSprite >1)
+					_currentSprite = 0;
+			}
+			else							// là gạch màu xanh
+			{
+				if (_currentSprite >4||_currentSprite <3)
+					_currentSprite = 3;
+			}
 			_timeToFlicker = TIME_FLICKER;	// reset thời gian nhấp nháy
 		}
 		Move();
@@ -80,11 +89,17 @@ void Goomba::Render()
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
-		_sprite->setIndex(2);
+		if (_isBright == false)					// nếu là màu vàng
+			_sprite->setIndex(2);
+		else									// nếu là màu xanh
+			_sprite->setIndex(5);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_SHOOTED:
-		_sprite->setIndex(1);
+		if (_isBright == false)					// nếu là màu vàng
+			_sprite->setIndex(1);
+		else									// nếu là màu xanh
+			_sprite->setIndex(3);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_DIED:

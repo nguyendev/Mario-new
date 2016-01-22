@@ -100,7 +100,7 @@ void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 }
 void Brick::Render()
 {
-	if (this->_ID == 5)
+	if (this->_ID == 5 || this->_ID == 2 || this->_ID == 3|| this ->_ID == 4)
 		return;
 
 		if (_state ==TS_IDLE||_state==TS_MOVEUP)

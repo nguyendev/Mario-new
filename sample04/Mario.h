@@ -50,7 +50,8 @@ private:
 	float	waitProtectHidden;			//thoi gian bao ve an
 	float	waitRender;					//thoi gian cho ve
 	float	waitBlow;					//thoi gian cho no
-	bool isRender;
+	bool	isRender;
+	bool	isSit;						//dang ngoi
 	float yTemp;
 	float waitInFlag;
 	bool isHasStar;

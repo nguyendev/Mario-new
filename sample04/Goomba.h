@@ -6,7 +6,6 @@
 #define TIME_FLICKER 0.3		// thời gian nhấp nháy
 #define WAITING_TIME_TO_DIE 0.5
 
-class BaseObject;
 class Goomba :public BaseObject
 {
 private:
@@ -15,11 +14,12 @@ private:
 	int		_currentSprite;
 	float _waitingTimeToDie;
 	float _timeToFlicker;
+	bool _isBright;
 public:
 
 	DWORD last_time;
 	Goomba();
-	Goomba(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite);
+	Goomba(float _x, float _y, float _cameraX, float _cameraY, int _ID, CSprite* _sprite, bool isBright);
 	void Move();
 	void Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard);
 	void CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj);		// need to fix.

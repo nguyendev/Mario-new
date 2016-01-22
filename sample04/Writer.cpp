@@ -156,6 +156,14 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
 			_isStatic = true;
 			break;
+		case 3: //chui cong
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+			_isStatic = true;
+			break;
+		case 4: // ra cong
+			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+			_isStatic = true;
+			break;
 		case 5:
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
 			_isStatic = true;
@@ -169,7 +177,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = true;
 			break;
 		case 17:
-			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 2);
+			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 2, isBright);
 			_isStatic = true;
 			break;
 		case 18:
@@ -180,22 +188,14 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new BrickQuestion(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], game->_sprites[S_MONEY], 1);
 			_isStatic = true;
 			break;
-		case 20:
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 4, isBright);
-			_isStatic = true;
-			break;
-		case 21:
-			obj = new FloorBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 5);
-			_isStatic = true;
-			break;
 		case 22:
-			obj = new FloorBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1);
+			obj = new FloorBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 1, isBright);
 			_isStatic = true;
 			break;
 		case 23:
 			obj = new Castle(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_CASTLE], 0);
 			_isStatic = true;
-			break; 
+			break;
 		case 24:
 			obj = new Castle(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_FLAGWIN], 0);
 			_isStatic = true;
@@ -212,13 +212,13 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
 			_isStatic = true;
 			break;
-		case 39:
-			obj = new StoneBrick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 6);
+		case 32:
+			obj = new Coin(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_MONEY], 1);
 			_isStatic = true;
 			break;
-		case 41:
+		case 41: case 42:
 			obj = new Bridge(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRIDGE]);
-			_isStatic = true;
+			_isStatic = false;
 			break;
 		case 50:
 			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
@@ -237,7 +237,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			_isStatic = false;
 			break;
 		case 55:
-			obj = new Goomba(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GOOMBA]);
+			obj = new Goomba(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_GOOMBA], isBright);
 			_isStatic = false;
 			break;
 		case 58:
@@ -248,7 +248,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
 			break;
-
+		
 		}
 		// them doi tuong tinh vao quadtree.
 		if (obj != NULL)
