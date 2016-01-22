@@ -243,7 +243,7 @@ void CGameMario::ProcessInput(LPDIRECT3DDEVICE9 d3ddv, float TPF)
 			if (_marioMenuY == MENU_MIN)
 			{
 				_audio->PlaySound(_sound_Squish);
-				ChangeMap(1);
+				ChangeMap(2);
 				ChangeState(GS_REPLAY);
 			}
 			else

@@ -405,6 +405,13 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						break;
 					}
 					break;
+				case 32: // collision with coin static
+					_game->AddScore(100, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y - 3, _cameraX, _cameraY);
+					_game->_audio->PlaySound(_game->_sound_Coin);
+					_game->_coin++;
+					obj->SetState("_state", TS_BREAKED);
+					_m_Position = _m_PostionOld;
+					break;
 				case 36: // collision with green mushroom
 					if (obj->GetState("_state") == TS_IDLE)			// nếu đang chờ thì đi lên
 					{
