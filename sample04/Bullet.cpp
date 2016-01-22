@@ -6,7 +6,7 @@
 #include "Mario.h"
 #include "GameMario.h"
 Bullet::Bullet() :BaseObject(){}
-Bullet::Bullet(float x, float y, float _cameraX, float _cameraY, float vx, CSprite *sprite, CSprite* sprite1, CGameMario* game) : BaseObject(x, y, _cameraX, _cameraY)
+Bullet::Bullet(float x, float y, float _cameraX, float _cameraY, float vx, CSprite *sprite, CSprite* sprite1, CGameMario* game, int ID) : BaseObject(x, y, _cameraX, _cameraY)
 {
 	_game = game;
 	_sprite = sprite;
@@ -21,10 +21,16 @@ Bullet::Bullet(float x, float y, float _cameraX, float _cameraY, float vx, CSpri
 	_m_Velocity.x = 0;
 	ax = vx;
 	_m_Velocity.y = ay = 0;
-	_state = BS_IDLE;
+	
 	waitIncreaseVecY = 0;
 	_sprite->setIndex(0);
-	_ID = 99;
+	_ID = ID;
+	if (_ID == 99)
+	{
+		_state = BS_IDLE;
+	}
+	else
+		_state = BS_IDLE_2;
 }
 
 Bullet::~Bullet(void)

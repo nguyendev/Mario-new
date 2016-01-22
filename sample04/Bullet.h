@@ -24,7 +24,7 @@ public:
 	char _state;
 	Bullet(void);
 	~Bullet(void);
-	Bullet(float x, float y, float cameraX, float cameraY, float vx, CSprite* sprite, CSprite* sprite1, CGameMario* game);
+	Bullet(float x, float y, float cameraX, float cameraY, float vx, CSprite* sprite, CSprite* sprite1, CGameMario* game, int ID);
 	void Update(float TPF, list<BaseObject*>* staObjs, list<BaseObject*>* dynObjs, KeyBoard* input);
 	void Render();
 	void Move(float TPF, list<BaseObject*>* staObjs, list<BaseObject*>* dynObjs);

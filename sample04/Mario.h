@@ -39,16 +39,17 @@ private:
 	bool	isChangeDirectionL;		//Đổi hướng 
 	bool	isChangeDirectionR;
 	bool	isBig;
-	float waitChangeDir;
-	float waitIncreaseVecY;			//doi de tang toc do trong luc
-	float ax;
-	float ay;
-	char _state;
-	bool isProtected;
-	bool isProtectedHidden;
-	float waitProtect;
-	float waitProtectHidden;
-	float waitRender;
+	float	waitChangeDir;
+	float	waitIncreaseVecY;			//doi de tang toc do trong luc
+	float	ax;
+	float	ay;
+	char	_state;
+	bool	isProtected;
+	bool	isProtectedHidden;
+	float	waitProtect;				//thoi gian bao ve
+	float	waitProtectHidden;			//thoi gian bao ve an
+	float	waitRender;					//thoi gian cho ve
+	float	waitBlow;					//thoi gian cho no
 	bool isRender;
 	float yTemp;
 	float waitInFlag;

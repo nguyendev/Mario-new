@@ -162,6 +162,7 @@ enum ENEMY_STATE
 	ES_CRASHED,				// khi bị dậm
 	ES_ACTIVING,			// được kích hoạt
 	ES_IDLE,				// đang chờ ở vị trí ban đầu
+	ES_IDLE2,
 	ES_MOVE_SHELL_LEFT,		// Khi Koopa di chuyển về bên trái trong mai rùa.
 	ES_MOVE_SHELL_RIGHT,	// koopa di chuyển về bên phải
 	ES_FALL,				// Khi Goomba hoặc Koopa bị rơi (chuẩn bị chết)
@@ -200,8 +201,9 @@ enum MARIO_STATE
 enum BULLET_STATE
 {
 	BS_IDLE,
+	BS_IDLE_2, // 
 	BS_ACTIVING,
-	BS_BLOW,
+	BS_BLOW, // bi no
 	BS_BLOWED
 };
 #endif

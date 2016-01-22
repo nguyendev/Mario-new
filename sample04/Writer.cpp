@@ -20,6 +20,7 @@
 #include "SpecialBrick.h"
 #include "BrickMushroom.h"
 #include "Bridge.h"
+#include "Bullet.h"
 
 
 Camera*  _camera;
@@ -138,7 +139,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	int sizeHeight;
 	if (fileName == "Map\\MAP1.ptl")
 	{
-		sizeWidth = 3800;
+		sizeWidth = 3650;
 	}
 	if (fileName == "Map\\MAP2.ptl")
 		sizeWidth = 4000;
@@ -258,7 +259,10 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new BrickMushroom(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK]);
 			_isStatic = true;
 			break;
-
+		case 98:
+			obj = new Bullet(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, 200, game->_sprites[S_FIREBULLET], game->_sprites[S_EXPLOSION], game, t[i].id);
+			_isStatic = false;
+			break;
 		}
 		// them doi tuong tinh vao quadtree.
 		if (obj != NULL)

@@ -56,6 +56,7 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	SetBox();
 	isAllowJump = false;
 	_PositionAlterPipe = D3DXVECTOR2(2612,150);
+	waitBlow = 0;
 }
 Mario::~Mario()
 {
@@ -116,7 +117,7 @@ void Mario::sExplosion(float TPF)
 		if (waitbullet>0.5)
 		{
 			isShotting = true;
-			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?200:-200, _sBullet, _sExplosion,_game);
+			BaseObject* obj = new Bullet(isChangeDirectionR ? _m_Position.x + 5 : _m_Position.x - 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, isChangeDirectionR ?200:-200, _sBullet, _sExplosion,_game, 99);
 			obj->SetState("_state", BS_ACTIVING);
 			_game->_quadTree->Add(obj, false);
 			_game->_audio->PlaySound(_game->_sound_FireBall);
@@ -247,17 +248,9 @@ void Mario::UpdateSprite(float TPF)
 			{
 				if (isBig)
 				{
-					if (isShotable)
-					{
-						_sBig_left->setIndex(7 + 8 * _selectRowBig);
-						_sBig_right->setIndex(14 + 8 * _selectRowBig);
-					}
-					else
-					{
-						_sBig_left->setIndex(1 + 8 * _selectRowBig);
-						_sBig_right->setIndex(6 + 8 * _selectRowBig);
-					}
-					
+					_sBig_left->setIndex(1 + 8 * _selectRowBig);
+					_sBig_right->setIndex(6 + 8 * _selectRowBig);
+
 				}
 				else
 				{
@@ -428,14 +421,12 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							{
 								obj->SetState("_state", TS_MOVEUP);
 							}
-							_m_Position = _m_PostionOld;
 							break;
 						case BOTTOM:
 							_m_Velocity.y = 0;
 							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
 							isJumping = false;
 							timeJumped = 0;
-							_m_Position = _m_PostionOld;
 							break;
 					}
 					break;
@@ -556,7 +547,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					obj->_isNeedDelete = true;
 					_game->_life++;
 					break;
-				case 37:
+				case 37: // ngoi sao
 					isHasStar = true;
 					_game->_audio->PlaySound(_game->_sound_Invincible);
 					obj->_isNeedDelete = true;
@@ -585,8 +576,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							}
 							else
 							{
-								//CollisionEnemy();
-								obj;
+								CollisionEnemy();
 							}
 								
 						}
@@ -779,6 +769,32 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 			}
 			else
 				_game->_coin = 0;
+			if (_game->_timeGame == 0 && _game->_coin == 0)
+			{
+				for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
+				{
+					obj = *i;
+					waitBlow += TPF;
+					double num;
+					while (num < 0.001)
+					{
+						num = (double)(rand() % 2);
+						num /= 10;
+					}
+					if (waitBlow > num)
+					{
+						switch (obj->_ID)
+						{
+						case 98:				//Lâu đài
+
+							obj->SetState("_state", BS_BLOW);
+							waitBlow = 0;
+						}
+						break;
+					}
+		
+				}
+			}
 		}
 		isRender = false;
 		break;
