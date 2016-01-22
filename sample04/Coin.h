@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "BaseObject.h"
 #include "Camera.h"
-#define MAX_TIME_FLY 0.4
+#define MAX_TIME_FLY 0.6
 class Coin :public BaseObject		// must render in RenderFrame() of class GameMario 
 {
 private:

@@ -3,11 +3,11 @@
 #include "Collision.h"
 #include "GameMario.h"
 
-#define MARIO_VY	2.6f	//velocity Y of mario
-#define _MARIO_VX_NORMAL 1.5f	//max velocity of mario
-#define MAX_MARIO_VX_	2.5f
-#define GRAVITY		1.0f	//gravity ratio
-#define FRICTION_X	1.25f   //friction of mario
+#define MARIO_VY			2.6f	//velocity Y of mario
+#define _MARIO_VX_NORMAL	1.2f	//max velocity of mario
+#define MAX_MARIO_VX_		2.5f
+#define GRAVITY				1.0f	//gravity ratio
+#define FRICTION_X			1.25f   //friction of mario
 Mario::Mario() :BaseObject(){};
 Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sbig_right, CSprite* sbig_left, CSprite* ssmall_right, CSprite* ssmall_left, CSprite* sbullet, CSprite* sExplosion, CGameMario* game) :BaseObject(x, y, cameraX, cameraY)
 {
@@ -55,7 +55,10 @@ Mario::Mario(float x, float y, float cameraX, float cameraY, int ID, CSprite* sb
 	isAutoPipe = false;
 	SetBox();
 	isAllowJump = false;
-	_PositionAlterPipe = D3DXVECTOR2(2612,150);
+	if (_game->_Map == 2)
+		_PositionAlterPipeSub = D3DXVECTOR2(1851,150);
+	if (_game->_Map == 2)
+		_PositionAlterPipeWin = D3DXVECTOR2(3450, 169);
 	waitBlow = 0;
 	isSit = false;
 }
@@ -330,12 +333,16 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					_game->_audio->LoopSound(_game->_sound_Die);
 					ChangeState(M_DIED);
 					break;
-				case 3: // chui cong
+				case 3: // chui cong sub
 					if (isAutoPipe)
 						ChangeState(M_AUTO_BOTTOM_PIPE);
 					break;
-				case 30:
-					_m_Position = _PositionAlterPipe;
+				case 4:	// chui cong tu cong win
+					_m_Position = _PositionAlterPipeWin;
+					Camera::_cameraX = _m_Position.x -50;
+					break;
+				case 30: // chui len tu cong sub
+					_m_Position = _PositionAlterPipeSub;
 					Camera::_cameraX = _m_Position.x - WIDTH/ZOOM / 2;
 					break;
 				case 14:case 15:case 16: // collision with Pipe
@@ -347,6 +354,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					else
 					{
 						_m_Velocity.x = 0;
+
 					}
 					_game->_audio->PlaySound(_game->_sound_Warp);
 					break;
@@ -375,7 +383,7 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					}
 					
 					break;
-				case 19:
+				case 19:   // gach tien 
 					_m_Velocity = Collision::getInstance()->getVelocity();
 					switch (dir)
 					{
@@ -384,7 +392,8 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 						if (obj->GetState("_state") == TS_IDLE)
 						{
 							obj->SetState("_state", TS_MOVEUP);
-							_game->AddScore(100, obj->getPosition().x +obj->_widthRect*3, obj->getPosition().y - 3,_cameraX,_cameraY);
+							
+							_game->AddScore(100, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y - 3, _cameraX, _cameraY);
 							_game->_coin++;
 							_game->_audio->PlaySound(_game->_sound_Coin);
 						}
@@ -432,23 +441,26 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							break;
 					}
 					break;
-				case 51:
+				case 51: // gạch nhiều tiền
+					_m_Velocity = Collision::getInstance()->getVelocity();
 					switch (dir)
 					{
-						case TOP:
-							_m_Velocity = Collision::getInstance()->getVelocity();
-							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-							if (obj->GetState("_state") == TS_IDLE)
-							{
-								obj->SetState("_state", TS_MOVEUP);
-							}
-							break;
-						case BOTTOM:
-							_m_Velocity.y = 0;
-							this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
-							isJumping = false;
-							timeJumped = 0;
-							break;
+					case TOP:
+						this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+						if (obj->GetState("_state") == TS_IDLE)
+						{
+							obj->SetState("_state", TS_MOVEUP);
+							_game->AddScore(100, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y - 3, _cameraX, _cameraY);
+							_game->_coin++;
+							_game->_audio->PlaySound(_game->_sound_Coin);
+						}
+						break;
+					case BOTTOM:
+						_m_Velocity.y = 0;
+						this->setVelocity(this->getVelocity().x, this->getVelocity().y*-1);
+						isJumping = false;
+						timeJumped = 0;
+						break;
 					}
 					break;
 				case 52: //va cham voi gach sao
@@ -544,8 +556,12 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					isBig = true;
 					obj->_isNeedDelete = true;
 					_game->_audio->PlaySound(_game->_sound_Powerup);
+					isProtected = true;
+					waitProtect = 0;
+					waitRender = 0;
 					_selectRowBig = 0;
 					SetBox();
+					_m_Position = _m_PostionOld;
 					break;
 				case 34: // bông hoa
 					obj->_isNeedDelete = true;
@@ -585,42 +601,50 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 					//case 51 duoc 100 da 400
 				case 53:									// va chạm với mario
 					// xử lý ở đây
-					if (obj->GetState("_state") == ES_MOVE_SHELL_LEFT || obj->GetState("_state") == ES_MOVE_SHELL_RIGHT)
+					//khong co ngoi sao
+					if (isHasStar == false)							//Nếu không có sao
 					{
-						// cả goomba và koopa chuyển sang trạng thái bị bắn
-						if (dir == LEFT || dir == RIGHT)
-							CollisionEnemy();
-					}
-					if (obj->GetState("_state") == ES_CRASHED)							// nếu đã bị Crash
-					{																	// bị va chạm tiếp
-						float centerOfMario = (this->getPositionX() + this->_width) / 2;
-						float centerOfKoopa = (obj->getPositionX() + obj->_width) / 2;
-						if ((centerOfMario - centerOfKoopa) < 0)						// nếu tâm mario theo trục x nhỏ hơn koopa thì Move Right
+						if (obj->GetState("_state") == ES_MOVE_SHELL_LEFT || obj->GetState("_state") == ES_MOVE_SHELL_RIGHT)
 						{
-							obj->SetState("_state", ES_MOVE_SHELL_RIGHT);				// chuyển sang trạng thái bị move right
-							_game->AddScore(500, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y, _cameraX, _cameraY);
-						}	
-						else // ngược lại
-						{
-							obj->SetState("_state", ES_MOVE_SHELL_LEFT);				// chuyển sang trạng thái bị move right
-							_game->AddScore(500, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y, _cameraX, _cameraY);
+							// cả goomba và koopa chuyển sang trạng thái bị bắn
+							if (dir == LEFT || dir == RIGHT);
+							//CollisionEnemy();
 						}
-					}
-					if (obj->GetState("_state") == ES_ACTIVING)		// nếu đang đi
-					{
-						if (dir == BOTTOM)									// bị dậm trên đầu
-						{
-							_m_Velocity.y = -MARIO_VY / 2;
-							obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
-							_game->_audio->PlaySound(_game->_sound_Squish);
-							_game->AddScore(100, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y, _cameraX, _cameraY);
+						if (obj->GetState("_state") == ES_CRASHED)							// nếu đã bị Crash
+						{																	// bị va chạm tiếp
+							float centerOfMario = (this->getPositionX() + this->_width) / 2;
+							float centerOfKoopa = (obj->getPositionX() + obj->_width) / 2;
+							if ((centerOfMario - centerOfKoopa) < 0)						// nếu tâm mario theo trục x nhỏ hơn koopa thì Move Right
+							{
+								obj->SetState("_state", ES_MOVE_SHELL_RIGHT);				// chuyển sang trạng thái bị move right
+								_game->AddScore(500, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y, _cameraX, _cameraY);
+							}
+							else // ngược lại
+							{
+								obj->SetState("_state", ES_MOVE_SHELL_LEFT);				// chuyển sang trạng thái bị move right
+								_game->AddScore(500, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y, _cameraX, _cameraY);
+							}
 						}
-						else
-							CollisionEnemy();
+						if (obj->GetState("_state") == ES_ACTIVING)		// nếu đang đi
+						{
+							if (dir == BOTTOM)									// bị dậm trên đầu
+							{
+								_m_Velocity.y = -MARIO_VY / 2;
+								obj->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
+								_game->_audio->PlaySound(_game->_sound_Squish);
+								_game->AddScore(100, obj->getPosition().x + obj->_widthRect * 3, obj->getPosition().y, _cameraX, _cameraY);
+							}
+							else
+								CollisionEnemy();
 
+						}
 					}
-					
-					
+					else if (obj->GetState("_state") != ES_CRASHED) //co ngoi sao
+					{
+						obj->SetState("_state", ES_SHOOTED);
+						_game->_audio->PlaySound(_game->_sound_Squish);
+					}
+					_m_Position = _m_PostionOld;
 					break;
 				case 55:
 					if (isHasStar == false)							//Nếu không có sao
@@ -637,18 +661,18 @@ void Mario::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 							}
 							else
 							{
-								//CollisionEnemy();
+								CollisionEnemy();
 							}
 								
 						}
-						_m_Position.x = _m_PostionOld.x;
+						
 					}
 					else if (obj->GetState("_state") != ES_CRASHED)
 					{
-						obj->_isNeedDelete = true;
-						//obj->SetState("_state", ES_CRASHED);
+						obj->SetState("_state", ES_SHOOTED);
 						_game->_audio->PlaySound(_game->_sound_Squish);
 					}
+					_m_Position = _m_PostionOld;
 					break;
 				}
 			}
@@ -806,7 +830,7 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		}
 		break;
 	case M_WAITING_NEXT_STATE:
-		if (_waitingNextState > 20)
+		if (_waitingNextState > 12)
 		{
 			_game->ChangeState(GS_NEXT_STAGE);
 			_waitingNextState = 0;
@@ -872,11 +896,14 @@ void Mario::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		_game->_audio->StopSound(_game->_sound_Background);
 		break;
 	case M_AUTO_BOTTOM_PIPE:
-		_m_Position.x = 3450;
-		Camera::_cameraX = 3350;
-		_m_Position.y = 0;
-		isAutoPipe = false;
-		ChangeState(M_NORMAL);
+		if (_game->_Map == 2)
+		{
+			_m_Position.x = 3100;
+			Camera::_cameraX = 3074;
+			_m_Position.y = 0;
+			isAutoPipe = false;
+			ChangeState(M_NORMAL);
+		}
 		break;
 	}
 	_m_PostionOld = _m_Position;

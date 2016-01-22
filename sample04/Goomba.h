@@ -6,6 +6,7 @@
 #define TIME_FLICKER 0.3		// thời gian nhấp nháy
 #define WAITING_TIME_TO_DIE 0.5
 
+class BaseObject;
 class Goomba :public BaseObject
 {
 private:

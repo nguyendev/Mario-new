@@ -4,7 +4,7 @@
 #include "Collision.h"
 #define X_VELOCITY 0.5
 #define Y_VELOCITY 3
-#define RISE_TIME  0.08
+#define RISE_TIME  0.1
 
 class MushRoom :public BaseObject
 {

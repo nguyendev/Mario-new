@@ -5,6 +5,7 @@
 #define Y_VELOCITY 2
 #define WAITING_TIME_TO_LIVE 4
 #define WAITING_TIME_TO_DIE 0.5
+#define TIME_FLICKER 0.3		// thời gian nhấp nháy
 
 class BaseObject;
 class Koopa :public BaseObject
@@ -15,7 +16,8 @@ private:
 	float	_waitingTimeToLiveAgain;
 	float	_waitingTimeToDie;				// thời gian chờ chết khi bị bắn
 	int		_currentSprite;
-	D3DXVECTOR2	_m_Pos_Old;
+	float	_timeToFlicker;
+	D3DXVECTOR2 _PosOld;
 public:
 
 	DWORD last_time;

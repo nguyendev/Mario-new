@@ -137,10 +137,10 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 	int sizeHeight;
 	if (fileName == "Map\\MAP1.ptl")
 	{
-		sizeWidth = 3865;
+		sizeWidth = 3350;
 	}
 	if (fileName == "Map\\MAP2.ptl")
-		sizeWidth = 4000;
+		sizeWidth = 4500;
 	game->_quadTree = new QuadTree(0, 0, sizeWidth, 0);
 	Mario*	mario;
 	for (int i = 0; i < _count; i++)
@@ -160,8 +160,8 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
 			_isStatic = true;
 			break;
-		case 4: // ra cong
-			obj = new Brick(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_BRICK], 14, isBright);
+		case 4: // ra cong ve dich
+			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
 			_isStatic = true;
 			break;
 		case 5:
@@ -208,7 +208,7 @@ void ReadMap(char* fileName, bool isBright, CGameMario* game)
 			obj = new Mountain(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_MOUNTAIN], 0);
 			_isStatic = true;
 			break;
-		case 30: case 31: case 35:
+		case 30: case 31: case 35: //case 30 chui tu cong sub len main state
 			obj = new Pipe(PIXEL * (t[i].srcX), PIXEL * (t[i].srcY), _camera->_cameraX, _camera->_cameraY, t[i].id, game->_sprites[S_PIPE], 0);
 			_isStatic = true;
 			break;

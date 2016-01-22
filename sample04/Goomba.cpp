@@ -97,9 +97,9 @@ void Goomba::Render()
 		break;
 	case ES_SHOOTED:
 		if (_isBright == false)					// nếu là màu vàng
-			_sprite->setIndex(1);
+			_sprite->setIndex(7);
 		else									// nếu là màu xanh
-			_sprite->setIndex(3);
+			_sprite->setIndex(10);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_DIED:
@@ -142,6 +142,7 @@ void Goomba::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyn
 			
 		}
 	}
+	
 }
 
 void Goomba::SetState(char* Name, int val)

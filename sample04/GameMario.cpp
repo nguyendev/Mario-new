@@ -313,8 +313,8 @@ void CGameMario::LoadSprite()
 	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, TIMEPERIMAGE);
 	_sprites[S_FLAGWIN] = new CSprite(_SpriteHandler, FLAGWIN_IMAGE, 16, 16, 1, 1, TIMEPERIMAGE);
 	//Enemies
-	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, TIMEPERIMAGE);
-	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 8, 4, TIMEPERIMAGE);
+	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 12, 6, TIMEPERIMAGE);
+	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 32, 8, TIMEPERIMAGE);
 	_sprites[S_PIRHANA] = new CSprite(_SpriteHandler, PIRHANA_IMAGE, 16, 16, 2, 2, TIMEPERIMAGE);
 	//Items
 	_sprites[S_FLOWER] = new CSprite(_SpriteHandler, FLOWER_IMAGE, 16, 16, 4, 4, TIMEPERIMAGE);
@@ -353,6 +353,10 @@ void CGameMario::test()
 			text = to_string(obj->getPosition().y);
 			StringToWString(ws, text);
 			DrawTxt(ws, 330, 300, _font);
+
+			text = to_string(obj->getPosition().x);
+			StringToWString(ws, text);
+			DrawTxt(ws, 330, 250, _font);
 		}
 	}
 	

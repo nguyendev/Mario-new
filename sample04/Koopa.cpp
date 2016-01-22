@@ -15,11 +15,12 @@ Koopa::Koopa(float x, float y, float cameraX, float cameraY, int ID, CSprite* sp
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
 	_widthRect = _width;
-	_heightRect = _height - 1;
+	_heightRect = _height - 2;
 	_state = ES_ACTIVING;		// khoi tao trang thai cho`. -  DANG TEST
 	_currentSprite = 0;
 	_waitingTimeToLiveAgain = WAITING_TIME_TO_LIVE;
 	_waitingTimeToDie = WAITING_TIME_TO_DIE;
+	_timeToFlicker = TIME_FLICKER;
 }
 void Koopa::Move()
 {
@@ -34,10 +35,26 @@ void Koopa::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 	case ES_IDLE:				// trạng thái chờ 
 		break;
 	case ES_ACTIVING:			// duoc kich hoat
-		_currentSprite++;
-		if (_currentSprite > 5)
-			_currentSprite = 4;
-		_m_Velocity.x = -X_VELOCITY;
+		_timeToFlicker -= TPF;
+		if (_timeToFlicker<0)
+		{
+			// đang di chuyển sang phải
+			if (_m_Velocity.x>0)
+			{
+				_currentSprite++;
+				if (_currentSprite < 8 || _currentSprite>9)
+					_currentSprite = 8;
+				_timeToFlicker = TIME_FLICKER;
+			}
+			// di chuyển sang trái
+			else				
+			{
+				_currentSprite++;
+				if (_currentSprite < 14 || _currentSprite>15)
+					_currentSprite = 14;
+				_timeToFlicker = TIME_FLICKER;
+			}
+		}
 		Move();
 		CheckCollision(staticObj, dynamicObj);
 		break;
@@ -81,7 +98,7 @@ void Koopa::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		_isNeedDelete = true;
 		break;
 	}
-	_m_Pos_Old = _m_Position;
+	_PosOld = _m_Position;
 }
 void Koopa::Render()
 {
@@ -90,26 +107,25 @@ void Koopa::Render()
 	case ES_IDLE:				// trạng thái chờ duoc kich hoat
 		break;
 	case ES_ACTIVING:				// đang đi 
-		
 		_sprite->setIndex(_currentSprite);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
-		_sprite->setIndex(_currentSprite - 4);
+		_sprite->setIndex(_currentSprite - 8);
 		_sprite->Render(_m_Position.x, _m_Position.y - 16 + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
-		_sprite->setIndex(6);
+		_sprite->setIndex(11);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_MOVE_SHELL_RIGHT:
-		_sprite->setIndex(7);
+		_sprite->setIndex(12);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_MOVE_SHELL_LEFT:		// bi dam lan thu 2, di chuyen sang ben phai
-		_sprite->setIndex(7);
+		_sprite->setIndex(12);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_SHOOTED:
-		_sprite->setIndex(7);
+		_sprite->setIndex(12);
 		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_DIED:
@@ -125,30 +141,26 @@ void Koopa::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	{
 		obj = *i;
 		
-		//if (dir == DIR::NONE)										// đang không va chạm thì có trọng lực
-		//{
-		//	_m_Velocity.y = Y_VELOCITY;
-		//}
+		
 		if (obj->_ID >= 14 && obj->_ID <= 22 || obj->_ID == 52) //collision with Brick and pipes
 		{
 			DIR dir = Collision::getInstance()->isCollision(this, obj);
+			if (dir == DIR::NONE)										// đang không va chạm thì có trọng lực
+			{
+				_m_Velocity.y = Y_VELOCITY;
+			}
 			if (dir != DIR::NONE)
 			{
 
 				switch (dir)
 				{
-				case LEFT:
+				case LEFT:	case RIGHT:
 					// nếu đang hoạt động bình thường thì đổi chiều vận tốc
-					if (this->GetState("_state") == ES_ACTIVING)
-						_m_Velocity.x = -X_VELOCITY;
+					if (this->GetState("_state") != ES_MOVE_SHELL_RIGHT && this->GetState("_state") != ES_MOVE_SHELL_LEFT)
+						this->setVelocity(this->getVelocity().x*(-1), this->getVelocity().y);
 					// nếu đang di chuyển trong vỏ sang phải => đổi sang di chuyển sang trái
 					if (this->GetState("_state") == ES_MOVE_SHELL_RIGHT)
 						this->SetState("_state", ES_MOVE_SHELL_LEFT);
-					break;
-				case RIGHT:
-					// nếu đang hoạt động bình thường thì đổi chiều vận tốc
-					if (this->GetState("_state") == ES_ACTIVING)
-						_m_Velocity.x = X_VELOCITY;
 					// nếu đang di chuyển trong vỏ sang trái => đổi sang di chuyển sang phải
 					if (this->GetState("_state") == ES_MOVE_SHELL_LEFT)
 						this->SetState("_state", ES_MOVE_SHELL_RIGHT);
@@ -171,18 +183,15 @@ void Koopa::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	// va chạm với vật di chuyển
 	for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
 	{
-		obj = *i;
-		if (obj->_ID ==55)											// va chạm với goomba hoặc koopa.
+		if ((obj->_ID ==55 || obj ->_ID == 53) && obj != this)											// va chạm với goomba hoặc koopa.
 		{							
 			DIR dir = Collision::getInstance()->isCollision(this, obj);
 			if (this->GetState("_state") == ES_MOVE_SHELL_LEFT || this->GetState("_state") == ES_MOVE_SHELL_RIGHT)
 			{
-					// cả goomba và koopa chuyển sang trạng thái bị bắn
-					//obj->_isNeedDelete = true;
 				if (dir != DIR::NONE)
 				{
 						obj->SetState("_state", ES_SHOOTED);
-						_m_Position = _m_Pos_Old;
+						_m_Position = _PosOld;
 				}
 			}
 			// nếu đang di chuyển trong mai sang bên trái

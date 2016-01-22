@@ -62,7 +62,8 @@ private:
 	float _waitingNextState;
 	bool isAutoPipe;
 	bool isAllowJump;
-	D3DXVECTOR2  _PositionAlterPipe;
+	D3DXVECTOR2		_PositionAlterPipeSub;		// cong ve cong
+	D3DXVECTOR2		_PositionAlterPipeWin;		//cong ve dich
 public:
 	
 	bool _isVisiableKeyboard;

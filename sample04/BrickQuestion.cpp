@@ -6,7 +6,7 @@
 BrickQuestion::BrickQuestion() :BaseObject()
 {
 }
-BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sprite, CSprite* CoinSprite,int NumberOfCoins) : BaseObject(x, y, _cameraX, _cameraY)
+BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* sprite, CSprite* CoinSprite, int NumberOfCoins) : BaseObject(x, y, _cameraX, _cameraY)
 {
 	_sprite = sprite;
 	_ID = ID;
@@ -23,36 +23,42 @@ BrickQuestion::BrickQuestion(float x, float y, float _cameraX, float _cameraY, i
 	_currentSprite = 0;
 	_timeToFlicker = TIME_FLICKER;
 	_NumberOfCoins = NumberOfCoins;
+	coin = new Coin(x, y, _cameraX, _cameraY, 32, CoinSprite, NumberOfCoins);
 }
 void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
+	coin->Update(TPF, staticObj, dynamicObj, keyboard);
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ thì nhấp nháy
 		_timeToFlicker -= TPF;
-		if (_timeToFlicker<0)	
+		if (_timeToFlicker<0)
 		{
 			_currentSprite++;
 			if (_currentSprite < 8 || _currentSprite >10)
 				_currentSprite = 8;
-			_timeToFlicker = TIME_FLICKER;	// reset thời gian nhấp nháy
+			_timeToFlicker = TIME_FLICKER;		// reset thời gian nhấp nháy
 		}
 		// reset
-		_m_Position.y = Recent_Y;		// vị trí
-		_moveupTime = MAX_MOVEUP_TIME;	// reset moveup time
-		isFalling = false;				// trạng thái falling
+		_m_Position.y = Recent_Y;				// vị trí
+		_moveupTime = MAX_MOVEUP_TIME;						// reset moveup time
+		isFalling = false;						// trạng thái falling
+		coin->SetState("_state", TS_IDLE);		// reset đông tiền
 		break;
 	case TS_MOVEUP:
-		// đang đi lên
+		coin->SetState("_state", TS_ACTIVING);
+		// đi lên
 		if (_moveupTime > 0 && !isFalling){
 			_moveupTime -= TPF;
+			// vận tốc âm
 			_m_Velocity.y = -Y_VELOCITY_UP;
 			_m_Position.y += _m_Velocity.y;
 		}
 		if (_moveupTime <= 0){
 			isFalling = true;
 		}
-		// nếu đang rơi thì moveupTime
+		
+		// nếu đang rơi thì moveupTime 
 		if (isFalling){
 			_m_Velocity.y = Y_VELOCITY_UP;
 			_m_Position.y += _m_Velocity.y;
@@ -64,12 +70,10 @@ void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 				if (_NumberOfCoins>0)				// còn tiền
 					SetState("_state", TS_IDLE);	// đổi trạng thái chờ
 				else
-					SetState("_state", TS_BREAKED);	// hết tiền
-				isFalling = false;				// trạng thái falling
-				
+					SetState("_state", TS_BREAKED);	// hết tiền => breaked
+				isFalling = false;					// trạng thái falling
 			}
 		}
-		
 		break;
 	case TS_BREAKED:							// gạch bị đụng rồi
 		break;
@@ -77,6 +81,7 @@ void BrickQuestion::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObj
 }
 void BrickQuestion::Render()
 {
+	coin->Render();
 	switch (_state)
 	{
 	case TS_IDLE:				// trạng thái chờ thì nhấp nháy

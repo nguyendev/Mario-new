@@ -106,7 +106,7 @@ void Bullet::Move(float TPF, list<BaseObject*> *staObjs, list<BaseObject*> *dynO
 					if (_obj->_ID == 53 || _obj->_ID == 55)
 					{
 						SetState("_state", BS_BLOW);
-						_obj->SetState("_state", ES_CRASHED);
+						_obj->SetState("_state", ES_SHOOTED);
 					}
 						
 					
