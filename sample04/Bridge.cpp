@@ -44,21 +44,21 @@ void Bridge::Render()
 {
 	// ve 6 sprite
 	_sprite->setIndex(_SpriteIndex);
-	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width * 2, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width * 2, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width * 3, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width * 3, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width * 4, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width * 4, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width * 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width * 5, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width * 6, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width * 6, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 	_sprite->setIndex(_SpriteIndex + 2);
-	_sprite->Render(_m_Position.x + _width * 7, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
+	_sprite->Render(_m_Position.x + _width * 7, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 
 }
 void Bridge::SetState(char* Name, int val)

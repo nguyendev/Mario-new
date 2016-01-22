@@ -15,7 +15,7 @@ Brick::Brick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	_isContainCoin = false;
 	_width = _sprite->_Width;
 	_height = _sprite->_Height;
-	_SpriteIndex = SpriteIndex;
+	
 	_widthRect = _width;
 	_heightRect = _height;
 	_state = TS_IDLE;
@@ -28,6 +28,11 @@ Brick::Brick(float x, float y, float _cameraX, float _cameraY, int ID, CSprite* 
 	SmallPiece2 = new BaseObject(x, y, _cameraX, _cameraY);
 	// tâm:
 	CenterX = x + _width / 2;
+	// khởi tạo màu gạch
+	if (_isBright==false)			// tối màu
+		_SpriteIndex = 0;
+	else					// sáng màu
+		_SpriteIndex = 4;
 }
 void Brick::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* dynamicObj, KeyBoard* keyboard)
 {
@@ -97,9 +102,8 @@ void Brick::Render()
 {
 	if (this->_ID == 5)
 		return;
-	{
-		// nếu không phải breaking hoặc breaked thì vẽ
-		if (_state != TS_BREAKING&&_state != TS_BREAKED)
+
+		if (_state ==TS_IDLE||_state==TS_MOVEUP)
 		{
 			_sprite->setIndex(_SpriteIndex);
 			_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
@@ -108,7 +112,10 @@ void Brick::Render()
 		else if (_state == TS_BREAKING)
 		{
 			// set index là mảnh gạch
-			_sprite->setIndex(12);
+			if (_isBright== false)						// nếu là màu tối
+				_sprite->setIndex(12);
+			else								// nếu là màu sáng
+				_sprite->setIndex(13);
 			// mảnh 1
 			_sprite->Render(SmallPiece1->getPosition().x, SmallPiece1->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 			// mảnh 2
@@ -118,7 +125,8 @@ void Brick::Render()
 			// mảnh 4 đối xứng với mảnh 2 qua tâm
 			_sprite->Render(2 * CenterX - SmallPiece2->getPosition().x, SmallPiece2->getPosition().y, Camera::_cameraX, Camera::_cameraY, BRICK_DEEP);
 		}
-	}
+		// nếu không phải breaking hoặc breaked thì vẽ
+	
 }
 void Brick::SetState(char* Name, int val)
 {

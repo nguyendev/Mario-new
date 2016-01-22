@@ -311,6 +311,7 @@ void CGameMario::LoadSprite()
 	_sprites[S_CLOUD] = new CSprite(_SpriteHandler, CLOUD_IMAGE, 8, 24, 4, 4, TIMEPERIMAGE);
 	_sprites[S_GRASS] = new CSprite(_SpriteHandler, GRASS_IMAGE, 8, 16, 8, 4, TIMEPERIMAGE);
 	_sprites[S_MOUNTAIN] = new CSprite(_SpriteHandler, MOUNTAIN_IMAGE, 40, 17.5, 4, 2, TIMEPERIMAGE);
+	_sprites[S_FLAGWIN] = new CSprite(_SpriteHandler, FLAGWIN_IMAGE, 16, 16, 1, 1, TIMEPERIMAGE);
 	//Enemies
 	_sprites[S_GOOMBA] = new CSprite(_SpriteHandler, GOOMBA_IMAGE, 16, 16, 6, 6, TIMEPERIMAGE);
 	_sprites[S_KOOPA] = new CSprite(_SpriteHandler, KOOPA_IMAGE, 16, 16, 8, 4, TIMEPERIMAGE);

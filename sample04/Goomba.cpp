@@ -77,15 +77,15 @@ void Goomba::Render()
 		break;
 	case ES_ACTIVING:				// đang đi 
 		_sprite->setIndex(_currentSprite);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
 		_sprite->setIndex(2);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_SHOOTED:
 		_sprite->setIndex(1);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, GOOMBA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_DIED:
 		// delete from quadtree.

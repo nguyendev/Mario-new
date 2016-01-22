@@ -11,7 +11,7 @@ private:
 public:
 
 	StoneBrick();
-	StoneBrick(float _x, float _y,float _cameraX, float _cameraY, int _ID, CSprite* _sprite, int SpriteIndex);
+	StoneBrick(float _x, float _y,float _cameraX, float _cameraY, int _ID, CSprite* _sprite, int SpriteIndex, bool isBright);
 	~StoneBrick();
 	void Render();
 	void CollisionTemp(BaseObject *){};

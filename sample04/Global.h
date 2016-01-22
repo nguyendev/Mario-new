@@ -42,26 +42,25 @@
 #define GRASS_IMAGE			"Image\\imgGrass.png"
 #define MOUNTAIN_IMAGE		"Image\\imgMountain.png"
 #define BRIDGE_IMAGE		"Image\\imgBridge.jpg"
-
+#define FLAGWIN_IMAGE		"Image\\imgFlagwin.jpg"
 //Deep Object
-#define GOOMBA_DEEP			0.3
-#define BRICK_DEEP			0.4
+#define DYNAMIC_DEEP		0.2
+#define BRICK_DEEP			0.3
 #define S_EXPLOSION_DEEP	0.5
 #define FIREBULLET_DEEP		0.5
 #define FLAG_DEEP			0.5
 #define FLOWER_DEEP			0.5
 #define FUNGI_DEEP			0.5
-#define KOOPA_DEEP			0.3
 #define MONEY_DEEP			0.5	
 #define NUMBER_DEEP			0.5
 #define PIPE_DEEP			0.45
 #define PIRHANA_DEEP		0.5
-#define MARIO_DEEP			0.3
+#define MARIO_DEEP			0.1
 #define CASTLE_DEEP			0.5
 #define CLOUD_DEEP			0.5
-#define GRASS_DEEP			0.4
+#define GRASS_DEEP			0.46
 #define MOUNTAIN_DEEP		0.47
-#define ITEM_DEEP			0.46
+#define ITEM_DEEP			0.4
 #define KEYBOARD_BUFFER_SIZE	1024
 #define CHANGE_POSY			3
 
@@ -129,6 +128,7 @@ enum _SPRITE
 	S_GRASS,
 	S_MOUNTAIN,
 	S_BRIDGE,
+	S_FLAGWIN
 };
 
 enum GAME_STATE

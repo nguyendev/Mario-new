@@ -142,14 +142,14 @@
     <ClCompile Include="Star.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Game\iTem</Filter>
-    </ClCompile>
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="BrickMushroom.cpp">
       <Filter>Game\Static</Filter>
     </ClCompile>
     <ClCompile Include="Bridge.cpp">
+      <Filter>Game\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
       <Filter>Game\Dynamic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -259,9 +259,6 @@
     <ClInclude Include="Star.h">
       <Filter>Game\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Game\iTem</Filter>
-    </ClInclude>
     <ClInclude Include="Score.h" />
     <ClInclude Include="Koopa.h">
       <Filter>Game\Dynamic</Filter>
@@ -270,6 +267,9 @@
       <Filter>Game\Static</Filter>
     </ClInclude>
     <ClInclude Include="Bridge.h">
+      <Filter>Game\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Game\Dynamic</Filter>
     </ClInclude>
   </ItemGroup>

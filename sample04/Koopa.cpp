@@ -81,7 +81,7 @@ void Koopa::Update(float TPF, list<BaseObject*>* staticObj, list<BaseObject*>* d
 		_isNeedDelete = true;
 		break;
 	}
-	oldY = _m_Position.y;
+	_m_Pos_Old = _m_Position;
 }
 void Koopa::Render()
 {
@@ -92,25 +92,25 @@ void Koopa::Render()
 	case ES_ACTIVING:				// đang đi 
 		
 		_sprite->setIndex(_currentSprite);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		_sprite->setIndex(_currentSprite - 4);
-		_sprite->Render(_m_Position.x, _m_Position.y - 16 + 1, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y - 16 + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_CRASHED:							// đã bị dam
 		_sprite->setIndex(6);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_MOVE_SHELL_RIGHT:
 		_sprite->setIndex(7);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_MOVE_SHELL_LEFT:		// bi dam lan thu 2, di chuyen sang ben phai
 		_sprite->setIndex(7);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_SHOOTED:
 		_sprite->setIndex(7);
-		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, KOOPA_DEEP);
+		_sprite->Render(_m_Position.x, _m_Position.y + 1, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case ES_DIED:
 		_isNeedDelete = true;
@@ -172,38 +172,6 @@ void Koopa::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 	for (i = dynamicObj->begin(); i != dynamicObj->end(); i++)
 	{
 		obj = *i;
-		
-		if (obj->_ID == 1)
-		{										// va chạm với mario
-			// xử lý ở đây
-			DIR dir = Collision::getInstance()->isCollision(this, obj);
-			if (dir != DIR::NONE)
-			{
-				if (this->GetState("_state") == ES_ACTIVING)		// nếu đang đi
-				{
-					if (dir == TOP)									// bị dậm trên đầu
-					{
-						this->SetState("_state", ES_CRASHED);		// chuyển sang trạng thái bị crash
-					}
-
-				}
-				if (this->GetState("_state") == ES_CRASHED)							// nếu đã bị Crash
-				{																	// bị va chạm tiếp
-					float centerOfMario = (obj->getPositionX() + obj->_width) / 2;
-					float centerOfKoopa = (this->getPositionX() + this->_width) / 2;
-					if ((centerOfMario - centerOfKoopa) < 0)						// nếu tâm mario theo trục x nhỏ hơn koopa thì Move Right
-						this->SetState("_state", ES_MOVE_SHELL_RIGHT);				// chuyển sang trạng thái bị move right
-					else															// ngược lại
-						this->SetState("_state", ES_MOVE_SHELL_LEFT);				// chuyển sang trạng thái bị move right
-				}
-				if (this->GetState("_state") == ES_MOVE_SHELL_LEFT || this->GetState("_state") == ES_MOVE_SHELL_RIGHT)
-				{
-					// cả goomba và koopa chuyển sang trạng thái bị bắn
-					obj->SetState("_state", M_DIEING);
-				}
-				
-			}
-		}
 		if (obj->_ID ==55)											// va chạm với goomba hoặc koopa.
 		{							
 			DIR dir = Collision::getInstance()->isCollision(this, obj);
@@ -214,7 +182,7 @@ void Koopa::CheckCollision(list<BaseObject*>* staticObj, list<BaseObject*>* dyna
 				if (dir != DIR::NONE)
 				{
 						obj->SetState("_state", ES_SHOOTED);
-						_m_Position.y = oldY;
+						_m_Position = _m_Pos_Old;
 				}
 			}
 			// nếu đang di chuyển trong mai sang bên trái

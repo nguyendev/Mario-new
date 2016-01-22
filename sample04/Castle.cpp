@@ -17,12 +17,22 @@ Castle::Castle(float x, float y, float _cameraX, float _cameraY, int ID, CSprite
 }
 void Castle::Render()
 {
-	_sprite->setIndex(_SpriteIndex);
-	_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
-	_sprite->setIndex(_SpriteIndex + 1);
-	_sprite->Render(_m_Position.x + _width, _m_Position.y, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP); 
-	_sprite->setIndex(_SpriteIndex + 2);
-	_sprite->Render(_m_Position.x, _m_Position.y + _height, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
-	_sprite->setIndex(_SpriteIndex + 3);
-	_sprite->Render(_m_Position.x + _width, _m_Position.y + _height, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
+	switch (_ID)
+	{
+	case 23:
+		_sprite->setIndex(_SpriteIndex);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
+		_sprite->setIndex(_SpriteIndex + 1);
+		_sprite->Render(_m_Position.x + _width, _m_Position.y, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
+		_sprite->setIndex(_SpriteIndex + 2);
+		_sprite->Render(_m_Position.x, _m_Position.y + _height, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
+		_sprite->setIndex(_SpriteIndex + 3);
+		_sprite->Render(_m_Position.x + _width, _m_Position.y + _height, Camera::_cameraX, Camera::_cameraY, CASTLE_DEEP);
+		break;
+	case 24:
+		_sprite->setIndex(_SpriteIndex);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, ITEM_DEEP);
+		break;
+	}
+	
 }

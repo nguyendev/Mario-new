@@ -15,7 +15,7 @@ private:
 	float	_waitingTimeToLiveAgain;
 	float	_waitingTimeToDie;				// thời gian chờ chết khi bị bắn
 	int		_currentSprite;
-	float oldY;
+	D3DXVECTOR2	_m_Pos_Old;
 public:
 
 	DWORD last_time;

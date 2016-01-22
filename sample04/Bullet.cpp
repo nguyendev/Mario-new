@@ -156,10 +156,10 @@ void Bullet::Render()
 	{
 	case BS_ACTIVING:
 		//_sprite->Render(_m_Position.x - 11, _m_Position.y - 12,_cameraX, _cameraY, 0.5);
-		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, 0.3);
+		_sprite->Render(_m_Position.x, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	case BS_BLOW:
-		_sprite1->Render(_m_Position.x + 3, _m_Position.y, Camera::_cameraX, Camera::_cameraY, 0.3);
+		_sprite1->Render(_m_Position.x + 3, _m_Position.y, Camera::_cameraX, Camera::_cameraY, DYNAMIC_DEEP);
 		break;
 	}
 }
